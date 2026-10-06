@@ -1,0 +1,157 @@
+/* Venus Caesarea – hand-written layer, loaded after venus.css (which is generated from the design).
+   The design is one artboard; here it is split into independent wrappers so each section
+   can sit in its own Elementor widget / Theme Builder template:
+     .vns.vns-top   – benefits strip + header
+     .vns.vns-sec   – a page section
+     .vns.vns-foot  – footer */
+
+body.vns-body{margin:0;background:#FFFBE9}
+
+.vns{box-sizing:border-box;direction:rtl;font-family:'Discovery Fs',system-ui,sans-serif;font-size:18px;font-weight:300;line-height:1.3;color:#141414;background:#FFFBE9}
+/* the design is authored in content-box, while themes such as Hello Elementor force border-box on everything */
+.vns *:not(button):not(input):not(select):not(textarea){box-sizing:content-box}
+.vns button,.vns input,.vns select,.vns textarea{box-sizing:border-box}
+.vns [hidden]{display:none!important}
+
+.vns-top{padding:0 4vw}
+.vns-sec{padding:0 4vw;display:flow-root;overflow-x:clip}
+.vns-foot{display:flow-root}
+
+/* full-bleed pieces no longer need to cancel the artboard's padding */
+.vns .trust{margin:0 -4vw 24px}
+.vns .vf{margin:0}
+
+/* first fold: the hero ends exactly at the bottom of the screen. --vns-top-h is measured by venus.js */
+.vns .vhero{flex:none;height:calc(100vh - var(--vns-top-h,215px) - 20px)}
+
+/* ============================================================
+   טאבלט ומובייל
+   הסקיצה היא דסקטופ: להדר, למסך הפתיחה, לרשת המוצרים ולסליידר התקציב אין בה גרסת מובייל.
+   כאן ההתאמה שלהם. שאר הסקשנים מגיעים עם כללי המובייל של הסקיצה עצמה (venus.css).
+   ============================================================ */
+.vns .hdr-burger{display:none;width:44px;height:44px;border:0;background:none;padding:0;cursor:pointer;color:#141414;flex-direction:column;align-items:center;justify-content:center;gap:6px;justify-self:start}
+.vns .hdr-burger i{display:block;width:24px;height:2px;border-radius:2px;background:currentColor;transition:transform .25s ease,opacity .2s ease}
+.vns .site-hdr.is-menu-open .hdr-burger i:nth-child(1){transform:translateY(8px) rotate(45deg)}
+.vns .site-hdr.is-menu-open .hdr-burger i:nth-child(2){opacity:0}
+.vns .site-hdr.is-menu-open .hdr-burger i:nth-child(3){transform:translateY(-8px) rotate(-45deg)}
+.vns .nav-m{display:none}
+
+@media(max-width:1024px){
+  /* --- הדר: כפתור תפריט · לוגו · אייקונים, והניווט נפתח כמגירה --- */
+  .vns .hdr-burger{display:flex}
+  .vns .site-hdr .hdr-cta{display:none!important}
+  .vns .site-hdr>div:first-child,.vns .site-hdr.is-stuck>div:first-child{padding:10px 12px!important;gap:8px!important}
+  .vns .site-hdr>div:first-child>div:last-child>div{position:static!important}
+  .vns .search-panel,.vns .cart-panel{left:0;right:0;width:auto;top:calc(100% + 8px)}
+  .vns .site-hdr>nav,.vns .site-hdr.is-stuck>nav{display:none!important;position:absolute;top:calc(100% + 8px);left:-1px;right:-1px;flex-direction:column;align-items:stretch!important;gap:0!important;padding:8px 12px 12px!important;background:#FFFFFF;border:1px solid rgba(20,20,20,0.18)!important;border-radius:12px;max-height:calc(100vh - 150px);max-height:calc(100svh - 150px);overflow-y:auto;overscroll-behavior:contain}
+  .vns .site-hdr.is-menu-open>nav{display:flex!important;animation:dd-panel .3s cubic-bezier(.22,1,.36,1) both}
+  .vns .site-hdr.is-stuck>nav{left:8px;right:8px}
+  .vns .site-hdr .nav-btn,.vns .site-hdr .nav-link,.vns .site-hdr.is-stuck .nav-btn,.vns .site-hdr.is-stuck .nav-link{box-sizing:border-box;width:100%;height:48px;margin:0;font-size:18px;justify-content:space-between}
+  .vns .site-hdr .panel{position:static;min-width:0;width:auto;border:0;border-radius:0;padding:2px 8px 10px;animation:none}
+  .vns .site-hdr .panel li a{font-size:17px}
+
+  /* --- מסך פתיחה: התמונה ממלאת את המסגרת --- */
+  .vns .vhero .vm-media{background-size:cover;background-position:26% 50%}
+  /* התמונה מאחורי הטקסט: שכבה בהירה מלמטה שומרת על קריאות */
+  .vns .vm.is-light .vm-media::after{background:linear-gradient(0deg,rgba(255,251,233,.96) 0%,rgba(255,251,233,.86) 30%,rgba(255,251,233,0) 62%)}
+  .vns .vm-wrap{padding:0 9vw 8vw 6vw}
+
+  .vns .rec-grid{grid-template-columns:repeat(3,1fr)}
+
+  /* --- אזורי משלוח: הריפוד של הצד נכנס לרוחב, אחרת החיצים נחתכים --- */
+  .vns .dcs-side{box-sizing:border-box}
+  /* הכותרת "אזורי משלוחי הפרחים שלנו" מוסתרת בסקיצה מתחת ל־1024px: מחזירים אותה מעל המונה והחיצים */
+  .vns .dcs-side{flex-wrap:wrap}
+  .vns .dcs-side>div:first-child{display:contents}
+  .vns .dcs-head{display:block;flex:0 0 100%;margin:0 0 20px;font-size:clamp(26px,5vw,38px);line-height:1.1}
+}
+
+@media(max-width:767px){
+  /* --- הדר --- */
+  .vns .trust{margin-bottom:12px}
+  .vns .site-hdr>div:first-child,.vns .site-hdr.is-stuck>div:first-child{padding:8px 8px!important}
+  .vns .site-hdr>div:first-child img{height:40px!important;width:118px!important}
+  .vns .site-hdr>div:first-child>div:last-child{gap:0!important}
+  /* אזור אישי, חיפוש ועגלה נשארים בהדר; המועדפים עוברים לתפריט */
+  .vns .site-hdr a.icon-btn[aria-label="מועדפים"]{display:none}
+  .vns .site-hdr .icon-btn{width:40px}
+  .vns .site-hdr .hdr-burger{width:40px}
+  .vns .site-hdr .icon-btn svg{width:26px;height:26px}
+  .vns .nav-m{display:block}
+
+  /* --- מסך פתיחה --- */
+  .vns .vhero{margin-top:12px;height:calc(100vh - var(--vns-top-h,150px) - 12px);height:calc(100svh - var(--vns-top-h,150px) - 12px);min-height:460px}
+  .vns .vm-wrap{padding:0 20px 60px}
+  .vns .vm-copy{max-width:none;gap:10px}
+  .vns .vm-title{font-size:36px}
+  .vns .vm-text{font-size:17px;white-space:normal}
+  .vns .vm-cta{height:44px}
+  .vns .vm-rail{flex-direction:row;right:20px;left:20px;bottom:14px;gap:8px}
+  .vns .vm-rail-item{gap:0;padding:12px 0}
+  .vns .vm-rail-item span{display:none}
+  .vns .vm-rail-item i{width:18px}
+
+  /* --- עיגולי קטגוריות --- */
+  .vns .cats{padding:28px 0 8px}
+  .vns .cat{width:128px;padding:0 10px;gap:10px}
+  .vns .cat-img{width:108px}
+  .vns .cat-name{font-size:16px}
+  .vns .pcar-arrow{display:none}
+  /* חיצי העיגולים (מובייל בלבד): זוג חיצים ממורכז מתחת לעיגולים */
+  .vns .cats-wrap{padding-bottom:60px}
+  .vns .cats-arrow{top:auto;bottom:6px;width:44px;height:44px}
+  .vns .cats-arrow.l{left:calc(50% - 50px);right:auto}
+  .vns .cats-arrow.r{right:calc(50% - 50px);left:auto}
+
+  /* --- מוצרים --- */
+  .vns .rec-title{font-size:34px}
+  .vns .rec-tabs{flex-wrap:nowrap;justify-content:flex-start;gap:0 24px;margin-top:20px;overflow-x:auto;scrollbar-width:none}
+  .vns .rec-tabs::-webkit-scrollbar{display:none}
+  .vns .rec-tabs{cursor:grab;user-select:none;-webkit-user-select:none;touch-action:pan-x;-webkit-overflow-scrolling:touch;-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 7%,#000 93%,transparent 100%)}
+  .vns .rec-tabs.is-drag{cursor:grabbing}
+  .vns .rec-tabs.is-drag .rec-tab{pointer-events:none}
+  .vns .rec-tab{flex-shrink:0;font-size:18px;white-space:nowrap}
+  .vns .rec-grid{grid-template-columns:1fr 1fr;gap:24px 12px;margin-top:24px}
+  .vns .rec-grid .rec-card:nth-child(n+9){display:none}
+  .vns .rec-card{gap:10px}
+  .vns .rec-row{flex-direction:column;gap:4px}
+  .vns .rec-name,.vns .rec-price{font-size:16px}
+  .vns .rec-price-wrap{flex-direction:row;align-items:baseline;gap:8px}
+  .vns .rec-old{font-size:14px}
+  .vns .rec-btn{left:8px;right:8px;bottom:8px;height:40px;font-size:15px}
+  .vns .rec-cta,.vns .art-all{box-sizing:border-box;width:100%;min-width:0;padding:0 24px}
+  .vns .pcar-wrap{margin-top:24px}
+  .vns .pcar-track{gap:12px}
+  .vns .pcar-track .rec-card{width:58vw}
+
+  /* --- פוטר: בטור השדה והכפתור לא מתכווצים (flex:1 על עמודה מאפס את הגובה) --- */
+  .vns .vf-form input{flex:none;width:100%;height:56px;padding:0 20px}
+  .vns .vf-form button{flex:none;width:100%}
+  /* אמצעי תשלום: כל הלוגואים בשורה אחת, גם ברוחב 345px (כל תיבה מתכווצת בהתאם) */
+  .vns .vf-pay{flex-wrap:nowrap;gap:4px;width:100%}
+  .vns .vf-pay span{flex:1 1 0;min-width:0;height:30px;padding:0 3px;border-radius:6px;box-sizing:border-box}
+  .vns .vf-pay img{height:auto;width:auto;max-height:14px;max-width:100%;object-fit:contain}
+
+  /* --- ביקורות --- */
+  .vns .rev-sub{font-size:18px}
+  .vns .rev-hint{font-size:14px;padding:0 14px}
+
+  /* --- אזורי משלוח: המונה והחיצים נשארים בשורה אחת מתחת לכותרת, גם ב־345px --- */
+  .vns .dcs-counter{font-size:11.5vw}
+  .vns .dcs-nav{gap:12px}
+  .vns .dcs-btn{width:48px;height:48px}
+  /* --- אזורי משלוח: כותרת הכרטיס גדולה יותר (24px = הגודל המקסימלי שהדיזיין מגדיר לכותרת הזו), ועוברת שורה במקום להיחתך --- */
+  .vns .dcs-title{font-size:24px;white-space:normal}
+
+  /* --- קנייה לפי תקציב --- */
+  .vns .csl-stage{gap:8px;margin-top:24px}
+  .vns .csl-card{width:76vw}
+  .vns .csl-photo{height:96vw}
+  .vns .csl-title{right:16px;bottom:68px;font-size:30px}
+  .vns .csl-cta{right:16px;left:auto;bottom:16px;height:42px;padding:0 18px;font-size:16px}
+  .vns .csl-nav{margin-top:20px}
+}
+/* במסכי מגע אין hover: כפתור ההוספה לעגלה מוצג תמיד */
+@media(hover:none){
+  .vns .rec-btn{opacity:1;transform:none}
+}

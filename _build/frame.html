@@ -1,0 +1,20 @@
+<!doctype html>
+<!-- Dev helper: shows the page at a true device viewport, scaled down to fit a small preview pane.
+     /_build/frame.html?w=1440&h=900            one desktop frame
+     /_build/frame.html?w=390&h=844&n=3&y=0     three phone frames, each scrolled one screen further (starting at y) -->
+<meta charset="utf-8">
+<title>preview frame</title>
+<style>html,body{margin:0;overflow:hidden;background:#222}body{display:flex;gap:8px}div{flex:none;overflow:hidden}iframe{border:0;transform-origin:0 0;display:block}</style>
+<body>
+<script>
+const q = new URLSearchParams(location.search), w = +q.get('w') || 1440, h = +q.get('h') || 900, n = +q.get('n') || 1, y0 = +q.get('y') || 0;
+const s = Math.min((innerWidth - 8 * (n - 1)) / (w * n), innerHeight / h);
+for (let i = 0; i < n; i++) {
+  const box = document.createElement('div'), f = document.createElement('iframe');
+  box.style.cssText = 'width:' + w * s + 'px;height:' + h * s + 'px';
+  f.style.cssText = 'width:' + w + 'px;height:' + h + 'px;transform:scale(' + s + ')';
+  f.src = q.get('src') || '/';
+  f.onload = () => { try { setTimeout(() => f.contentWindow.scrollTo(0, y0 + i * (h - 80)), 300); } catch (_) {} };
+  box.append(f); document.body.append(box);
+}
+</script>
