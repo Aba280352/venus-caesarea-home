@@ -16,3 +16,7 @@ node _build/fetch-images.mjs                  # download store photos to assets/
 ```
 
 All CSS is scoped under `.vns`. Content (products, prices, contact details) is a read-only snapshot of the live store.
+
+## Indexing
+
+The local preview page () carries `noindex, nofollow, noarchive` and `robots.txt` disallows everything, so a staging copy served from a site or GitHub Pages stays out of search results. The Elementor section blocks in `sections/` intentionally have no robots tag: they go into the live site, where indexing is controlled by WordPress/Yoast.
