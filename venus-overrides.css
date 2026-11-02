@@ -155,3 +155,45 @@ body.vns-body{margin:0;background:#FFFBE9}
 @media(hover:none){
   .vns .rec-btn{opacity:1;transform:none}
 }
+
+/* ============================================================
+   Venus Flower Club – עמוד המנויים (pages/subscribers.html)
+   ============================================================ */
+.vns .fc{max-width:1180px;margin:0 auto;padding:64px 0 72px;text-align:center}
+.vns .fc-eyebrow{display:block;font-size:15px;font-weight:500;letter-spacing:.28em;color:#3A4831}
+.vns .fc-title{margin:18px 0 0;font-family:"Leon","Discovery Fs",system-ui,sans-serif;font-weight:700;font-size:64px;line-height:1.08;color:#141414}
+.vns .fc-lead{max-width:720px;margin:22px auto 0;font-size:21px;line-height:1.5}
+.vns .fc-lead+.fc-lead{margin-top:14px}
+.vns .fc-sub{margin:64px 0 0;font-family:"Leon","Discovery Fs",system-ui,sans-serif;font-weight:700;font-size:34px;line-height:1.15;color:#141414}
+.vns .fc-plans{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:32px;text-align:center}
+.vns .fc-plan{display:flex;flex-direction:column;background:#FFFFFF;border:1px solid rgba(20,20,20,0.18);border-radius:12px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
+.vns .fc-plan:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(20,20,20,.1)}
+.vns .fc-img{aspect-ratio:4/5;overflow:hidden;background:#F3E3C8}
+.vns .fc-img img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.vns .fc-plan:hover .fc-img img{transform:scale(1.04)}
+.vns .fc-body{display:flex;flex-direction:column;align-items:center;gap:6px;padding:26px 24px 28px}
+.vns .fc-en{font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:#3A4831}
+.vns .fc-he{margin:0;font-family:"Leon","Discovery Fs",system-ui,sans-serif;font-weight:700;font-size:28px;line-height:1.15;color:#141414}
+.vns .fc-price{margin-top:8px;font-family:"Discovery Fs",system-ui,sans-serif;font-weight:500;font-size:44px;line-height:1;color:#141414}
+.vns .fc-price sup{font-size:.5em;vertical-align:top;margin-inline-start:2px}
+.vns .fc-cta{box-sizing:border-box;margin-top:20px;width:100%;height:52px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#3A4831;color:#FFFFFF;font-weight:500;text-decoration:none;transition:background .15s}
+.vns .fc-cta:hover{background:#2C3624}
+.vns .fc-note{margin:24px 0 0;font-size:16px;color:rgba(20,20,20,.7)}
+.vns .fc-outro{margin:48px 0 0;font-family:"Leon","Discovery Fs",system-ui,sans-serif;font-weight:700;font-size:30px;line-height:1.2;color:#3A4831}
+@media(max-width:1024px){
+  .vns .fc{padding:48px 0 56px}
+  .vns .fc-title{font-size:48px}
+  .vns .fc-plans{gap:16px}
+  .vns .fc-he{font-size:23px}
+  .vns .fc-price{font-size:38px}
+  .vns .fc-body{padding:20px 16px 22px}
+}
+@media(max-width:767px){
+  .vns .fc{padding:36px 0 48px}
+  .vns .fc-title{font-size:32px}
+  .vns .fc-lead{font-size:18px}
+  .vns .fc-sub{margin-top:44px;font-size:28px}
+  .vns .fc-plans{grid-template-columns:1fr;max-width:440px;margin-inline:auto}
+  .vns .fc-img{aspect-ratio:4/3}
+  .vns .fc-outro{margin-top:36px;font-size:24px}
+}
