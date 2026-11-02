@@ -7,7 +7,7 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const read = (f) => fs.readFileSync(path.join(ROOT, f), 'utf8');
-const TITLES = { subscribers: 'Venus Flower Club – מנויי פרחים | ונוס קיסריה' };
+const TITLES = { subscribers: 'Venus Flower Club – מנויי פרחים | ונוס קיסריה', product: 'זר חרציות ענק | ונוס קיסריה' };
 
 const index = read('index.html');
 const head = index.slice(0, index.indexOf('<body')).replace(/<title>.*?<\/title>/, '<title>__TITLE__</title>');

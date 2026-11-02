@@ -675,8 +675,79 @@
     });
   };
 
+  // ===== דף מוצר: גלריה, כמות, תוספות וסכום, לשוניות, שאלות ותשובות, פס הזמנה צף =====
+  // ⚙️ הכפתור "הוספה לעגלה" כאן רק מדגים: בוורדפרס הוא מוחלף בטופס ההוספה של WooCommerce
+  const initProduct = () => $$('.vns .pd').forEach((pd) => {
+    const fmt = (n) => '₪' + Math.round(n).toLocaleString('en-US');
+    const main = $('.pd-main', pd), mainImg = main && $('img', main);
+    $$('.pd-th', pd).forEach((b) => b.addEventListener('click', () => {
+      if (!mainImg) return;
+      mainImg.src = b.dataset.src;
+      $$('.pd-th', pd).forEach((x) => x.classList.toggle('is-on', x === b));
+    }));
+    if (main && window.matchMedia && window.matchMedia('(hover:hover)').matches) {
+      main.addEventListener('mouseenter', () => main.classList.add('is-zoom'));
+      main.addEventListener('mouseleave', () => main.classList.remove('is-zoom'));
+      main.addEventListener('mousemove', (e) => {
+        const r = main.getBoundingClientRect();
+        mainImg.style.transformOrigin = ((e.clientX - r.left) / r.width * 100) + '% ' + ((e.clientY - r.top) / r.height * 100) + '%';
+      });
+    }
+
+    const priceEl = $('.pd-price', pd), base = Number(priceEl && priceEl.dataset.base) || 0;
+    const qtyIn = $('.pd-q-in', pd), totals = $$('[data-total]', pd);
+    const qty = () => Math.min(20, Math.max(1, parseInt(qtyIn && qtyIn.value, 10) || 1));
+    const update = () => {
+      const adds = $$('.pd-add-in:checked', pd).reduce((s, i) => s + (Number(i.dataset.price) || 0), 0);
+      totals.forEach((t) => { t.textContent = fmt(base * qty() + adds); });
+    };
+    const step = (d) => { if (qtyIn) { qtyIn.value = Math.min(20, Math.max(1, qty() + d)); update(); } };
+    const m = $('.pd-q-m', pd), p = $('.pd-q-p', pd);
+    if (m) m.addEventListener('click', () => step(-1));
+    if (p) p.addEventListener('click', () => step(1));
+    if (qtyIn) { qtyIn.addEventListener('input', update); qtyIn.addEventListener('blur', () => { qtyIn.value = qty(); update(); }); }
+    $$('.pd-add-in', pd).forEach((i) => i.addEventListener('change', update));
+    update();
+
+    $$('.pd-cta', pd).forEach((b) => b.addEventListener('click', () => {
+      const t = $('.pd-cta-t', b);
+      if (!t || b.dataset.busy) return;
+      b.dataset.busy = '1';
+      const old = t.textContent;
+      t.textContent = 'נוסף לעגלה ✓';
+      setTimeout(() => { t.textContent = old; delete b.dataset.busy; }, 1600);
+    }));
+
+    const tabs = $$('.pd-tab', pd);
+    tabs.forEach((t) => t.addEventListener('click', () => {
+      tabs.forEach((x) => {
+        const on = x === t;
+        x.classList.toggle('is-on', on);
+        x.setAttribute('aria-selected', on ? 'true' : 'false');
+        const panel = document.getElementById(x.getAttribute('aria-controls'));
+        if (panel) panel.hidden = !on;
+      });
+    }));
+
+    $$('.pd-faq-q', pd).forEach((q) => q.addEventListener('click', () => {
+      const open = q.getAttribute('aria-expanded') === 'true';
+      $$('.pd-faq-q', pd).forEach((x) => {
+        const on = x === q && !open;
+        x.setAttribute('aria-expanded', on ? 'true' : 'false');
+        const a = document.getElementById(x.getAttribute('aria-controls'));
+        if (a) a.hidden = !on;
+      });
+    }));
+
+    // פס ההזמנה הצף מופיע כשהכפתור הראשי יוצא מהמסך (במובייל הוא תמיד מוצג, ב־CSS)
+    const bar = $('.pd-bar', pd), cta = $('#pd-cta', pd);
+    if (bar && cta && 'IntersectionObserver' in window) {
+      new IntersectionObserver(([e]) => bar.classList.toggle('is-on', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(cta);
+    }
+  });
+
   const init = () => {
-    [initHeader, initTrust, initMenus, initHero, initCats, initTabs, initPcar, initAbout, initReviews, initBudget, initAreas, initWhy, initFooterWord, initScroll]
+    [initHeader, initTrust, initMenus, initHero, initCats, initTabs, initPcar, initAbout, initReviews, initBudget, initAreas, initWhy, initFooterWord, initScroll, initProduct]
       .forEach((fn) => { try { fn(); } catch (err) { console.error('[venus]', err); } });
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
