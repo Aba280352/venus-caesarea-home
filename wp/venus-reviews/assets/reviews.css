@@ -31,3 +31,10 @@
 .vrev .dg-detail-text{margin:0;font-size:clamp(16px,1.05vw,20px);font-weight:300;line-height:1.5;color:#141414}
 .vrev .dg-detail-meta{margin:0;font-size:16px;font-weight:300;color:rgba(20,20,20,0.55)}
 .vrev .dg-detail-title,.vrev .dg-detail-text,.vrev .dg-detail-meta,.vrev .dg-txt{letter-spacing:normal;text-transform:none}
+/* touch: dragging on the cards turns the dome in every direction (the page scrolls from outside the gallery) */
+.vrev .dg-stage{touch-action:auto}
+.vrev .dg-field{touch-action:none}
+/* open review: text box fits its content; long text scrolls inside the box */
+.vrev .dg-copy{overflow-y:auto;overscroll-behavior:contain;justify-content:center;justify-content:safe center;scrollbar-width:thin}
+.vrev .dg-detail.is-on .dg-copy{pointer-events:auto;touch-action:pan-y}
+.vrev .dg-mobile .dg-copy{padding:18px 22px 20px;gap:12px}

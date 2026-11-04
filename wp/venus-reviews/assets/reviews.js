@@ -49,6 +49,7 @@
     let ox = 0, oy = 0, tx = 0, ty = 0, vx = 0, vy = 0, last = 0, drag = null, state = null, mobile = false, started = false, visible = true;
     const layout = () => {
       const r = stage.getBoundingClientRect(); W = r.width || 1; H = r.height || 1; mobile = W < CFG_DG.mobileBelow;
+      root.classList.toggle('dg-mobile', mobile); needW = -1;
       // במובייל הכרטיס גדול יותר ביחס לבמה, אחרת הטקסט לא קריא
       cw = W * (mobile ? CFG_DG.mobileSize : CFG_DG.size); ch = cw * CFG_DG.ratio; const g = W * (mobile ? CFG_DG.mobileGap : CFG_DG.gap); px = cw + g; py = ch + g;
       Rd = CFG_DG.curve > 0.01 ? Math.max(W, H * 1.2) * 1.55 / CFG_DG.curve : 0;
@@ -96,9 +97,21 @@
         const top = (H - side) / 2, left = (W - total) / 2;
         return { panel: { x: left, y: top, w: total, h: side }, photo: { x: left + total - side, y: top, w: side, h: side }, copy: { x: 0, y: 0, w: total - side, h: side } };
       }
-      const w = Math.min(W * 0.88, H * 0.5), copyH = Math.max(W * 0.46, w * 0.55), total = w + copyH;
+      // מובייל: כרטיס עליון נמוך (כוכבים + שם), ומתחתיו אזור טקסט בגובה התוכן (עד גובה הבמה, ואז גלילה פנימית)
+      const w = W * 0.88, phH = Math.round(w * 0.44), maxCopy = Math.max(120, H - 24 - phH);
+      const copyH = clamp(copyNeed(w), Math.min(W * 0.46, maxCopy), maxCopy), total = phH + copyH;
       const top = Math.max(12, (H - total) / 2), left = (W - w) / 2;
-      return { panel: { x: left, y: top, w, h: total }, photo: { x: left, y: top, w, h: w }, copy: { x: 0, y: w, w, h: copyH } };
+      return { panel: { x: left, y: top, w, h: total }, photo: { x: left, y: top, w, h: phH }, copy: { x: 0, y: phH, w, h: copyH } };
+    };
+    let needW = -1, needH = 0;
+    const copyNeed = (w) => {
+      if (Math.abs(w - needW) > 0.5) {
+        const sw = copy.style.width, sh = copy.style.height;
+        copy.style.width = w.toFixed(1) + 'px'; copy.style.height = 'auto';
+        needH = copy.scrollHeight; needW = w;
+        copy.style.width = sw; copy.style.height = sh;
+      }
+      return needH;
     };
     const tileRect = (t) => { const a = stage.getBoundingClientRect(), r = t.el.getBoundingClientRect(); return { x: r.left - a.left, y: r.top - a.top, w: r.width, h: r.height }; };
     const drawDetail = (now) => {
@@ -126,6 +139,7 @@
       const d = data[t.idx];
       fill(pCard, d);
       dStars.textContent = d.stars; dTitle.textContent = d.name; dText.textContent = d.text; dMeta.textContent = d.when;
+      needW = -1; copy.scrollTop = 0;
       vx = vy = 0; tx = ox; ty = oy;
       state = { tile: t, phase: 'open', t0: now, p0: 0, p: 0, s: t.s || 0 };
       detail.classList.add('is-on'); detail.setAttribute('aria-hidden', 'false'); detail.setAttribute('aria-label', d.name);
@@ -150,7 +164,9 @@
       drag = { id: e.pointerId, x: e.clientX, y: e.clientY, lx: e.clientX, ly: e.clientY, lt: e.timeStamp, moved: false }; vx = vy = 0;
     });
     stage.addEventListener('pointermove', (e) => {
-      if (!drag || e.pointerId !== drag.id || drag.close) return;
+      if (!drag || e.pointerId !== drag.id) return;
+      // ביקורת פתוחה: תזוזה = גלילת הטקסט, לא סגירה
+      if (drag.close) { if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 8) drag.moved = true; return; }
       const dx = e.clientX - drag.lx, dy = e.clientY - drag.ly;
       if (!drag.moved && Math.hypot(e.clientX - drag.x, e.clientY - drag.y) > 6) { drag.moved = true; stage.classList.add('is-dragging'); try { stage.setPointerCapture(e.pointerId); } catch (_) {} }
       if (drag.moved) { tx += dx; ty += dy; const m = 16.667 / Math.max(4, e.timeStamp - drag.lt); vx = vx * 0.5 + dx * m * 0.5; vy = vy * 0.5 + dy * m * 0.5; }
@@ -160,7 +176,7 @@
       if (!drag || e.pointerId !== drag.id) return;
       const d = drag; drag = null; stage.classList.remove('is-dragging');
       if (e.type === 'pointercancel') { vx = vy = 0; return; }
-      if (d.close) { closeDetail(); return; }
+      if (d.close) { if (!d.moved) closeDetail(); return; }
       if (!d.moved) { vx = vy = 0; const t = tileAt(e.clientX, e.clientY); if (t) openTile(t); }
       else if (e.timeStamp - d.lt > 90) { vx = vy = 0; }
     };
