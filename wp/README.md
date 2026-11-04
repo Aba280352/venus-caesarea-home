@@ -56,3 +56,4 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - Updating the plugin on the server: files are pulled from raw.githubusercontent.com at a specific commit SHA (avoids CDN cache), linted with `php -l`, then swapped in.
 - 1.0.2 (mobile fixes, differs from the GitHub build on purpose): an open review on mobile = short card on top + text box sized to its content (long text scrolls inside the box, a scroll does not close it); touch drag on the cards turns the dome vertically too (`touch-action:none` on `.dg-field`, the page scrolls from outside the gallery).
 - 1.0.3: mobile gallery height min(56svh,460px) (min 360px) and cards 56% of the stage width (was 76vh / 62%), so there is always page area around it to scroll with the finger.
+- 1.0.4: mobile gallery height min(64svh,560px) (min 420px); a tap/click anywhere outside the gallery closes an open review (page scroll or swipe does not).
