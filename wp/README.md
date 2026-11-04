@@ -15,3 +15,9 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - Preview page #2252 https://venus-caesarea.net/venus-home-preview/ (published, noindex + nofollow, Canvas, cream bg): header template via Shortcode widget + container `vnshero` (class `vhero`, custom CSS) holding ONE Elementor Pro Slides widget (7 slides, fade 1.4s, autoplay 7s, pause on hover, dots = numbered rail via CSS counters).
 - `hero-page-2252.css` - compiled CSS of that page. Images: media #2245-#2251 (1672x941 JPEG).
 - Class `vhero` on the container is what the sticky-header script uses to decide when the header sticks.
+
+## Categories (step 3)
+- Same page #2252, after the hero: outer container `vnscats` (class `vcats-wrap`, holds two Button widgets = the arrows, media #2261/#2262) + inner container `vnscatsrow` (class `vcats`) with 8 native Image Box widgets (circle image + title, linked to the category). All CSS lives in the custom CSS of these two containers; it is compiled into `hero-page-2252.css`.
+- Marquee loop / drag / arrow kick = `initCats` in `header.js` (snippet #2189). It wraps the cards in `.vcats-track` at runtime and clones them for the seamless loop.
+- Images are existing product photos (#1797, 846, 862, 901, 1894, 1780, 2067, 1522) until real category images exist.
+- Note: Elementor's Image Box adds `width:30%` on the image per widget, so the circle size rule needs `!important`.
