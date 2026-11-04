@@ -1,4 +1,4 @@
-/* Elementor Custom Code snippet #2189 (body end, all pages): strip marquee, header search popover, sticky compact header. Mirrors venus.js initHeader. */
+/* Elementor Custom Code snippet #2189 (body end, all pages): strip marquee, header search popover, sticky compact header, hero button roll-text. Mirrors venus.js. */
 /* Venus: header strip marquee + main header behaviour (search panel, sticky compact header) */
 (function(){
   if (document.body && document.body.classList.contains('elementor-editor-active')) return;
@@ -59,7 +59,16 @@
     window.addEventListener('resize', place);
     place();
   }
-  function init(){ initStrip(); initSearch(); initSticky(); }
+  function initRoll(){
+    var bs = document.querySelectorAll('.vhero .elementor-slide-button');
+    for (var i = 0; i < bs.length; i++) {
+      var b = bs[i]; if (b.getAttribute('data-vns-rt')) continue;
+      b.setAttribute('data-vns-rt', '1');
+      var t = b.textContent.trim(), w = document.createElement('span'), s = document.createElement('span');
+      w.className = 'vns-rt'; s.textContent = t; w.appendChild(s); b.textContent = ''; b.appendChild(w);
+    }
+  }
+  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); }
   function ready(){ if (document.fonts && document.fonts.ready) { document.fonts.ready.then(init); } else { init(); } }
   if (document.readyState === 'complete') ready(); else window.addEventListener('load', ready);
 })();

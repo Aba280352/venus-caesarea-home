@@ -10,3 +10,8 @@ Widgets (all native Elementor / Elementor Pro): Button (phone), Image (logo), Se
 Global colours/typography are in Elementor Site Settings (kit #7): `vns*`.
 
 Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-#2227. Live header (#291) is untouched.
+
+## Hero (step 2)
+- Preview page #2252 https://venus-caesarea.net/venus-home-preview/ (published, noindex + nofollow, Canvas, cream bg): header template via Shortcode widget + container `vnshero` (class `vhero`, custom CSS) holding ONE Elementor Pro Slides widget (7 slides, fade 1.4s, autoplay 7s, pause on hover, dots = numbered rail via CSS counters).
+- `hero-page-2252.css` - compiled CSS of that page. Images: media #2245-#2251 (1672x941 JPEG).
+- Class `vhero` on the container is what the sticky-header script uses to decide when the header sticks.
