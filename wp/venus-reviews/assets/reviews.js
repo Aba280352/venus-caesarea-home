@@ -190,6 +190,13 @@
       if (step) { e.preventDefault(); tx += step[0]; ty += step[1]; return; }
       if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openTile(nearest()); }
     });
+    // לחיצה/נגיעה מחוץ לגלריה (בכל מקום בדף) סוגרת ביקורת פתוחה. גלילה של הדף לא סוגרת
+    let outTap = null;
+    document.addEventListener('pointerdown', (e) => { outTap = (state && !stage.contains(e.target)) ? { id: e.pointerId, x: e.clientX, y: e.clientY } : null; }, true);
+    document.addEventListener('pointerup', (e) => {
+      const t = outTap; outTap = null;
+      if (t && e.pointerId === t.id && state && Math.hypot(e.clientX - t.x, e.clientY - t.y) < 10) closeDetail();
+    }, true);
     if (window.ResizeObserver) new ResizeObserver(() => layout()).observe(stage);
     if (window.IntersectionObserver) new IntersectionObserver((es) => { visible = es[0].isIntersecting; }, { rootMargin: '200px' }).observe(root);
     layout(); drawTiles(); requestAnimationFrame(frame);

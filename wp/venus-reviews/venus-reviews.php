@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Venus Reviews
  * Description: ביקורות גוגל של ונוס קיסריה: סוג תוכן "ביקורות גוגל", שורטקוד [venus_reviews] שמציג את גלריית הכיפה, ותשתית לסנכרון יומי אוטומטי מ-Google Business Profile API (יחובר כשתתקבל גישה).
- * Version: 1.0.3
+ * Version: 1.0.4
  * Author: Venus Caesarea
  * Text Domain: venus-reviews
  * Requires PHP: 7.4
@@ -10,7 +10,7 @@
 
 if (!defined('ABSPATH')) exit;
 
-define('VNSREV_VER', '1.0.3');
+define('VNSREV_VER', '1.0.4');
 define('VNSREV_URL', plugin_dir_url(__FILE__));
 define('VNSREV_CRON', 'venus_reviews_sync');
 

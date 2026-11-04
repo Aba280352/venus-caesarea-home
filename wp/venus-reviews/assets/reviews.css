@@ -39,4 +39,4 @@
 .vrev .dg-detail.is-on .dg-copy{pointer-events:auto;touch-action:pan-y}
 .vrev .dg-mobile .dg-copy{padding:18px 22px 20px;gap:12px}
 /* mobile: shorter gallery so there is always page above/below it to scroll with the finger */
-@media(max-width:767px){.vrev .dg-root{height:min(56vh,460px);height:min(56svh,460px);min-height:360px;margin-top:24px}}
+@media(max-width:767px){.vrev .dg-root{height:min(64vh,560px);height:min(64svh,560px);min-height:420px;margin-top:24px}}
