@@ -37,3 +37,6 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 ## Add-ons carousel (step 5)
 - Same page #2252 after the bestsellers: container `vnsadd` = exact clone of `vnspcar` (same classes, so `initPcar` and the CSS apply), heading "כי אם כבר מפנקים אז עד הסוף", product IDs 2037, 2150, 2033, 2146, 1442, 2144, 2035, 2138.
 - Several products used by the GitHub build (1519, 1521, 1523, 930, 931, 932) are in the WordPress TRASH, so replacements were chosen from the live catalogue: recommended tab 6 = 1442, 2037, 2084, 2033, 1440, 2106, 2046, 2043.
+
+## Bridal carousel (step 6)
+- Same page #2252 after the add-ons: container `vnsbrd` = clone of `vnspcar` (ids vnsbrdt/w/l/r/g), heading "כל מה שצריך לחתונה", products 1347, 1456, 1786, 1783, 1343, 820, 821, 1461 (all published).
