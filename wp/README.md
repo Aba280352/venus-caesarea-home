@@ -40,3 +40,9 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 
 ## Bridal carousel (step 6)
 - Same page #2252 after the add-ons: container `vnsbrd` = clone of `vnspcar` (ids vnsbrdt/w/l/r/g), heading "כל מה שצריך לחתונה", products 1347, 1456, 1786, 1783, 1343, 820, 821, 1461 (all published).
+
+## About section (step 7)
+- Same page #2252 after the bridal carousel: container `vnsabt` (class `vabt`, custom CSS) = Heading h2 "אודותינו" + Text Editor (4 paragraphs, bold brand names) in a copy column + Image (media #2279, sideloaded from the GitHub Pages build `vns-about.jpg`).
+- Scroll effect = `initAbout` in `header.js` (snippet #2189): the text is split into per-character spans that light up from opacity .2 to 1 as the section scrolls through the viewport (start 0.8H, end 0.2H), and the image is revealed with a `clip-path` wipe. `prefers-reduced-motion` shows everything immediately.
+- Gotchas: the Text Editor widget inherits Roboto from the kit, so the body font var is set explicitly on `.vabt-text`; Elementor zeroes the last paragraph's margin, so `p:last-child{margin-bottom:1em}` is restored. Whitespace splitting in JS uses a `trim()` helper (`splitWs`) instead of a `\s` regex, because backslashes get eaten when code is pushed through the MCP JSON parameter.
+- Mobile / tablet: image first (500px tall on tablet, 300px on mobile), text below. Geometry (section, title, paragraphs, image) matches the GitHub build at 340-1440.
