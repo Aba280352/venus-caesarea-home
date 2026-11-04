@@ -155,9 +155,10 @@ export function apply(vals, comp) {
   vals.trust = [`משלוח חינם בקיסריה מ־₪${data.shipping.caesarea.freeFrom}`].concat(vals.trust.slice(1));
 
   // --- תפריט: קישורים אמיתיים, והתקציב זהה לסליידר ---
+  // 'קנייה לפי תקציב' is removed from the header menu only (the homepage section stays)
+  vals.navItems = vals.navItems.filter((n) => n.label !== 'קנייה לפי תקציב');
   vals.navItems.forEach((n) => {
     if (!n.hasMenu) return;
-    if (n.label === 'קנייה לפי תקציב') n.links = BUDGET.map((b) => b[0]);
     if (n.label === 'אזורי משלוח') n.links = mergeCities(n.links).concat(SPECIAL);
     else n.links = mergeCities(n.links);
     n.links = n.links.map((label) => ({ label, href: LINKS[label] || '#' }));
