@@ -133,6 +133,8 @@ let tpl = between(html, '</helmet>', '</x-dc>')
   .replace('<h2 class="rec-title">המומלצים שלנו</h2>', '<h2 class="rec-title">קשה לבחור אז בחרנו בשבילכם</h2>')
   .replace('aria-label="הנמכרים ביותר"', 'aria-label="הזרים שעושים לנו כבוד"')
   .replace('<h2 class="rec-title">הנמכרים ביותר</h2>', '<h2 class="rec-title">הזרים שעושים לנו כבוד</h2>')
+  .replace('aria-label="חדשים בחנות"', 'aria-label="כי אם כבר מפנקים אז עד הסוף"')
+  .replace('<h2 class="rec-title">חדשים בחנות</h2>', '<h2 class="rec-title">כי אם כבר מפנקים אז עד הסוף</h2>')
   .replace('<a href="#" class="vm-cta rl">', '<a href="{{m.href}}" class="vm-cta rl">')
   .replace('<a href="#" class="cat">', '<a href="{{c.href}}" class="cat">')
   .split('<a href="#" class="rec-card">').join('<a href="{{r.href}}" class="rec-card">')
@@ -193,11 +195,9 @@ const files = [
   ['01-hero', 'מסך פתיחה (סליידר קטגוריות)', wrap('vns-sec', blocks.hero)],
   ['02-categories', 'עיגולי קטגוריות', wrap('vns-sec', blocks.categories)],
   ['03-recommended', 'המומלצים שלנו (טאבים)', wrap('vns-sec', blocks.recommended)],
-  ['04-bestsellers', 'הנמכרים ביותר', wrap('vns-sec', blocks.bestsellers)],
-  ['05-new', 'חדשים בחנות', wrap('vns-sec', blocks.new)],
-  ['06-luxury', 'זרים יוקרתיים', wrap('vns-sec', blocks.luxury)],
-  ['07-bridal', 'זרי כלה', wrap('vns-sec', blocks.bridal)],
-  ['08-deals', 'מבצעים חמים', wrap('vns-sec', blocks.deals)],
+  ['04-bestsellers', 'הזרים שעושים לנו כבוד (הנמכרים ביותר)', wrap('vns-sec', blocks.bestsellers)],
+  ['05-addons', 'כי אם כבר מפנקים אז עד הסוף (תוספות לזר)', wrap('vns-sec', blocks.new)],
+  ['07-bridal', 'כל מה שצריך לחתונה', wrap('vns-sec', blocks.bridal)],
   ['09-about', 'אודות', wrap('vns-sec', blocks.about)],
   ['10-reviews', 'ביקורות גוגל', wrap('vns-sec', blocks.reviews)],
   ['11-budget', 'קנייה לפי תקציב', wrap('vns-sec', blocks.budget)],

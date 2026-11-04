@@ -42,6 +42,24 @@ const view = (p, next, badge = '') => ({
 });
 const list = (arr, badge) => arr.map((p, i) => view(p, arr[(i + 1) % arr.length], badge));
 
+// balloons that are not in the catalogue snapshot (their photos live in assets/product/, links resolved from the live store)
+const BALLOONS = [
+  { id: 2150, name: 'בלון לב לבן ״מלך שלי״', price: 35, path: '/product/%d7%91%d7%9c%d7%95%d7%9f-%d7%9c%d7%91-%d7%9c%d7%91%d7%9f-%d7%b4%d7%9e%d7%9c%d7%9a-%d7%a9%d7%9c%d7%99%d7%b4/' },
+  { id: 2146, name: 'בלון לב אדום ״לב שלי״', price: 40, path: '/product/%d7%91%d7%9c%d7%95%d7%9f-%d7%9c%d7%91-%d7%90%d7%93%d7%95%d7%9d-%d7%b4%d7%9c%d7%91-%d7%a9%d7%9c%d7%99%d7%b4/' },
+  { id: 2144, name: 'בלון לב לבן־ורוד מטאלי', price: 45, path: '/product/%d7%91%d7%9c%d7%95%d7%9f-%d7%9c%d7%91-%d7%9c%d7%91%d7%9f-%d7%95%d7%a8%d7%95%d7%93-%d7%9e%d7%98%d7%90%d7%9c%d7%99/' },
+  { id: 2138, name: 'בלון תודה ורוד לבן', price: 35, path: '/product/%d7%91%d7%9c%d7%95%d7%9f-%d7%aa%d7%95%d7%93%d7%94-%d7%95%d7%a8%d7%95%d7%93-%d7%9c%d7%91%d7%9f/' }
+].map((b) => ({ ...b, extra: true, img: './assets/product/' + b.id + '.jpg' }));
+const imgOf = (p) => (p.extra ? p.img : local(p));
+const listMixed = (arr) => arr.map((p, i) => {
+  const next = arr[(i + 1) % arr.length];
+  return {
+    name: p.name, price: money(p.price), old: '',
+    img: imgOf(p), pos: '50% 50%',
+    img2: p.gal && !p.extra ? local(p, true) : imgOf(next), pos2: '50% 50%',
+    badge: '', href: p.extra ? BASE + p.path : url(p.href)
+  };
+});
+
 // in stock first; a tab with fewer than 8 in-stock items is topped up with out-of-stock ones so the grid is not sparse
 const pickTab = (pool) => {
   const sorted = pool.filter(ok).sort(bySales);
@@ -83,6 +101,10 @@ const LINKS = {
   'צור קשר': url(data.pages.contact), 'המגזין': url(data.pages.blog), 'קיסריה': '#areas'
 };
 for (const [city, p] of Object.entries(data.deliveryPosts)) LINKS[city] = url(p);
+// פרדס חנה וכרכור הם אותו מקום (פוסט משלוחים אחד): מוצגים כפריט אחד בתפריט, בפוטר ובאזורי המשלוח
+const MERGED_CITY = 'פרדס חנה־כרכור';
+LINKS[MERGED_CITY] = LINKS['פרדס חנה'];
+const mergeCities = (names) => names.filter((n) => n !== 'כרכור').map((n) => (n === 'פרדס חנה' ? MERGED_CITY : n));
 const BUDGET = [['עד ₪100', 'max_price=100', 909], ['עד ₪200', 'max_price=200', 775], ['עד ₪300', 'max_price=300', 1544], ['עד ₪400', 'max_price=400', 1336], ['עד ₪500', 'max_price=500', 1798], ['₪500 ומעלה', 'min_price=500', 1804]];
 for (const [label, q] of BUDGET) LINKS[label] = url(data.pages.shop) + '?' + q;
 const CITY_HREF = { '#city-caesarea': '#areas', '#city-pardes-hanna': 'פרדס חנה', '#city-karkur': 'כרכור', '#city-or-akiva': 'אור עקיבא', '#city-or-yam': 'אור ים', '#city-binyamina': 'בנימינה', '#city-givat-ada': 'גבעת עדה', '#city-zichron': 'זכרון יעקב', '#city-hadera': 'חדרה' };
@@ -94,13 +116,14 @@ export function apply(vals, comp) {
   vals.recGrids = tabPools.map((t, i) => ({ items: list(pickTab(t.pool)), attr: i ? ' hidden' : '' }));
   vals.recHref = tabPools[0].href;
 
-  // --- קרוסלות ---
-  const best = padTo(stocked.filter((p) => Number(p.price) >= 40 && p.sales > 0).sort(bySales), stocked.filter((p) => Number(p.price) >= 40).sort(byPriceDesc), 8);
-  vals.bestItems = list(best);
-  vals.newItems = list(stocked.filter((p) => Number(p.price) >= 30 && !/^(מספר|בלון גומי)/.test(p.name)).sort(byDateDesc).slice(0, 8), 'חדש');
-  vals.luxItems = list(stocked.filter((p) => inCat(p, 'פרחים') && Number(p.price) >= 250).sort(byPriceDesc).slice(0, 8));
+  // --- קרוסלות: רק ארבע ---
+  // הזרים שעושים לנו כבוד: הזרים הנמכרים ביותר (מלאי בלבד), מושלם בזרים יקרים אם יש פחות מ־8 עם מכירות
+  const bouquets = stocked.filter((p) => inCat(p, 'פרחים') && !/קונוס|טנא/.test(p.name) && Number(p.price) >= 40);
+  vals.bestItems = list(padTo(bouquets.filter((p) => p.sales > 0).sort(bySales), bouquets.sort(byPriceDesc), 8));
+  // כי אם כבר מפנקים אז עד הסוף: תוספות לזר בלבד (שוקולדים, בלונים, מארזים), לא פרחים
+  const ADDON_ORDER = [1523, BALLOONS[0], 1521, BALLOONS[1], 1442, BALLOONS[2], 1519, BALLOONS[3]];
+  vals.newItems = listMixed(ADDON_ORDER.map((x) => (typeof x === 'number' ? byId[x] : x)));
   vals.brideItems = list(stocked.filter((p) => inCat(p, 'חתונות') && /^(זר כלה|חבקים|קישוט רכב)/.test(p.name)).sort(byPriceDesc).slice(0, 8));
-  vals.dealItems = list(stocked.filter((p) => p.on_sale).sort(byPriceDesc), 'מבצע');
 
   // --- עיגולי קטגוריות ---
   vals.circles = [['פרחים', 1798], ['צמחים וסחלבים', 904], ['נרות', 912], ['ואזות וכלים', 923], ['בלונים וכרטיסי ברכה', 1434], ['חתונות', 1783], ['מארזים', 1442], ['אלכוהול ושוקולד', 1523]]
@@ -113,10 +136,12 @@ export function apply(vals, comp) {
   vals.budget = BUDGET.map(([title, q, id]) => ({ title, img: local(byId[id]), pos: '50% 50%', href: LINKS[title] }));
 
   // --- אזורי משלוח ---
-  vals.cities = comp.cities.map((c, i) => ({
+  vals.cities = comp.cities.filter((c) => c.name !== 'כרכור').map((c) => (c.name === 'פרדס חנה' ? { ...c, name: MERGED_CITY } : c)).map((c, i) => ({
     href: c.name === 'קיסריה' ? '#areas' : LINKS[c.name], img: local(byId[CITY_PHOTOS[i % CITY_PHOTOS.length]]), tag: 'אזור ' + String(i + 1).padStart(2, '0'),
     title: 'משלוח פרחים ל' + c.name, text: shipText(c.name === 'קיסריה')
   }));
+
+  cityCount = vals.cities.length;
 
   // --- מגזין ואינסטגרם ---
   vals.articles = data.articles.map((a, i) => ({ href: url(a.href), cat: a.cat, date: a.date, title: a.title, text: a.text, img: asset(a.img, 'post-' + (i + 1)), pos: '50% 50%' }));
@@ -131,7 +156,7 @@ export function apply(vals, comp) {
   vals.navItems.forEach((n) => {
     if (!n.hasMenu) return;
     if (n.label === 'קנייה לפי תקציב') n.links = BUDGET.map((b) => b[0]);
-    n.links = n.links.map((label) => ({ label, href: LINKS[label] || '#' }));
+    n.links = mergeCities(n.links).map((label) => ({ label, href: LINKS[label] || '#' }));
   });
 }
 
@@ -160,7 +185,11 @@ export function post(html) {
   // footer link lists: <li><a href="#">label</a></li>
   html = html.replace(/<li><a href="#">([^<]+)<\/a><\/li>/g, (m, label) => (LINKS[label] ? `<li><a href="${LINKS[label]}">${label}</a></li>` : m));
   html = html.replace(/<a href="#">(תקנון האתר|הצהרת נגישות)<\/a>/g, (m, label) => `<a href="${LINKS[label]}">${label}</a>`);
+  // the same merge for the footer list (static in the design), and the areas counter (9 → 8 cities)
+  html = html.replace(/<li><a href="([^"]*)">פרדס חנה<\/a><\/li>\s*<li><a href="[^"]*">כרכור<\/a><\/li>/g, '<li><a href="$1">' + MERGED_CITY + '</a></li>');
+  html = html.replace('</span> / 09</div>', '</span> / ' + String(cityCount).padStart(2, '0') + '</div>');
   return html;
 }
 let vals_total = '';
+let cityCount = 9;
 export const setTotal = (t) => { vals_total = t; };
