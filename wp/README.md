@@ -57,3 +57,11 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - 1.0.2 (mobile fixes, differs from the GitHub build on purpose): an open review on mobile = short card on top + text box sized to its content (long text scrolls inside the box, a scroll does not close it); touch drag on the cards turns the dome vertically too (`touch-action:none` on `.dg-field`, the page scrolls from outside the gallery).
 - 1.0.3: mobile gallery height min(56svh,460px) (min 360px) and cards 56% of the stage width (was 76vh / 62%), so there is always page area around it to scroll with the finger.
 - 1.0.4: mobile gallery height min(64svh,560px) (min 420px); a tap/click anywhere outside the gallery closes an open review (page scroll or swipe does not).
+
+## Shop by budget (step 10)
+- Same page #2252 after the reviews: container `vnsbud` (class `vbud-sec`, custom CSS) = Heading h2 "קנייה לפי תקציב" + container `vnsbuds` (class `vbud-stage`) with 6 card containers `vbc0-5` (each: Image + Heading title "עד ₪100" ... + Heading CTA "לצפייה במוצרים", the whole card links to `/shop/?max_price=...`) + nav container `vnsbudn` with 2 Buttons (prev / next, arrow SVG media #2320/#2321).
+- Slider = `initBudget` in `header.js` (snippet #2189): centered current card (54vw, 76vw on mobile) with side cards, order/width/margins/visibility computed in JS (port of the GitHub build), drag + fling, side-card click, arrows, keyboard left/right, `ResizeObserver`, reduced-motion aware. Title + CTA show only on the current card; CTA text rolls on hover (`initRoll` selector `.vbud-cta .elementor-heading-title`).
+- Known: product photos #909 and #775 only exist at 300x300 (also in the GitHub build) so the first two cards look soft at desktop width; replace with larger photos when available.
+
+## Carousel arrows (step 10b)
+- In the three product carousels (bestsellers `vnspcar`, add-ons `vnsadd`, bridal `vnsbrd`) the two arrow Buttons moved out of `vpcar-wrap` into a new container `vnspcarn` / `vnsaddn` / `vnsbrdn` (class `vpcar-nav`) BELOW the carousel, centered, white circle style like the hero (44px on mobile). Equal vertical spacing between the carousels (section gap 8vw / 64px on mobile).
