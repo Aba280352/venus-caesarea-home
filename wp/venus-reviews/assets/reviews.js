@@ -9,7 +9,7 @@
   //    dim: החשכת השוליים (0-1) · smooth: רכות המעקב · glide: גלישה אחרי שחרור · open: משך הפתיחה במילישניות
   const initReviews = () => $$('.vrev .dg-root').forEach((root) => {
     if ($('.dg-stage', root)) return;
-    const CFG_DG = { size: 0.27, gap: 0.021, ratio: 1.05, curve: 1, dim: 0.7, smooth: 0.12, glide: 0.93, open: 750, radius: 12, openRadius: 20, mobileBelow: 768, mobileSize: 0.62, mobileGap: 0.035 };
+    const CFG_DG = { size: 0.27, gap: 0.021, ratio: 1.05, curve: 1, dim: 0.7, smooth: 0.12, glide: 0.93, open: 750, radius: 12, openRadius: 20, mobileBelow: 768, mobileSize: 0.56, mobileGap: 0.035 };
     const src = $('.dg-data', root.parentElement) || $('.dg-data');
     let data = [];
     try { data = JSON.parse(src.textContent); } catch (_) {}
