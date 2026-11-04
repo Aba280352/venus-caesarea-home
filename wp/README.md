@@ -21,3 +21,10 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - Marquee loop / drag / arrow kick = `initCats` in `header.js` (snippet #2189). It wraps the cards in `.vcats-track` at runtime and clones them for the seamless loop.
 - Images are existing product photos (#1797, 846, 862, 901, 1894, 1780, 2067, 1522) until real category images exist.
 - Note: Elementor's Image Box adds `width:30%` on the image per widget, so the circle size rule needs `!important`.
+
+## Recommended products (step 3b)
+- Same page #2252 after the categories: container `vnsrec` (class `vrec`, custom CSS) = Heading (h2) + native **Nested Tabs** widget (6 tabs; each tab = a container holding a **Loop Grid** + a Button CTA "לכל <קטגוריה>").
+- Product card = Loop Item template **#2265** `vns-product-card` (`loop-item-2265.css`): one linked container (`html_tag a`, link = post URL) with an image box (featured image + product-gallery first image shown on hover via Basic Gallery widget with the Product Gallery dynamic tag) and name / price headings (price = custom field `_price` + before "₪"). "הוספה לעגלה" is a decorative heading styled as a button, exactly like the GitHub build (whole card goes to the product page). The template is reusable for the bestsellers / add-ons carousels.
+- Each Loop Grid uses *Manual Selection* (product IDs) with `post_query_orderby = post__in` so the order follows the design. This value is not in the editor dropdown: do not touch "Order by" in the editor or the order is lost.
+- Mobile: 2 columns, only 8 cards (CSS `nth-child(n+10)`), tabs row scrolls horizontally (drag with mouse = `initRecTabs` in `header.js`). Tablet: 3 columns.
+- Roll-text hover on the card button and CTA = `initRoll` in `header.js` (wraps text in `.vns-rt`).

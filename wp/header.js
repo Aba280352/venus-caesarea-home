@@ -59,7 +59,7 @@
     place();
   }
   function initRoll(){
-    var bs = document.querySelectorAll('.vhero .elementor-slide-button');
+    var bs = document.querySelectorAll('.vhero .elementor-slide-button, .vrc-btn .elementor-heading-title, .vrec-cta .elementor-button-text');
     for (var i = 0; i < bs.length; i++) {
       var b = bs[i]; if (b.getAttribute('data-vns-rt')) continue;
       b.setAttribute('data-vns-rt', '1');
@@ -123,7 +123,21 @@
     if (l) l.addEventListener('click', function(e){ e.preventDefault(); m.kick += 420; });
     if (r) r.addEventListener('click', function(e){ e.preventDefault(); m.kick -= 420; });
   }
-  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); initCats(); }
+  function initRecTabs(){
+    var bars = document.querySelectorAll('.vrec .e-n-tabs-heading');
+    for (var i = 0; i < bars.length; i++) (function(bar){
+      if (bar.getAttribute('data-vns-drag')) return; bar.setAttribute('data-vns-drag', '1');
+      var drag = null, moved = 0;
+      bar.addEventListener('pointerdown', function(e){ if (e.pointerType !== 'mouse' || e.button > 0 || bar.scrollWidth <= bar.clientWidth) return; drag = { x: e.clientX, left: bar.scrollLeft }; moved = 0; });
+      bar.addEventListener('pointermove', function(e){ if (!drag) return; var dx = e.clientX - drag.x; moved = Math.max(moved, Math.abs(dx)); if (moved > 4) { bar.classList.add('is-drag'); bar.scrollLeft = drag.left - dx; } });
+      var end = function(){ drag = null; bar.classList.remove('is-drag'); };
+      bar.addEventListener('pointerup', end); bar.addEventListener('pointerleave', end); bar.addEventListener('pointercancel', end);
+      bar.addEventListener('click', function(e){ if (moved > 6) { e.preventDefault(); e.stopPropagation(); moved = 0; } }, true);
+      bar.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      bar.addEventListener('click', function(e){ var t = e.target.closest && e.target.closest('.e-n-tab-title'); if (t && bar.scrollWidth > bar.clientWidth) t.scrollIntoView({ inline: 'center', block: 'nearest', behavior: reduceMo ? 'auto' : 'smooth' }); });
+    })(bars[i]);
+  }
+  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); initCats(); initRecTabs(); }
   function ready(){ if (document.fonts && document.fonts.ready) { document.fonts.ready.then(init); } else { init(); } }
   if (document.readyState === 'complete') ready(); else window.addEventListener('load', ready);
 })();
