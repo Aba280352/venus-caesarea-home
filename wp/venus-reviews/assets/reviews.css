@@ -1,0 +1,33 @@
+/* Venus Reviews - dome gallery styles (from venus.css .dg-*) */
+.vrev{direction:rtl;font-family:var(--e-global-typography-vnsbody-font-family,"Discovery Fs"),system-ui,sans-serif;font-size:18px;font-weight:300;line-height:1.3;color:#141414}
+.vrev .dg-root{position:relative;margin-top:32px;height:min(76vh,760px);min-height:520px;border-radius:12px;overflow:hidden;background:#242D1F}
+.vrev .dg-stage{position:absolute;inset:0;overflow:hidden;cursor:grab;touch-action:pan-y;user-select:none;-webkit-user-select:none;outline:none;-webkit-tap-highlight-color:transparent}
+.vrev .dg-stage.is-dragging{cursor:grabbing}
+.vrev .dg-stage:focus-visible{box-shadow:inset 0 0 0 2px #FFFBE9}
+.vrev .dg-field{position:absolute;inset:0;transform-style:preserve-3d}
+.vrev .dg-tile{position:absolute;left:50%;top:50%;overflow:hidden;border-radius:12px;background:#FFFFFF;backface-visibility:hidden;will-change:transform}
+.vrev .dg-shade{position:absolute;inset:0;z-index:3;background:#141A10;opacity:0;pointer-events:none}
+.vrev .dg-cardin{position:absolute;inset:0;box-sizing:border-box;display:flex;flex-direction:column;gap:calc(var(--dg-card,300px)*.04);padding:calc(var(--dg-card,300px)*.075);pointer-events:none}
+.vrev .dg-top{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.vrev .dg-stars2{font-size:calc(var(--dg-card,300px)*.06);letter-spacing:.08em;line-height:1;color:#3A4831;white-space:nowrap}
+.vrev .dg-src{flex-shrink:0;display:block;height:calc(var(--dg-card,300px)*.058);width:auto;object-fit:contain}
+.vrev .dg-txt{flex:1 1 auto;margin:0;overflow:hidden;font-size:calc(var(--dg-card,300px)*.052);font-weight:300;line-height:1.45;color:#141414;display:-webkit-box;-webkit-line-clamp:5;-webkit-box-orient:vertical}
+.vrev .dg-who{display:flex;align-items:center;gap:calc(var(--dg-card,300px)*.04)}
+.vrev .dg-av{flex-shrink:0;box-sizing:border-box;width:calc(var(--dg-card,300px)*.12);height:calc(var(--dg-card,300px)*.12);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#FFFFFF;font-size:calc(var(--dg-card,300px)*.056);font-weight:500;line-height:1}
+.vrev .dg-whotxt{min-width:0;display:flex;flex-direction:column;gap:calc(var(--dg-card,300px)*.008)}
+.vrev .dg-nm{font-size:calc(var(--dg-card,300px)*.05);font-weight:500;line-height:1.2;color:#141414;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.vrev .dg-wh{font-size:calc(var(--dg-card,300px)*.042);font-weight:300;line-height:1.2;color:rgba(20,20,20,.5)}
+.vrev .dg-veil{position:absolute;inset:0;background:rgba(20,26,16,.45);opacity:0;pointer-events:none;z-index:4}
+.vrev .dg-detail{position:absolute;inset:0;z-index:5;pointer-events:none;visibility:hidden}
+.vrev .dg-detail.is-on{visibility:visible}
+.vrev .dg-panel,.vrev .dg-photo{position:absolute;left:0;top:0;overflow:hidden}
+.vrev .dg-panel{background:#FFFBE9}
+.vrev .dg-photo{background:#FFFFFF}
+.vrev .dg-copy{position:absolute;left:0;top:0;box-sizing:border-box;display:flex;flex-direction:column;justify-content:center;gap:15px;padding:0 3vw;text-align:start}
+.vrev .dg-dtop{display:flex;align-items:center;gap:14px}
+.vrev .dg-stars{font-size:22px;letter-spacing:.12em;line-height:1;color:#3A4831}
+.vrev .dg-dlogo{height:22px;width:auto;display:block}
+.vrev .dg-detail-title{margin:0;font-family:var(--e-global-typography-vnsheading-font-family,"Leon"),"Discovery Fs",system-ui,sans-serif;font-weight:700;font-size:clamp(24px,2.1vw,40px);line-height:1.15;color:#3A4831}
+.vrev .dg-detail-text{margin:0;font-size:clamp(16px,1.05vw,20px);font-weight:300;line-height:1.5;color:#141414}
+.vrev .dg-detail-meta{margin:0;font-size:16px;font-weight:300;color:rgba(20,20,20,0.55)}
+.vrev .dg-detail-title,.vrev .dg-detail-text,.vrev .dg-detail-meta,.vrev .dg-txt{letter-spacing:normal;text-transform:none}
