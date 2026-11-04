@@ -102,6 +102,8 @@ const LINKS = {
 };
 for (const [city, p] of Object.entries(data.deliveryPosts)) LINKS[city] = url(p);
 // פרדס חנה וכרכור הם אותו מקום (פוסט משלוחים אחד): מוצגים כפריט אחד בתפריט, בפוטר ובאזורי המשלוח
+const SPECIAL = 'משלוחים מיוחדים';
+LINKS[SPECIAL] = url('/משלוחים-מיוחדים/'); // planned page (express + areas that are not in the menu); not created yet
 const MERGED_CITY = 'פרדס חנה־כרכור';
 LINKS[MERGED_CITY] = LINKS['פרדס חנה'];
 const mergeCities = (names) => names.filter((n) => n !== 'כרכור').map((n) => (n === 'פרדס חנה' ? MERGED_CITY : n));
@@ -156,7 +158,9 @@ export function apply(vals, comp) {
   vals.navItems.forEach((n) => {
     if (!n.hasMenu) return;
     if (n.label === 'קנייה לפי תקציב') n.links = BUDGET.map((b) => b[0]);
-    n.links = mergeCities(n.links).map((label) => ({ label, href: LINKS[label] || '#' }));
+    if (n.label === 'אזורי משלוח') n.links = mergeCities(n.links).concat(SPECIAL);
+    else n.links = mergeCities(n.links);
+    n.links = n.links.map((label) => ({ label, href: LINKS[label] || '#' }));
   });
 }
 
@@ -164,7 +168,7 @@ export function apply(vals, comp) {
 export function post(html) {
   const c = data.contact;
   const lit = [
-    ['<a href="#" class="hdr-cta rl"', `<a href="${cat('פרחים')}" class="hdr-cta rl"`],
+    ['<a href="#" class="hdr-cta rl"', `<a href="tel:${c.phoneTel}" class="hdr-cta rl" aria-label="התקשרו לונוס קיסריה ${c.phoneDisplay}"`],
     ['<a href="#" aria-label="ונוס קיסריה – לעמוד הבית"', `<a href="${BASE}/" aria-label="ונוס קיסריה – לעמוד הבית"`],
     ['<a href="#" class="icon-btn" aria-label="אזור אישי"', `<a href="${url(data.pages.account)}" class="icon-btn" aria-label="אזור אישי"`],
     ['href="#blog"', `href="${url(data.pages.blog)}"`],
@@ -185,6 +189,10 @@ export function post(html) {
   // footer link lists: <li><a href="#">label</a></li>
   html = html.replace(/<li><a href="#">([^<]+)<\/a><\/li>/g, (m, label) => (LINKS[label] ? `<li><a href="${LINKS[label]}">${label}</a></li>` : m));
   html = html.replace(/<a href="#">(תקנון האתר|הצהרת נגישות)<\/a>/g, (m, label) => `<a href="${LINKS[label]}">${label}</a>`);
+  // header button: the phone number instead of the sketch's "לזרים המומלצים שלנו" (kept LTR so the digits do not flip)
+  html = html.replace(/(class="hdr-cta rl"[^>]*>\s*)<span class="rl-in"><span>[^<]*<\/span><span aria-hidden="true">[^<]*<\/span><\/span>/, (m, head) => head + '<span class="rl-in"><span dir="ltr">' + c.phoneDisplay + '</span><span dir="ltr" aria-hidden="true">' + c.phoneDisplay + '</span></span>');
+  // "משלוחים מיוחדים" sits under the two columns of cities as a full-width row
+  html = html.replace(/<li><a href="([^"]*)">משלוחים מיוחדים<\/a><\/li>/g, '<li class="panel-all"><a href="$1">משלוחים מיוחדים</a></li>');
   // the same merge for the footer list (static in the design), and the areas counter (9 → 8 cities)
   html = html.replace(/<li><a href="([^"]*)">פרדס חנה<\/a><\/li>\s*<li><a href="[^"]*">כרכור<\/a><\/li>/g, '<li><a href="$1">' + MERGED_CITY + '</a></li>');
   html = html.replace('</span> / 09</div>', '</span> / ' + String(cityCount).padStart(2, '0') + '</div>');

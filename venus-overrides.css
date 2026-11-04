@@ -352,3 +352,8 @@ body.vns-body{margin:0;background:#FFFBE9}
   .vns .pd-cta-bar{width:100%;padding:0 20px}
 }
 @media(hover:none){.vns .pd-main.is-zoom img{transform:none}}
+
+/* תפריט אזורי משלוח: "משלוחים מיוחדים" כשורה לרוחב כל העמודות מתחת לערים */
+.vns .panel.two li.panel-all{column-span:all;margin-top:8px;padding-top:8px;border-top:1px solid rgba(20,20,20,0.12)}
+.vns .panel.two li.panel-all a{font-weight:500;color:#3A4831}
+.vns .panel.two li.panel-all a:hover{color:#FFFFFF}
