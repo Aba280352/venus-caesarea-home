@@ -33,3 +33,7 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - Same page #2252 after the recommended section: container `vnspcar` (class `vpcar-sec`) = Heading h2 + container `vnspcarwrap` (class `vpcar-wrap`: 2 arrow Buttons + ONE Loop Grid `vpcar` that reuses the product-card template #2265, manual product IDs, `post_query_orderby = post__in`).
 - The Loop Grid container is turned into a one-row flex track by CSS; `initPcar` in `header.js` runs the same marquee as the categories (30 px/s, drag, arrow kick +/-380; arrows hidden on mobile; card 58vw on mobile).
 - CSS is in `hero-page-2252.css` (custom CSS of `vnspcar`).
+
+## Add-ons carousel (step 5)
+- Same page #2252 after the bestsellers: container `vnsadd` = exact clone of `vnspcar` (same classes, so `initPcar` and the CSS apply), heading "כי אם כבר מפנקים אז עד הסוף", product IDs 2037, 2150, 2033, 2146, 1442, 2144, 2035, 2138.
+- Several products used by the GitHub build (1519, 1521, 1523, 930, 931, 932) are in the WordPress TRASH, so replacements were chosen from the live catalogue: recommended tab 6 = 1442, 2037, 2084, 2033, 1440, 2106, 2046, 2043.
