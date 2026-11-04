@@ -28,3 +28,8 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - Each Loop Grid uses *Manual Selection* (product IDs) with `post_query_orderby = post__in` so the order follows the design. This value is not in the editor dropdown: do not touch "Order by" in the editor or the order is lost.
 - Mobile: 2 columns, only 8 cards (CSS `nth-child(n+10)`), tabs row scrolls horizontally (drag with mouse = `initRecTabs` in `header.js`). Tablet: 3 columns.
 - Roll-text hover on the card button and CTA = `initRoll` in `header.js` (wraps text in `.vns-rt`).
+
+## Bestsellers carousel (step 4)
+- Same page #2252 after the recommended section: container `vnspcar` (class `vpcar-sec`) = Heading h2 + container `vnspcarwrap` (class `vpcar-wrap`: 2 arrow Buttons + ONE Loop Grid `vpcar` that reuses the product-card template #2265, manual product IDs, `post_query_orderby = post__in`).
+- The Loop Grid container is turned into a one-row flex track by CSS; `initPcar` in `header.js` runs the same marquee as the categories (30 px/s, drag, arrow kick +/-380; arrows hidden on mobile; card 58vw on mobile).
+- CSS is in `hero-page-2252.css` (custom CSS of `vnspcar`).
