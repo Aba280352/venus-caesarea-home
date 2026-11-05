@@ -351,7 +351,45 @@
       layout(); render();
     })(roots[ri]);
   }
-  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); initCats(); initRecTabs(); initPcar(); initAbout(); initBudget(); initAreas(); }
+  function initWhy(){
+    var roots = document.querySelectorAll('.vwhy');
+    for (var ri = 0; ri < roots.length; ri++) (function(root){
+      var rows = [].slice.call(root.querySelectorAll('.vwhy-row'));
+      if (!rows.length || root.getAttribute('data-vwhy')) return;
+      root.setAttribute('data-vwhy', '1');
+      [].forEach.call(root.querySelectorAll('img'), function(im){ im.draggable = false; im.alt = ''; });
+      var active = -1, raf = 0;
+      function measure(){
+        rows.forEach(function(row){
+          var line = row.querySelector('.vwhy-line-a'), r = row.querySelector('.vwhy-roll');
+          if (line && r) { r.style.height = ''; var h = line.getBoundingClientRect().height; if (h > 0) r.style.height = h.toFixed(2) + 'px'; }
+          var ph = row.querySelector('.vwhy-photo'); if (ph) row.style.setProperty('--rwl-card-slide', (ph.getBoundingClientRect().width * 0.22).toFixed(1) + 'px');
+        });
+      }
+      function setActive(i){ if (i === active) return; active = i; rows.forEach(function(row, k){ if (k === i) row.classList.add('is-on'); else row.classList.remove('is-on'); }); }
+      function rowOf(el){ var r = el && el.closest ? el.closest('.vwhy-row') : null; return rows.indexOf(r); }
+      var mq = window.matchMedia('(hover: hover) and (pointer: fine)');
+      function nearest(){
+        raf = 0; if (mq.matches) return;
+        var rr = root.getBoundingClientRect();
+        if (rr.bottom < 0 || rr.top > window.innerHeight) { setActive(-1); return; }
+        var mid = window.innerHeight / 2, best = -1, dist = Infinity;
+        rows.forEach(function(row, i){ var b = row.getBoundingClientRect(), d = Math.abs(b.top + b.height / 2 - mid); if (d < dist) { dist = d; best = i; } });
+        setActive(dist < window.innerHeight * 0.45 ? best : -1);
+      }
+      function queue(){ if (!raf) raf = requestAnimationFrame(nearest); }
+      root.addEventListener('pointerover', function(e){ if (!mq.matches || e.pointerType === 'touch') return; var i = rowOf(e.target); if (i >= 0) setActive(i); });
+      root.addEventListener('pointerleave', function(e){ if (!mq.matches || e.pointerType === 'touch') return; setActive(-1); });
+      root.addEventListener('click', function(e){ if (mq.matches) return; var i = rowOf(e.target); if (i >= 0) setActive(i); });
+      root.addEventListener('focusin', function(e){ var i = rowOf(e.target); if (i >= 0) setActive(i); });
+      root.addEventListener('focusout', function(e){ if (mq.matches && !root.contains(e.relatedTarget)) setActive(-1); });
+      window.addEventListener('scroll', queue, { passive: true, capture: true });
+      if (window.ResizeObserver) new ResizeObserver(function(){ measure(); queue(); }).observe(root);
+      window.addEventListener('resize', function(){ measure(); queue(); });
+      measure(); queue();
+    })(roots[ri]);
+  }
+  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); initCats(); initRecTabs(); initPcar(); initAbout(); initBudget(); initAreas(); initWhy(); }
   function ready(){ if (document.fonts && document.fonts.ready) { document.fonts.ready.then(init); } else { init(); } }
   if (document.readyState === 'complete') ready(); else window.addEventListener('load', ready);
 })();

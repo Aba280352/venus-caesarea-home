@@ -71,3 +71,8 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 - Carousel = `initAreas` in `header.js` (snippet #2189): infinite wrapped track with dimmed (35%) non-active slides, rolling digit counter, arrows, keyboard left/right, drag + fling with click guard, `ResizeObserver`, reduced-motion aware.
 - Mobile / tablet (<=1024): column layout, heading above the counter + arrows row; slides 58vw (tablet) / 80vw (mobile).
 - Known: 3 of the 8 photos (products 1215, 1214, 821) exist only as 300x300 on the live site, so they look soft on desktop; replace with larger photos later.
+
+## Why Venus Caesarea (step 12)
+- Same page #2252 after the delivery areas: container `vnswhy` (class `vwhy`, id `why`, custom CSS) = Heading h2 "למה ונוס קיסריה?" + list container `vwhy-list` with 6 row containers `vwr0-5` (class `vwhy-row`, `tabindex=0`). Each row: Heading h3 (the word, with the two-line roll markup `.vwhy-roll > .vwhy-roll-inner > .vwhy-line-a / .vwhy-line-b` inside the title), Heading p (category label), Image (hover photo, media #2328-#2333 = 360x360 photos sideloaded from the GitHub Pages build, #2333 is 1672x941).
+- Hover (desktop, `hover:hover` + fine pointer) or "row nearest the middle of the screen" (touch) toggles `.is-on` on the row = `initWhy` in `header.js` (snippet #2189): the word rolls to the accent skewed line, the category fades, the photo tilts in, grayscale to colour. Also keyboard focus. `prefers-reduced-motion` removes the transitions.
+- Test gotcha: the page needs content below the section (a spacer) and `scroll-behavior:auto` to hover-test rows in a headless run.
