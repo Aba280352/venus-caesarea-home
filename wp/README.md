@@ -65,3 +65,9 @@ Revert: delete template #2186, snippet #2189, page #2192, menu #51, media #2221-
 
 ## Carousel arrows (step 10b)
 - In the three product carousels (bestsellers `vnspcar`, add-ons `vnsadd`, bridal `vnsbrd`) the two arrow Buttons moved out of `vpcar-wrap` into a new container `vnspcarn` / `vnsaddn` / `vnsbrdn` (class `vpcar-nav`) BELOW the carousel, centered, white circle style like the hero (44px on mobile). Equal vertical spacing between the carousels (section gap 8vw / 64px on mobile).
+
+## Delivery areas (step 11)
+- Same page #2252 after the budget section: container `vnsare` (class `vare`, id `areas`, custom CSS) = green rounded panel with a side column (`vare-side`: Heading h2, counter Heading `01 / 08`, nav container with 2 Buttons, media #2320/#2321) + a view container `vare-view` (74%, fade mask on desktop) holding the track `vare-track` with 8 slide containers `vas0-7` (each a link container: Image + tag Heading "אזור 0N" + title Heading h3 + text Heading p). Images = featured photos of products 1541, 1215, 1217, 1214, 1314, 1282, 821, 1786 (attachments 1896, 1204, 1990, 1208, 1311, 1318, 817, 1784); links = the city blog posts (first one `#areas`).
+- Carousel = `initAreas` in `header.js` (snippet #2189): infinite wrapped track with dimmed (35%) non-active slides, rolling digit counter, arrows, keyboard left/right, drag + fling with click guard, `ResizeObserver`, reduced-motion aware.
+- Mobile / tablet (<=1024): column layout, heading above the counter + arrows row; slides 58vw (tablet) / 80vw (mobile).
+- Known: 3 of the 8 photos (products 1215, 1214, 821) exist only as 300x300 on the live site, so they look soft on desktop; replace with larger photos later.

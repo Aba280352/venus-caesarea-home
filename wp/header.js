@@ -268,7 +268,90 @@
       refresh();
     })(roots[ri]);
   }
-  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); initCats(); initRecTabs(); initPcar(); initAbout(); initBudget(); }
+  function initAreas(){
+    var roots = document.querySelectorAll('.vare');
+    for (var ri = 0; ri < roots.length; ri++) (function(root){
+      var view = root.querySelector('.vare-view'), track = root.querySelector('.vare-track');
+      if (!view || !track || root.getAttribute('data-vare')) return;
+      var slides = [].slice.call(track.querySelectorAll('.vare-slide')), n = slides.length;
+      if (!n) return;
+      root.setAttribute('data-vare', '1'); root.tabIndex = 0;
+      [].forEach.call(track.querySelectorAll('img'), function(im){ im.draggable = false; im.alt = ''; im.loading = 'eager'; });
+      var duration = 0.5, dim = 0.35, dragK = 1;
+      var prev = root.querySelector('.vare-prev'), next = root.querySelector('.vare-next'), numEl = root.querySelector('.vare-num');
+      var pos = 0, target = 0, raf = 0, W = 1, pitch = 1, lo = -2, dir = -1, cur = root.querySelector('.vare-digit'), shown = -1, drag = null, L = n;
+      function wrap(x, m){ return ((x % m) + m) % m; }
+      function fmt(i){ var s = String(i + 1); return s.length < 2 ? '0' + s : s; }
+      function layout(){
+        var cs = getComputedStyle(track);
+        dir = getComputedStyle(root).direction === 'ltr' ? 1 : -1;
+        W = slides[0].offsetWidth || 1;
+        var gap = parseFloat(cs.columnGap) || 0, pad = parseFloat(dir === 1 ? cs.paddingLeft : cs.paddingRight) || 0;
+        pitch = W + gap;
+        var V = view.clientWidth, minD = -(pad + W) / pitch, maxD = (V - pad) / pitch, span = maxD - minD;
+        lo = minD - (L - span) / 2;
+      }
+      function roll(from, to){
+        if (!numEl) return;
+        var nu = document.createElement('span'); nu.className = 'vare-digit'; nu.textContent = fmt(to);
+        var old = cur; cur = nu;
+        if (from < 0 || reduceMo || !nu.animate || !old) { numEl.textContent = ''; numEl.appendChild(nu); return; }
+        var up = ((to - from + n) % n) <= n / 2 ? 1 : -1, dur = Math.max(250, duration * 650), easing = 'cubic-bezier(.16,1,.3,1)';
+        numEl.appendChild(nu);
+        nu.animate([{ transform: 'translateY(' + (100 * up) + '%)' }, { transform: 'translateY(0)' }], { duration: dur, easing: easing });
+        var a = old.animate([{ transform: 'translateY(0)' }, { transform: 'translateY(' + (-100 * up) + '%)' }], { duration: dur, easing: easing, fill: 'forwards' });
+        a.onfinish = function(){ if (old.parentNode) old.parentNode.removeChild(old); };
+      }
+      function render(){
+        for (var v = 0; v < n; v++) {
+          var el = slides[v], d = wrap(v - pos - lo, L) + lo, x = dir * (d - v) * pitch;
+          el.style.transition = 'none';
+          el.style.transform = 'translate3d(' + x.toFixed(2) + 'px,0,0)';
+          el.style.opacity = (1 - (1 - dim) * Math.min(1, Math.abs(d))).toFixed(3);
+        }
+        var active = wrap(Math.round(pos), n);
+        if (active !== shown) { var f = shown; shown = active; roll(f, active); }
+      }
+      function ease(t){ return t >= 1 ? 1 : 1 - Math.pow(2, -10 * t); }
+      function stop(){ cancelAnimationFrame(raf); }
+      function animate(){
+        stop();
+        if (reduceMo) { pos = target; render(); return; }
+        var from = pos, t0 = performance.now();
+        function tick(t){ var k = Math.max(0, Math.min(1, (t - t0) / (duration * 1000))); pos = from + (target - from) * ease(k); render(); if (k < 1) raf = requestAnimationFrame(tick); }
+        raf = requestAnimationFrame(tick);
+      }
+      function go(d){ target = Math.round(target) + d; animate(); }
+      if (prev) prev.addEventListener('click', function(e){ e.preventDefault(); go(-1); });
+      if (next) next.addEventListener('click', function(e){ e.preventDefault(); go(1); });
+      root.addEventListener('keydown', function(e){ if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return; e.preventDefault(); go((e.key === 'ArrowRight' ? 1 : -1) * dir); });
+      view.addEventListener('pointerdown', function(e){ if (e.button !== 0) return; stop(); drag = { id: e.pointerId, x: e.clientX, p0: pos, lx: e.clientX, lt: e.timeStamp, v: 0, moved: false }; });
+      view.addEventListener('pointermove', function(e){
+        if (!drag || e.pointerId !== drag.id) return;
+        var dx = e.clientX - drag.x;
+        if (!drag.moved) { if (Math.abs(dx) < 5) return; drag.moved = true; root.classList.add('is-dragging'); try { view.setPointerCapture(e.pointerId); } catch (_) {} }
+        var dt = Math.max(1, e.timeStamp - drag.lt); drag.v = drag.v * 0.6 + ((e.clientX - drag.lx) / dt) * 0.4; drag.lx = e.clientX; drag.lt = e.timeStamp;
+        pos = drag.p0 - dir * dx / pitch * dragK; target = pos; render();
+      });
+      function release(e){
+        if (!drag || e.pointerId !== drag.id) return;
+        var d = drag; drag = null; root.classList.remove('is-dragging');
+        if (!d.moved) { if (Math.round(target) !== target) { target = Math.round(target); animate(); } return; }
+        var fling = Math.max(-2, Math.min(2, -dir * d.v * 160 / pitch * dragK));
+        target = Math.round(pos + fling); animate();
+        function guard(ev){ ev.preventDefault(); ev.stopPropagation(); }
+        view.addEventListener('click', guard, true);
+        setTimeout(function(){ view.removeEventListener('click', guard, true); }, 80);
+      }
+      view.addEventListener('pointerup', release);
+      view.addEventListener('pointercancel', release);
+      view.addEventListener('dragstart', function(e){ e.preventDefault(); });
+      if (window.ResizeObserver) { var ro = new ResizeObserver(function(){ layout(); render(); }); ro.observe(root); ro.observe(view); }
+      window.addEventListener('resize', function(){ layout(); render(); });
+      layout(); render();
+    })(roots[ri]);
+  }
+  function init(){ initStrip(); initSearch(); initSticky(); initRoll(); initCats(); initRecTabs(); initPcar(); initAbout(); initBudget(); initAreas(); }
   function ready(){ if (document.fonts && document.fonts.ready) { document.fonts.ready.then(init); } else { init(); } }
   if (document.readyState === 'complete') ready(); else window.addEventListener('load', ready);
 })();
