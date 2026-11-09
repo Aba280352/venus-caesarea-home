@@ -34,6 +34,8 @@ selector .rec-old{font-size:16px;font-weight:300;color:rgba(20,20,20,.5);text-de
 selector button{font-family:inherit;line-height:inherit;text-transform:none;letter-spacing:normal}
 selector .pd-buy::before,selector .pd-buy::after{display:none}
 selector :is(.pd-main,.pd-qty,.pd-perk-i,.pd-add-name,.pd-add-btn){box-sizing:content-box}
+selector .pd-buy{margin-bottom:0}
+selector .pd-panel>:last-child{margin-bottom:0}
 selector .pd-rel{margin:80px 0 0}
 @media(max-width:767px){selector .pd-rel{margin-top:56px}}
 selector .pd-panel[hidden],selector .pd-faq-a[hidden]{display:none}
