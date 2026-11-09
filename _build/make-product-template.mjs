@@ -37,7 +37,10 @@ selector :is(.pd-main,.pd-qty,.pd-perk-i,.pd-add-name,.pd-add-btn){box-sizing:co
 selector .pd-buy{margin-bottom:0}
 selector .pd-panel>:last-child{margin-bottom:0}
 selector .pd-rel{margin:80px 0 0}
-@media(max-width:767px){selector .pd-rel{margin-top:56px}}
+selector .pd-rel{position:relative}
+selector .pd-rel .vpcar-nav{position:absolute;left:0;right:0;top:calc(52.8px + 32px + clamp(240px,21vw,360px) / 2 - 24px);margin:0;padding:0 4px;width:auto;justify-content:space-between;pointer-events:none;z-index:2}
+selector .pd-rel .vpcar-nav .elementor-widget{pointer-events:auto}
+@media(max-width:767px){selector .pd-rel{margin-top:56px}selector .pd-rel .vpcar-nav{display:none}}
 selector .pd-panel[hidden],selector .pd-faq-a[hidden]{display:none}
 selector .woocommerce-notices-wrapper{margin:0}`;
 
