@@ -35,6 +35,7 @@ selector button{font-family:inherit;line-height:inherit;text-transform:none;lett
 selector .pd-buy::before,selector .pd-buy::after{display:none}
 selector :is(.pd-main,.pd-qty,.pd-perk-i,.pd-add-name,.pd-add-btn){box-sizing:content-box}
 selector .pd-buy{margin-bottom:0}
+selector .pd-cta{white-space:normal}
 selector .pd-panel>:last-child{margin-bottom:0}
 selector .pd-rel{margin:80px 0 0}
 selector .pd-rel{position:relative}
