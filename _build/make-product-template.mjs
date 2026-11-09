@@ -52,8 +52,8 @@ const box = (cls, children, extra = {}) => ({ id: id('c'), elType: 'container', 
 const sc = (code, cls) => ({ id: id('s'), elType: 'widget', widgetType: 'shortcode', isInner: false, settings: { shortcode: code, ...(cls ? { _css_classes: cls } : {}) }, elements: [] });
 const html = (h, cls) => ({ id: id('h'), elType: 'widget', widgetType: 'html', isInner: false, settings: { html: h, ...(cls ? { _css_classes: cls } : {}) }, elements: [] });
 
-const adds1 = '[vns_pd_addons ids="2150,2146,2144,2138,1523" title="תוספות שתמיד כיף לקבל" sub="כי אם כבר מפנקים – אז עד הסוף" cols="5"]';
-const adds2 = '[vns_pd_addons ids="918,923,1195" title="אגרטלים לחוויה מקסימלית" sub="הזר מגיע, והאגרטל כבר מחכה" cols="3"]';
+const adds1 = '[vns_pd_addons ids="2150,2146,2144,2138,2033" title="תוספות שתמיד כיף לקבל" sub="כי אם כבר מפנקים – אז עד הסוף" cols="5"]';
+const adds2 = '[vns_pd_addons ids="918,2379,1195" title="אגרטלים לחוויה מקסימלית" sub="הזר מגיע, והאגרטל כבר מחכה" cols="3"]';
 
 const elements = [{
   id: 'vpdroot', elType: 'container', isInner: false,
