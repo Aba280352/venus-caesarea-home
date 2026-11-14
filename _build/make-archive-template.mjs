@@ -66,6 +66,7 @@ selector .vpa-sub{margin:8px 0 0;text-align:center;font-size:18px;color:rgba(20,
 selector .vpa-revs{margin-top:96px}
 selector .vpa-ti{margin-top:28px;min-height:240px}
 selector .vpa-ti .ti-widget,selector .vpa-ti .ti-widget *{font-family:${B}!important}
+selector .vpa-ti .ti-review-item .ti-inner,selector .vpa-ti .ti-inner{background-color:#fff!important}
 
 selector .vpa-faq{max-width:860px;margin:96px auto 0}
 selector .vpa-faq-l{margin-top:28px;border-top:1px solid ${LINE}}
