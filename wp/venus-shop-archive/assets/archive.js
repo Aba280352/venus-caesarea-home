@@ -102,8 +102,10 @@
     if (seo && !seo.getAttribute('data-b')) {
       seo.setAttribute('data-b', '1');
       var inn = $('.vpa-seo-in', seo), tg = $('.vpa-seo-tg', seo);
-      if (inn && tg && inn.scrollHeight > inn.clientHeight + 40) {
-        seo.classList.add('is-clamped'); tg.hidden = false;
+      if (inn && tg) { seo.classList.add('is-clamped'); }
+      if (inn && tg && inn.scrollHeight <= inn.clientHeight + 40) { seo.classList.remove('is-clamped'); }
+      else if (inn && tg) {
+        tg.hidden = false;
         tg.addEventListener('click', function () {
           var open = seo.classList.toggle('is-open');
           tg.setAttribute('aria-expanded', open ? 'true' : 'false');

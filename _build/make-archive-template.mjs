@@ -68,7 +68,7 @@ selector .vpa-ti .ti-widget,selector .vpa-ti .ti-widget *{font-family:${B}!impor
 selector .vpa-faq{max-width:860px;margin:96px auto 0}
 selector .vpa-faq-l{margin-top:28px;border-top:1px solid ${LINE}}
 selector .vpa-faq-i{border-bottom:1px solid ${LINE}}
-selector .vpa-faq-q{box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 4px;border:0;border-radius:0;background:none;font:inherit;font-size:20px;font-weight:400;text-align:start;color:#141414;cursor:pointer}
+selector .vpa-faq-q{box-sizing:border-box;width:100%;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:20px 4px;border:0;border-radius:0;background:none;font:inherit;font-size:20px;font-weight:400;text-align:start;white-space:normal;color:#141414;cursor:pointer}
 selector .vpa-faq-q:hover,selector .vpa-faq-q:focus{background:none;color:${G}}
 selector .vpa-faq-q svg{flex:none;width:22px;height:22px;transition:transform .25s}
 selector .vpa-faq-q[aria-expanded="true"] svg{transform:rotate(180deg)}
@@ -79,7 +79,7 @@ selector .vpa-faq-a p:last-child{margin-bottom:0}
 selector .vpa-seo{max-width:860px;margin:96px auto 0;font-size:17px;line-height:1.7;color:rgba(20,20,20,.8)}
 selector .vpa-seo-in{position:relative}
 selector .vpa-seo.is-clamped .vpa-seo-in{max-height:300px;overflow:hidden}
-selector .vpa-seo.is-clamped .vpa-seo-in::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(rgba(255,251,233,0),var(--vpa-bg,#FFFBE9))}
+selector .vpa-seo.is-clamped .vpa-seo-in::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(rgba(255,255,255,0),var(--vpa-bg,#fff))}
 selector .vpa-seo.is-open .vpa-seo-in{max-height:none}
 selector .vpa-seo.is-open .vpa-seo-in::after{display:none}
 selector .vpa-seo h2{margin:0 0 16px;font-family:${H};font-weight:700;font-size:30px;line-height:1.15;color:#141414}
