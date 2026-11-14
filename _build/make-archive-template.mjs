@@ -32,6 +32,7 @@ selector .vpa-title{margin:0;font-family:${H};font-weight:700;font-size:52px;lin
 selector .vpa-intro{margin:14px 0 0;font-size:19px;line-height:1.5;color:rgba(20,20,20,.75)}
 
 selector .vpa-bar{margin-top:36px}
+@media(min-width:1025px){selector .vpa-bar{display:grid;grid-template-columns:minmax(0,max-content);justify-content:center}}
 selector .vpa-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 selector .vpa-chip{box-sizing:border-box;display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid ${LINE};border-radius:6px;background:transparent;color:#141414;font-size:17px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 selector .vpa-chip:hover,selector .vpa-chip:focus-visible{border-color:${G}}
@@ -45,7 +46,7 @@ selector .vpa-pchip.is-on,selector .vpa-pchip.is-on:hover{background:${G};border
 selector .vpa-side{display:flex;align-items:center;gap:16px;flex:none}
 selector .vpa-count{font-size:16px;color:rgba(20,20,20,.6);white-space:nowrap}
 selector .vpa-sort{margin:0}
-selector .vpa-sort select{box-sizing:border-box;height:44px;min-width:210px;padding:0 16px 0 40px;border:1px solid ${LINE};border-radius:12px;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat left 14px center/18px;color:#141414;font-family:inherit;font-size:16px;font-weight:400;line-height:1.2;cursor:pointer;-webkit-appearance:none;appearance:none}
+selector .vpa-sort select{box-sizing:border-box;height:44px;min-width:210px;padding:0 16px 0 40px;border:1px solid ${LINE};border-radius:6px;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat left 14px center/18px;color:#141414;font-family:inherit;font-size:16px;font-weight:400;line-height:1.2;cursor:pointer;-webkit-appearance:none;appearance:none}
 selector .vpa-sort select:hover,selector .vpa-sort select:focus{border-color:${G}}
 
 selector .vpa-grid{margin-top:32px}
