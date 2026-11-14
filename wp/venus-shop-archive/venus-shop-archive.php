@@ -61,6 +61,16 @@ function vpa_orders() {
 add_filter( 'loop_shop_per_page', function ( $n ) { return vpa_on() ? VPA_PER_PAGE : $n; }, 99 );
 add_action( 'woocommerce_product_query', function ( $q ) {
 	if ( ! vpa_on() ) { return; }
+	/* WC sorts price/popularity with posts_clauses filters that Elementor's loop grid (current query) does not keep,
+	   so express those sorts as plain query vars */
+	$o = vpa_cur_order();
+	if ( 'price' === $o || 'price-desc' === $o ) {
+		$q->set( 'meta_key', '_price' );
+		$q->set( 'orderby', array( 'meta_value_num' => 'price' === $o ? 'ASC' : 'DESC', 'ID' => 'ASC' ) );
+	} elseif ( 'popularity' === $o ) {
+		$q->set( 'meta_key', 'total_sales' );
+		$q->set( 'orderby', array( 'meta_value_num' => 'DESC', 'ID' => 'ASC' ) );
+	}
 	$p = vpa_cur_price();
 	if ( ! $p ) { return; }
 	$mq = (array) $q->get( 'meta_query' );
