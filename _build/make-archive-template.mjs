@@ -32,7 +32,7 @@ selector .vpa-title{margin:0;font-family:${H};font-weight:700;font-size:52px;lin
 selector .vpa-intro{margin:14px 0 0;font-size:19px;line-height:1.5;color:rgba(20,20,20,.75)}
 
 selector .vpa-bar{margin-top:36px}
-@media(min-width:1025px){selector .vpa-bar{display:grid;grid-template-columns:minmax(0,max-content);justify-content:center}selector .vpa-cats{justify-content:flex-start}}
+@media(min-width:1025px){selector .vpa-bar{display:grid;grid-template-columns:minmax(0,max-content);justify-content:center}selector .vpa-bar .vpa-cats{justify-content:flex-start}}
 selector .vpa-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
 selector .vpa-chip{box-sizing:border-box;display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid ${LINE};border-radius:6px;background:transparent;color:#141414;font-size:17px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 selector .vpa-chip:hover,selector .vpa-chip:focus-visible{border-color:${G}}
