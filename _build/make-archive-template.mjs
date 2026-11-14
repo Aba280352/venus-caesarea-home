@@ -33,15 +33,15 @@ selector .vpa-intro{margin:14px 0 0;font-size:19px;line-height:1.5;color:rgba(20
 
 selector .vpa-bar{margin-top:36px}
 selector .vpa-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
-selector .vpa-chip{box-sizing:border-box;display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid ${LINE};border-radius:12px;background:transparent;color:#141414;font-size:17px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+selector .vpa-chip{box-sizing:border-box;display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid ${LINE};border-radius:6px;background:transparent;color:#141414;font-size:17px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 selector .vpa-chip:hover,selector .vpa-chip:focus-visible{border-color:${G}}
-selector .vpa-chip.is-on{border-color:${G}}
+selector .vpa-chip.is-on,selector .vpa-chip.is-on:hover{background:${G};border-color:${G};color:#fff}
 selector .vpa-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding:0}
 selector .vpa-prices{display:flex;align-items:center;gap:8px;min-width:0}
 selector .vpa-lbl{font-size:16px;font-weight:500;margin-inline-end:4px;white-space:nowrap}
-selector .vpa-pchip{box-sizing:border-box;display:inline-flex;align-items:center;height:36px;padding:0 14px;border:1px solid ${LINE};border-radius:12px;background:transparent;color:#141414;font-size:16px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+selector .vpa-pchip{box-sizing:border-box;display:inline-flex;align-items:center;height:36px;padding:0 14px;border:1px solid ${LINE};border-radius:6px;background:transparent;color:#141414;font-size:16px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 selector .vpa-pchip:hover,selector .vpa-pchip:focus-visible{border-color:${G}}
-selector .vpa-pchip.is-on{border-color:${G}}
+selector .vpa-pchip.is-on,selector .vpa-pchip.is-on:hover{background:${G};border-color:${G};color:#fff}
 selector .vpa-side{display:flex;align-items:center;gap:16px;flex:none}
 selector .vpa-count{font-size:16px;color:rgba(20,20,20,.6);white-space:nowrap}
 selector .vpa-sort{margin:0}
