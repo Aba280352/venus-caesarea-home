@@ -16,6 +16,8 @@ selector{width:calc(100% - 8vw);max-width:1240px;margin:0 auto;padding:24px 0 96
 selector .elementor-widget{margin:0}
 selector [hidden]{display:none!important}
 selector a{text-decoration:none}
+body{background-color:#FFFBE9}
+selector :is(.vpa-chip,.vpa-pchip,.vpa-more-btn,.vpa-sort select,.vpa-faq-q,.vpa-seo-tg){-webkit-tap-highlight-color:transparent;outline:none;box-shadow:none}
 selector button{font-family:inherit;line-height:inherit;text-transform:none;letter-spacing:normal}
 selector.is-loading .vpa-grid,selector.is-loading .vpa-more{opacity:.45;pointer-events:none;transition:opacity .2s}
 
@@ -31,20 +33,20 @@ selector .vpa-intro{margin:14px 0 0;font-size:19px;line-height:1.5;color:rgba(20
 
 selector .vpa-bar{margin-top:36px}
 selector .vpa-cats{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
-selector .vpa-chip{box-sizing:border-box;display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid ${LINE};border-radius:999px;background:#fff;color:#141414;font-size:17px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
-selector .vpa-chip:hover{border-color:${G};color:${G}}
-selector .vpa-chip.is-on{background:${G};border-color:${G};color:#fff}
-selector .vpa-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding:14px 0;border-top:1px solid rgba(20,20,20,.12);border-bottom:1px solid rgba(20,20,20,.12)}
+selector .vpa-chip{box-sizing:border-box;display:inline-flex;align-items:center;height:44px;padding:0 20px;border:1px solid ${LINE};border-radius:12px;background:transparent;color:#141414;font-size:17px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+selector .vpa-chip:hover,selector .vpa-chip:focus-visible{border-color:${G}}
+selector .vpa-chip.is-on{border-color:${G}}
+selector .vpa-tools{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-top:28px;padding:0}
 selector .vpa-prices{display:flex;align-items:center;gap:8px;min-width:0}
 selector .vpa-lbl{font-size:16px;font-weight:500;margin-inline-end:4px;white-space:nowrap}
-selector .vpa-pchip{box-sizing:border-box;display:inline-flex;align-items:center;height:36px;padding:0 14px;border:1px solid transparent;border-radius:999px;color:#141414;font-size:16px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
-selector .vpa-pchip:hover{border-color:${LINE}}
-selector .vpa-pchip.is-on{background:#141414;color:#fff;border-color:#141414}
+selector .vpa-pchip{box-sizing:border-box;display:inline-flex;align-items:center;height:36px;padding:0 14px;border:1px solid ${LINE};border-radius:12px;background:transparent;color:#141414;font-size:16px;font-weight:400;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
+selector .vpa-pchip:hover,selector .vpa-pchip:focus-visible{border-color:${G}}
+selector .vpa-pchip.is-on{border-color:${G}}
 selector .vpa-side{display:flex;align-items:center;gap:16px;flex:none}
 selector .vpa-count{font-size:16px;color:rgba(20,20,20,.6);white-space:nowrap}
 selector .vpa-sort{margin:0}
-selector .vpa-sort select{box-sizing:border-box;height:44px;min-width:210px;padding:0 16px 0 40px;border:1px solid ${LINE};border-radius:12px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat left 14px center/18px;color:#141414;font-family:inherit;font-size:16px;font-weight:400;line-height:1.2;cursor:pointer;-webkit-appearance:none;appearance:none}
-selector .vpa-sort select:focus-visible{outline:2px solid ${G};outline-offset:2px}
+selector .vpa-sort select{box-sizing:border-box;height:44px;min-width:210px;padding:0 16px 0 40px;border:1px solid ${LINE};border-radius:12px;background:transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23141414' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E") no-repeat left 14px center/18px;color:#141414;font-family:inherit;font-size:16px;font-weight:400;line-height:1.2;cursor:pointer;-webkit-appearance:none;appearance:none}
+selector .vpa-sort select:hover,selector .vpa-sort select:focus{border-color:${G}}
 
 selector .vpa-grid{margin-top:32px}
 selector .vpa-grid .elementor-loop-container{display:grid!important;grid-template-columns:repeat(4,minmax(0,1fr));gap:40px 24px}
@@ -79,7 +81,7 @@ selector .vpa-faq-a p:last-child{margin-bottom:0}
 selector .vpa-seo{max-width:860px;margin:96px auto 0;font-size:17px;line-height:1.7;color:rgba(20,20,20,.8)}
 selector .vpa-seo-in{position:relative}
 selector .vpa-seo.is-clamped .vpa-seo-in{max-height:300px;overflow:hidden}
-selector .vpa-seo.is-clamped .vpa-seo-in::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(rgba(255,255,255,0),var(--vpa-bg,#fff))}
+selector .vpa-seo.is-clamped .vpa-seo-in::after{content:"";position:absolute;left:0;right:0;bottom:0;height:120px;background:linear-gradient(rgba(255,251,233,0),#FFFBE9)}
 selector .vpa-seo.is-open .vpa-seo-in{max-height:none}
 selector .vpa-seo.is-open .vpa-seo-in::after{display:none}
 selector .vpa-seo h2{margin:0 0 16px;font-family:${H};font-weight:700;font-size:30px;line-height:1.15;color:#141414}
@@ -108,7 +110,7 @@ selector .vpa-bar{margin-top:24px}
 selector .vpa-cats{flex-wrap:nowrap;justify-content:flex-start;overflow-x:auto;margin:0 -4vw;padding:0 4vw 2px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
 selector .vpa-cats::-webkit-scrollbar,selector .vpa-prices::-webkit-scrollbar{display:none}
 selector .vpa-chip{flex:none;height:40px;padding:0 16px;font-size:15px}
-selector .vpa-tools{margin-top:16px;padding:12px 0;gap:12px}
+selector .vpa-tools{margin-top:16px;padding:0;gap:12px}
 selector .vpa-prices{margin:0 -4vw;padding:0 4vw}
 selector .vpa-lbl,selector .vpa-pchip,selector .vpa-count,selector .vpa-sort select{font-size:15px}
 selector .vpa-pchip{flex:none;height:34px;padding:0 12px}

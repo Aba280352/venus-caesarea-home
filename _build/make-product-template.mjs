@@ -30,6 +30,7 @@ css = css.replace(/^\s*selector \.pd\{/m, 'selector{');
 css = 'selector .pd-top>.e-con,selector .pd-tabs-sec{gap:0;--gap:0px;--padding-top:0px;--padding-right:0px;--padding-bottom:0px;--padding-left:0px;padding:0;min-width:0}\n' + css;
 css += `
 selector .elementor-widget{margin:0}
+body{background-color:#FFFBE9}
 selector .rec-old{font-size:16px;font-weight:300;color:rgba(20,20,20,.5);text-decoration:line-through;white-space:nowrap}
 selector button{font-family:inherit;line-height:inherit;text-transform:none;letter-spacing:normal}
 selector .pd-buy::before,selector .pd-buy::after{display:none}
