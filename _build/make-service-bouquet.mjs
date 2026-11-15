@@ -61,11 +61,13 @@ selector .${P}-buy del,selector .${P}-buy del .amount{font-family:inherit;font-s
 selector .${P}-buy .add_to_cart_button{box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;height:46px;margin-inline-start:auto!important;padding:0 20px!important;border:0!important;border-radius:12px!important;background:${G}!important;color:#fff!important;font-family:inherit!important;font-size:16px!important;font-weight:500!important;line-height:1!important;transition:background .15s}
 selector .${P}-buy .add_to_cart_button:hover{background:#2C3624!important}
 selector .${P}-buy .add_to_cart_button.loading{opacity:.6}
+selector .${P}-buy .button:not(.add_to_cart_button){box-sizing:border-box;display:inline-flex!important;align-items:center;justify-content:center;height:46px;margin-inline-start:auto!important;padding:0 20px!important;border:1px solid #141414!important;border-radius:12px!important;background:transparent!important;color:#141414!important;font-family:inherit!important;font-size:16px!important;font-weight:500!important;line-height:1!important}
+selector .${P}-buy .button:not(.add_to_cart_button):hover{background:${G}!important;border-color:${G}!important;color:#fff!important}
 selector .${P}-buy .added_to_cart{flex-basis:100%;font-size:15px;font-weight:500;color:${G};text-decoration:underline;text-underline-offset:3px;text-align:left}
 selector .${P}-bq .${P}-btn{margin-top:auto;height:46px;font-size:16px}
 selector .${P}-bq .${P}-btn-line{margin-top:18px}
 @media(max-width:1024px){selector .${P}-bqs{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media(max-width:767px){selector .${P}-bul li{font-size:16px}selector .${P}-bqs{gap:10px}selector .${P}-bq-b{padding:12px}selector .${P}-bq h3{font-size:16px}selector .${P}-bq-b>p{font-size:14px}selector .${P}-lead{font-size:13px}selector .${P}-buy .amount{font-size:20px}selector .${P}-buy .add_to_cart_button,selector .${P}-bq .${P}-btn{width:100%;height:42px;margin-inline-start:0!important;padding:0 10px!important;font-size:15px!important}}`;
+@media(max-width:767px){selector .${P}-bul li{font-size:16px}selector .${P}-bqs{gap:10px}selector .${P}-bq-b{padding:12px}selector .${P}-bq h3{font-size:16px}selector .${P}-bq-b>p{font-size:14px}selector .${P}-lead{font-size:13px}selector .${P}-buy .amount{font-size:20px}selector .${P}-buy .add_to_cart_button,selector .${P}-buy .button,selector .${P}-bq .${P}-btn{width:100%;height:42px;margin-inline-start:0!important;padding:0 10px!important;font-size:15px!important}}`;
 
 const hero = `<section class="${P}-split ${P}-hero" aria-label="זרי כלה">
 <div>
@@ -75,7 +77,7 @@ const hero = `<section class="${P}-split ${P}-hero" aria-label="זרי כלה">
 <div class="${P}-btns"><a class="${P}-btn ${P}-btn-green" href="#bouquets">לבחירת זר</a><a class="${P}-btn ${P}-btn-line" href="#quote">לזר בעיצוב אישי</a></div>
 <div class="${P}-trust"><span>${icon('leaf')}פרחים טריים, שזורים ביד</span><span>${icon('truck')}איסוף מקיסריה או משלוח</span></div>
 </div>
-<div class="${P}-img">[vns_img id="1341" size="full" eager="1" sizes="(max-width:1024px) 92vw, 600px" alt="כלה וחתן עם זר כלה של ורדים לבנים ואקליפטוס – ונוס קיסריה"]</div>
+<div class="${P}-img">[vns_img id="1340" size="full" eager="1" sizes="(max-width:1024px) 92vw, 600px" alt="כלה מחזיקה זר כלה של ורדים לבנים ואקליפטוס – ונוס קיסריה"]</div>
 </section>`;
 
 const grid = `<section class="${P}-sec" id="bouquets" aria-label="זרי הכלה שלנו">
@@ -91,7 +93,7 @@ const steps = [
   ['4', 'מקבלים ביום החתונה', 'אוספים מהחנות בקיסריה או מקבלים במשלוח, בשעה שתיאמנו מראש.'],
 ];
 const custom = `<section class="${P}-split ${P}-sec" aria-label="זר בעיצוב אישי">
-<div class="${P}-img port">[vns_img id="1324" size="large" sizes="(max-width:1024px) 92vw, 600px" alt="זר כלה של חבצלות לבנות בעיצוב אישי – ונוס קיסריה"]</div>
+<div class="${P}-img port">[vns_img id="1782" size="large" sizes="(max-width:1024px) 92vw, 600px" alt="זר כלה של קאלות לבנות בעיצוב אישי – ונוס קיסריה"]</div>
 <div><h2 class="${P}-h2">זר בעיצוב אישי</h2><p class="${P}-p">לא חייבים לבחור מהקטלוג. מספרים לנו על השמלה ועל החתונה, ואנחנו שוזרים זר שמרגיש בדיוק כמו שדמיינתם.</p>
 <div class="${P}-rows">${steps.map(([n, t, p]) => `<div class="${P}-row"><em>${n}</em><div><h3>${t}</h3><p>${p}</p></div></div>`).join('')}</div></div>
 </section>`;
