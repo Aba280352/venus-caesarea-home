@@ -171,12 +171,12 @@ const events = [
   ['אירועים פרטיים', 'ימי הולדת, אירועים בבית ובגן – עיצוב בהתאמה אישית לגודל המקום ולסגנון.'],
 ];
 const types = `<section class="${P}-split ${P}-sec" aria-label="לאילו אירועים">
-<div class="${P}-img">[vns_img id="1841" size="full" sizes="(max-width:1024px) 92vw, 600px" alt="במת פרחים לאירוע של ונוס קיסריה"]</div>
+<div class="${P}-img">[vns_img id="1845" size="full" sizes="(max-width:1024px) 92vw, 600px" alt="במת פרחים לאירוע של ונוס קיסריה"]</div>
 <div><h2 class="${P}-h2">לכל סוג של אירוע</h2><p class="${P}-p">הסגנון משתנה לפי האירוע, אבל ההקפדה נשארת אותו דבר.</p>
 <div class="${P}-rows">${events.map(([t, p]) => `<div class="${P}-row"><div><h3>${t}</h3><p>${p}</p></div></div>`).join('')}</div></div>
 </section>`;
 
-const gal = [[1841, 'w2', 'במת פרסים – משחקי הגולף של המכבייה ה־22'], [1848, 'h2', ''], [1844, '', ''], [1845, '', ''], [1846, 'h2', ''], [1842, '', ''], [1843, '', ''], [1847, 'w2', 'מאחורי הקלעים – הכנת העיצוב בשטח']];
+const gal = [[1845, 'w2', ''], [1848, 'h2', ''], [1844, 'w2', ''], [1846, 'h2', ''], [1842, '', ''], [1843, '', ''], [1847, 'w2', 'מאחורי הקלעים – הכנת העיצוב בשטח']];
 const gallery = `<section class="${P}-sec" aria-label="במות שעיצבנו">
 <div class="${P}-gal-h"><div><h2 class="${P}-h2">במות שעיצבנו</h2><p class="${P}-p">כמה רגעים מאירועים אמיתיים – מהבנייה בשטח ועד הבמה המוכנה.</p></div><a class="${P}-btn ${P}-btn-line" href="#quote">רוצים כזה גם אצלכם?</a></div>
 <div class="${P}-ggrid">${gal.map(([id, cls, cap]) => `<figure${cls ? ` class="${cls}"` : ''}>[vns_img id="${id}" size="full" sizes="(max-width:767px) 46vw, 310px" alt="${cap || 'עיצוב במה בפרחים – ונוס קיסריה'}"]${cap ? `<figcaption>${cap}</figcaption>` : ''}</figure>`).join('')}</div>
