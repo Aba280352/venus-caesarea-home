@@ -15,6 +15,7 @@ const ic = (d) => `<span class="pd-perk-i"><svg viewBox="0 0 24 24" fill="none" 
 
 const gcss = `
 /* ===== gift card additions ===== */
+html,body{overflow-x:clip!important;overflow-y:visible!important}
 selector .vgc-gal{position:sticky;top:110px}
 selector .vgc-main{aspect-ratio:auto;border:0;background:none;border-radius:22px;overflow:visible}
 selector .vgc-main img{display:block;width:100%;height:auto;border-radius:22px;box-shadow:0 26px 60px -28px rgba(20,20,20,.45);transform:none!important}

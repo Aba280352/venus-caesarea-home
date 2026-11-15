@@ -14,6 +14,7 @@ const C = '#FFFBE9';
 
 const base = `/* ===== Venus blog (plugin Venus Blog) ===== */
 body{background-color:${C}}
+html,body{overflow-x:clip!important;overflow-y:visible!important}
 selector{width:calc(100% - 8vw);max-width:1240px;margin:0 auto;padding:24px 0 96px;gap:0;display:block;font-family:${B};font-size:18px;font-weight:300;line-height:1.3;color:#141414}
 selector .elementor-widget{margin:0}
 selector [hidden]{display:none!important}

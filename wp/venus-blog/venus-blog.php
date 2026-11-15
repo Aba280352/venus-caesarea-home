@@ -149,6 +149,17 @@ function vbl_body( $post ) {
 	$GLOBALS['post'] = $post;
 	setup_postdata( $post );
 	$html = apply_filters( 'the_content', $raw );
+	/* the hero already shows the featured image: drop the same image if it repeats in the body */
+	$fid = get_post_thumbnail_id( $post );
+	if ( $fid ) {
+		$base = preg_replace( array( '/\.[a-z0-9]+$/i', '/-scaled$/' ), '', wp_basename( (string) get_attached_file( $fid ) ) );
+		$re = '/<img[^>]*(?:wp-image-' . (int) $fid . '\b' . ( $base ? '|' . preg_quote( $base, '/' ) : '' ) . ')[^>]*>/i';
+		if ( preg_match( $re, $html, $m ) ) {
+			$img = preg_quote( $m[0], '/' );
+			$html = preg_replace( '/<(figure|p)\b[^>]*>\s*(?:<a\b[^>]*>)?\s*' . $img . '\s*(?:<\/a>)?\s*(?:<figcaption\b.*?<\/figcaption>)?\s*<\/\1>/is', '', $html, 1, $cnt );
+			if ( ! $cnt ) { $html = preg_replace( '/' . $img . '/', '', $html, 1 ); }
+		}
+	}
 	$toc = array();
 	$i = 0;
 	$html = preg_replace_callback( '/<h2([^>]*)>(.*?)<\/h2>/is', function ( $m ) use ( &$i, &$toc ) {
