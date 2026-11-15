@@ -90,10 +90,19 @@ add_filter( 'woocommerce_add_cart_item_data', function ( $data, $pid ) {
 add_filter( 'woocommerce_add_to_cart_quantity', function ( $q, $pid ) { return vgc_is_gc( $pid ) ? 1 : $q; }, 10, 2 );
 add_filter( 'woocommerce_cart_item_quantity', function ( $html, $key, $item ) { return isset( $item['vgc'] ) ? '1' : $html; }, 10, 3 );
 add_action( 'woocommerce_before_calculate_totals', function ( $cart ) {
-	foreach ( $cart->get_cart() as $item ) {
-		if ( isset( $item['vgc']['amount'] ) ) { $item['data']->set_price( (float) $item['vgc']['amount'] ); }
+	foreach ( $cart->get_cart() as $key => $item ) {
+		if ( ! isset( $item['vgc']['amount'] ) ) { continue; }
+		if ( (int) $item['quantity'] !== 1 ) { $cart->cart_contents[ $key ]['quantity'] = 1; } /* one code per line */
+		$item['data']->set_price( (float) $item['vgc']['amount'] );
 	}
 }, 20 );
+/* block cart / checkout: no quantity stepper on gift card lines */
+add_filter( 'woocommerce_store_api_product_quantity_editable', function ( $editable, $product, $item = null ) {
+	return ( $product && vgc_is_gc( $product->get_id() ) ) ? false : $editable;
+}, 10, 3 );
+add_filter( 'woocommerce_store_api_product_quantity_maximum', function ( $max, $product ) {
+	return ( $product && vgc_is_gc( $product->get_id() ) ) ? 1 : $max;
+}, 10, 2 );
 add_filter( 'woocommerce_cart_item_name', function ( $name, $item ) {
 	return isset( $item['vgc'] ) ? $name . ' – ' . esc_html( vgc_money( $item['vgc']['amount'] ) ) : $name;
 }, 10, 2 );
