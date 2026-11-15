@@ -69,7 +69,7 @@ selector .${p}-ggrid figure.w2{grid-column:span 2}
 selector .${p}-ggrid figure.h2{grid-row:span 2}
 selector .${p}-ggrid img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 selector .${p}-ggrid figure:hover img{transform:scale(1.04)}
-selector .${p}-ggrid figcaption{position:absolute;right:12px;bottom:12px;left:12px;padding:8px 12px;border-radius:8px;background:rgba(255,251,233,.92);font-size:14px;font-weight:500;line-height:1.35;color:#141414}
+selector .${p}-ggrid figcaption{position:absolute;right:12px;bottom:12px;left:12px;padding:8px 12px;border-radius:8px;background:rgba(255,251,233,.92);font-size:14px;font-style:normal;font-weight:500;line-height:1.35;color:#141414}
 /* quote */
 selector .${p}-quote{align-items:start;--gap:56px;gap:56px;padding:0}
 selector .${p}-quote>.e-con{--padding-top:0px;--padding-right:0px;--padding-bottom:0px;--padding-left:0px;min-width:0;width:auto}
