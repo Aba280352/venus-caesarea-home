@@ -61,7 +61,8 @@ selector .vct-form .elementor-mark-required .elementor-field-label:after{color:$
 selector .vct-form .elementor-field-textual,selector .vct-form .elementor-select-wrapper select{box-sizing:border-box;min-height:50px;padding:0 14px;border:1px solid ${LINE}!important;border-radius:6px!important;background:#fff!important;color:#141414!important;font-family:inherit!important;font-size:17px!important;font-weight:300;line-height:1.3;box-shadow:none!important}
 selector .vct-form textarea.elementor-field-textual{min-height:140px;padding:12px 14px}
 selector .vct-form .elementor-field-textual:focus,selector .vct-form select:focus{border-color:${G}!important;outline:none}
-selector .vct-form .elementor-select-wrapper:before{color:#141414;font-size:13px}
+selector .vct-form .elementor-select-wrapper:before,selector .vct-form .select-caret-down-wrapper{color:#141414!important;font-size:13px}
+selector .vct-form .select-caret-down-wrapper svg{fill:#141414!important;width:12px;height:12px}
 selector .vct-form .elementor-field-type-submit{margin-top:8px;margin-bottom:0}
 selector .vct-form .elementor-button{width:100%;min-height:54px;border-radius:12px!important;background:${G}!important;color:#fff!important;font-family:inherit!important;font-size:18px!important;font-weight:500!important;transition:background .15s}
 selector .vct-form .elementor-button:hover{background:#2C3624!important}
