@@ -18,13 +18,13 @@ const gcss = `
 selector .vgc-gal{position:sticky;top:110px}
 selector .vgc-main{aspect-ratio:auto;border:0;background:none;border-radius:22px;overflow:visible}
 selector .vgc-main img{display:block;width:100%;height:auto;border-radius:22px;box-shadow:0 26px 60px -28px rgba(20,20,20,.45);transform:none!important}
-selector .vgc-amt{position:absolute;top:7%;left:5%;z-index:2;padding:8px 18px;border-radius:12px;background:#FFFBE9;color:${G};font-family:${H};font-weight:700;font-size:30px;line-height:1.1;box-shadow:0 8px 24px -10px rgba(20,20,20,.4)}
+selector .vgc-amt{position:absolute;top:7%;left:5%;z-index:2;padding:8px 18px;border-radius:12px;background:#FFFBE9;color:${G};font-family:${B};font-weight:500;font-size:30px;line-height:1.1;box-shadow:0 8px 24px -10px rgba(20,20,20,.4)}
 selector .vgc-price{font-size:40px}
 selector .vgc-form{margin-top:28px}
 selector .vgc-amounts{margin:0;padding:0;border:0;min-width:0}
 selector .vgc-lbl{display:block;margin:0 0 12px;padding:0;font-size:18px;font-weight:500;color:#141414}
-selector .vgc-pills{display:flex;flex-wrap:wrap;gap:10px}
-selector .vgc-pill{box-sizing:border-box;height:48px;min-width:84px;padding:0 18px;border:1px solid ${LINE};border-radius:6px;background:transparent;color:#141414;font-family:inherit;font-size:18px;font-weight:400;line-height:1;cursor:pointer;transition:background .15s,color .15s,border-color .15s;-webkit-tap-highlight-color:transparent;outline:none;box-shadow:none}
+selector .vgc-pills{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+selector .vgc-pill{box-sizing:border-box;height:48px;min-width:0;padding:0 10px;border:1px solid ${LINE};border-radius:6px;background:transparent;color:#141414;font-family:inherit;font-size:18px;font-weight:400;line-height:1;cursor:pointer;transition:background .15s,color .15s,border-color .15s;-webkit-tap-highlight-color:transparent;outline:none;box-shadow:none}
 selector .vgc-pill:hover,selector .vgc-pill:focus-visible{border-color:${G};background:transparent;color:#141414}
 selector .vgc-pill.is-on,selector .vgc-pill.is-on:hover{background:${G};border-color:${G};color:#fff}
 selector .vgc-custom{display:flex;flex-wrap:wrap;align-items:center;gap:8px 12px;margin-top:16px}
