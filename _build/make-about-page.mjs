@@ -44,7 +44,7 @@ selector .vab-hero .vab-tag{margin-top:26px}
 selector .vab-title{margin:16px 0 0;font-family:${H};font-weight:700;font-size:64px;line-height:1.05;color:#141414}
 selector .vab-title b{color:${G};font-weight:inherit}
 selector .vab-intro{margin:18px 0 0;max-width:700px;font-size:20px;line-height:1.55;color:rgba(20,20,20,.75)}
-selector .vab-cover{margin:36px 0 0;border-radius:16px;overflow:hidden}
+selector figure.vab-cover{margin:36px 0 0!important;padding:0;border-radius:16px;overflow:hidden}
 selector .vab-cover img{display:block;width:100%;height:auto;aspect-ratio:16/7;object-fit:cover}
 /* story */
 selector .vab-story{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:72px;align-items:center;margin-top:110px}
@@ -75,11 +75,11 @@ selector .vab-val p{margin:10px 0 0;font-size:16px;line-height:1.6;color:rgba(20
 /* gallery */
 selector .vab-gal{margin-top:110px}
 selector .vab-gal-h{display:flex;justify-content:space-between;align-items:flex-end;gap:24px}
-selector .vab-ggrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;gap:16px;margin-top:36px}
+selector .vab-ggrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:220px;grid-auto-flow:dense;gap:16px;margin-top:36px}
 selector .vab-ggrid figure{margin:0;border-radius:12px;overflow:hidden}
 selector .vab-ggrid figure:nth-child(1){grid-row:span 2}
 selector .vab-ggrid figure:nth-child(4){grid-row:span 2}
-selector .vab-ggrid figure:nth-child(7){grid-column:span 2}
+selector .vab-ggrid figure:nth-child(7),selector .vab-ggrid figure:nth-child(8){grid-column:span 2}
 selector .vab-ggrid img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
 selector .vab-ggrid figure:hover img{transform:scale(1.04)}
 /* reviews */
@@ -98,6 +98,7 @@ selector .vab-vrow b{display:block;font-weight:500}
 selector .vab-vrow a{color:#141414}
 selector .vab-vrow a:hover{color:${G};text-decoration:underline}
 selector .vab-hours{width:100%;margin-top:6px;border-collapse:collapse;font-size:16px}
+selector .vab-hours,selector .vab-hours tr,selector .vab-hours td{border:0!important;background:transparent!important}
 selector .vab-hours td{padding:4px 0}
 selector .vab-hours td:last-child{text-align:left;direction:ltr}
 selector .vab-hours tr.is-closed td{opacity:.55}
@@ -118,14 +119,14 @@ selector .vab-nums{grid-template-columns:repeat(2,minmax(0,1fr));row-gap:32px}
 selector .vab-num:nth-child(3){border-inline-start:0}
 selector .vab-vgrid{grid-template-columns:repeat(2,minmax(0,1fr))}
 selector .vab-ggrid{grid-template-columns:repeat(3,minmax(0,1fr))}
-selector .vab-ggrid figure:nth-child(7){grid-column:auto}
+
 }
 @media(max-width:767px){
 selector{padding:16px 0 72px}
 selector .vab-crumbs{font-size:14px}
 selector .vab-title{font-size:38px}
 selector .vab-intro{font-size:17px}
-selector .vab-cover{margin-top:24px;border-radius:12px}
+selector figure.vab-cover{margin-top:24px!important;border-radius:12px}
 selector .vab-cover img{aspect-ratio:4/3}
 selector .vab-h2,selector .vpa-revs .vpa-h2{font-size:32px}
 selector .vab-sub,selector .vpa-sub{font-size:16px}
@@ -139,7 +140,7 @@ selector .vab-vgrid{grid-template-columns:minmax(0,1fr);gap:14px}
 selector .vab-val{padding:22px}
 selector .vab-gal-h{flex-direction:column;align-items:flex-start}
 selector .vab-ggrid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:160px;gap:10px}
-selector .vab-ggrid figure:nth-child(4){grid-row:auto}
+selector .vab-ggrid figure:nth-child(4),selector .vab-ggrid figure:nth-child(8){grid-row:auto;grid-column:auto}
 selector .vab-vcard{padding:26px}
 selector .vab-vbtns .vab-btn{flex:1 1 100%}
 selector .vab-map,selector .vab-map iframe{min-height:340px}
@@ -169,7 +170,7 @@ const story = `<section class="vab-story" aria-label="הסיפור שלנו">
 
 const nums = `<section class="vab-nums" aria-label="ונוס במספרים">
 <div class="vab-num"><b>5.0</b><span>דירוג בגוגל</span></div>
-<div class="vab-num"><b>~5</b><span>שעות מההזמנה<br>ועד הדלת</span></div>
+<div class="vab-num"><b>כ־5</b><span>שעות מההזמנה<br>ועד הדלת</span></div>
 <div class="vab-num"><b>17</b><span>יישובים<br>במשלוח</span></div>
 <div class="vab-num"><b>6</b><span>ימים בשבוע<br>פתוחים בשבילכם</span></div>
 </section>`;
