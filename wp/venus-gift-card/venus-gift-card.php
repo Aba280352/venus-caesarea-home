@@ -160,9 +160,9 @@ function vgc_issue( $order_id ) {
 		foreach ( $meta as $k => $v ) { update_post_meta( $cid, $k, $v ); }
 		vgc_log( $cid, 'נוצר מהזמנה #' . $order->get_order_number() . ' בסך ' . vgc_money( $d['amount'] ) );
 		$item->update_meta_data( '_vgc_coupon_id', $cid );
-		$item->update_meta_data( 'קוד גיפט קארד', $c->get_code() );
+		$item->update_meta_data( 'קוד גיפט קארד', strtoupper( $c->get_code() ) );
 		$item->save();
-		$order->add_order_note( 'גיפט קארד ' . $c->get_code() . ' (' . vgc_money( $d['amount'] ) . ') נוצר עבור ' . $d['to_email'] . ( $d['date'] && $d['date'] > vgc_today() ? ' – יישלח ב־' . $d['date'] : ' – נשלח עכשיו' ) . '.' );
+		$order->add_order_note( 'גיפט קארד ' . strtoupper( $c->get_code() ) . ' (' . vgc_money( $d['amount'] ) . ') נוצר עבור ' . $d['to_email'] . ( $d['date'] && $d['date'] > vgc_today() ? ' – יישלח ב־' . $d['date'] : ' – נשלח עכשיו' ) . '.' );
 		if ( $d['date'] && $d['date'] > vgc_today() ) {
 			$ts = ( new DateTime( $d['date'] . ' 08:00', wp_timezone() ) )->getTimestamp();
 			wp_schedule_single_event( $ts, 'vgc_send_event', array( $cid ) );
@@ -259,7 +259,7 @@ function vgc_email_html( $cid, $buyer_note = '' ) {
 <div style="font-size:15px;color:#555;">סכום הגיפט קארד</div>
 <div style="font-size:44px;font-weight:bold;color:<?php echo $g; ?>;line-height:1.2;"><?php echo esc_html( vgc_money( $m( '_vgc_initial' ) ) ); ?></div>
 <div style="margin-top:16px;font-size:15px;color:#555;">הקוד האישי שלך</div>
-<div style="display:inline-block;margin-top:6px;padding:14px 26px;border:2px dashed <?php echo $g; ?>;border-radius:12px;font-size:26px;font-weight:bold;letter-spacing:2px;direction:ltr;color:<?php echo $ink; ?>;"><?php echo esc_html( $c->get_code() ); ?></div>
+<div style="display:inline-block;margin-top:6px;padding:14px 26px;border:2px dashed <?php echo $g; ?>;border-radius:12px;font-size:26px;font-weight:bold;letter-spacing:2px;direction:ltr;color:<?php echo $ink; ?>;"><?php echo esc_html( strtoupper( $c->get_code() ) ); ?></div>
 </td></tr>
 <tr><td style="padding:28px 28px 0;font-size:16px;line-height:1.7;">
 <div style="font-size:19px;font-weight:bold;margin-bottom:6px;">איך מממשים?</div>
@@ -346,7 +346,7 @@ function vgc_admin_page() {
 		};
 		$log = '';
 		foreach ( (array) $m( '_vgc_log' ) as $l ) { if ( is_array( $l ) ) { $log .= esc_html( $l[0] . ' – ' . $l[1] ) . '<br>'; } }
-		echo '<tr><td><code style="direction:ltr">' . esc_html( get_the_title( $cid ) ) . '</code>' . ( $void ? '<br><b style="color:#b32d2e">בוטל</b>' : '' ) . '</td>'
+		echo '<tr><td><code style="direction:ltr">' . esc_html( strtoupper( get_the_title( $cid ) ) ) . '</code>' . ( $void ? '<br><b style="color:#b32d2e">בוטל</b>' : '' ) . '</td>'
 			. '<td>' . esc_html( vgc_money( $m( '_vgc_initial' ) ) ) . '</td><td><b>' . esc_html( vgc_money( vgc_balance( $cid ) ) ) . '</b></td>'
 			. '<td>' . esc_html( $m( '_vgc_to_name' ) ) . '<br><small>' . esc_html( $m( '_vgc_to_email' ) ) . '</small></td><td>' . esc_html( $m( '_vgc_from' ) ) . '</td>'
 			. '<td>' . ( $order ? '<a href="' . esc_url( admin_url( 'post.php?post=' . (int) $order . '&action=edit' ) ) . '">#' . (int) $order . '</a>' : '—' ) . '</td>'
