@@ -70,11 +70,11 @@ selector .vbl-meta i{font-style:normal;opacity:.5}
 selector .vbl-av{display:inline-flex;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;background:${G};color:${C};font-family:"Cormorant Garamond",Georgia,serif;font-size:20px;line-height:1}
 selector .vbl-read{display:inline-flex;align-items:center;gap:5px}
 selector .vbl-read svg{width:16px;height:16px}
-selector .vbl-hero{margin:36px 0 0}
+selector figure.vbl-hero{margin:22px 0 0!important;padding:0}
 selector .vbl-hero img{display:block;width:100%;height:auto;aspect-ratio:16/8;object-fit:cover;border-radius:16px}
 selector .vbl-body{display:grid;grid-template-columns:minmax(0,760px) 320px;justify-content:space-between;align-items:start;gap:64px;margin-top:48px}
 selector .vbl-body>.e-con{min-width:0;width:auto}
-selector .vbl-aside{position:sticky;top:110px;align-self:start}
+selector .vbl-aside{position:sticky;top:24px;align-self:start}
 selector .vbl-toc{margin:0 0 36px;border:1px solid ${LINE};border-radius:12px;background:#fff}
 selector .vbl-toc summary{display:flex;align-items:center;gap:10px;padding:18px 22px;cursor:pointer;list-style:none;font-size:18px;font-weight:500;-webkit-tap-highlight-color:transparent}
 selector .vbl-toc summary::-webkit-details-marker{display:none}
@@ -166,7 +166,7 @@ selector .vbl-aside{display:none}
 selector .vbl-title{font-size:32px}
 selector .vbl-intro{font-size:17px}
 selector .vbl-meta{font-size:14px}
-selector .vbl-hero{margin-top:24px}
+selector figure.vbl-hero{margin-top:22px!important}
 selector .vbl-hero img{aspect-ratio:4/3;border-radius:12px}
 selector .vbl-body{margin-top:28px}
 selector .vbl-content{font-size:17px;line-height:1.7}
