@@ -11,6 +11,7 @@ const H = '"Leon","Discovery Fs",system-ui,sans-serif';
 const B = 'var(--e-global-typography-vnsbody-font-family),"Discovery Fs",system-ui,sans-serif';
 const C = '#FFFBE9';
 const svg = (d) => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${d}</svg>`;
+const icon = (n) => fs.readFileSync(path.join(ROOT, 'assets/icons', n + '.svg'), 'utf8').replace(/ xmlns="[^"]*"/, '').replace(/ width="24" height="24"/, '').trim(); // user's Light-SVG icon library
 const WA = 'https://wa.me/972532791444?text=' + encodeURIComponent('היי ונוס, אשמח לעזרה בבחירת מתנה 🌸');
 const SHOP = '/shop/';
 const FLOWERS = '/product-category/%d7%a4%d7%a8%d7%97%d7%99%d7%9d/';
@@ -162,7 +163,7 @@ const story = `<section class="vab-story" aria-label="הסיפור שלנו">
 <p>ונוס קיסריה היא חנות פרחים ומתנות בלב המרכז המסחרי C-CENTER בקיסריה. אצלנו כל הזמנה מתחילה בכמה שאלות פשוטות: למי הזר, לאיזה רגע, ומה אתם רוצים שירגישו כשיפתחו את הדלת.</p>
 <p>אנחנו עובדים עם <strong>פרחים טריים שמגיעים אלינו מדי יום</strong>, ומעצבים כל הזמנה ביד – מזר קטן ליום רגיל ועד עיצוב פרחים מלא לחתונה. לצד הפרחים תמצאו עציצים וסחלבים, מארזי שוקולד ואלכוהול, נרות, בלונים ואגרטלים, כדי שתוכלו להרכיב מתנה שלמה במקום אחד.</p>
 <p>אפשר להזמין באתר ולקבל <strong>משלוח תוך כמה שעות</strong> לקיסריה ולכל הסביבה, או לקפוץ לחנות, להריח את הפרחים ולבחור יחד איתנו. מבטיחים שתצאו עם חיוך.</p>
-<div class="vab-story-b"><a class="vab-btn vab-btn-green" href="${SHOP}">לחנות שלנו</a><a class="vab-btn vab-btn-line" href="${WA}" target="_blank" rel="noopener">${svg('<path d="M20 12a8 8 0 0 1-11.8 7L4 20l1.1-4A8 8 0 1 1 20 12z"/><path d="M9 9.5c0 3 2.5 5.5 5.5 5.5l1-1.5-2-1-1 .8c-1-.5-1.8-1.3-2.3-2.3l.8-1-1-2z"/>')}לדבר איתנו בוואטסאפ</a></div>
+<div class="vab-story-b"><a class="vab-btn vab-btn-green" href="${SHOP}">לחנות שלנו</a><a class="vab-btn vab-btn-line" href="${WA}" target="_blank" rel="noopener">${icon('chat-dots')}לדבר איתנו בוואטסאפ</a></div>
 </div>
 <div class="vab-story-img">[vns_img id="1797" size="large" sizes="(max-width:1024px) 92vw, 520px" alt="זר פרחים בעבודת יד של ונוס קיסריה"]
 <div class="vab-badge"><b>5.0</b><span><i>★★★★★</i>דירוג הלקוחות<br>שלנו בגוגל</span></div></div>
@@ -176,15 +177,15 @@ const nums = `<section class="vab-nums" aria-label="ונוס במספרים">
 </section>`;
 
 const vals = [
-  ['<path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-4 6-7 10-9"/>', 'פרחים טריים מדי יום', 'סחורה חדשה מגיעה אלינו כל יום, ואנחנו בוחרים כל גבעול בעצמנו כדי שהזר יחזיק מעמד.'],
-  ['<path d="M12 21c-4-3-8-6.5-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 4.5-4 8-8 11z"/>', 'עיצוב אישי ביד', 'אין שני זרים זהים. כל הזמנה נשזרת ביד, לפי האירוע, הצבעים והאדם שמקבל אותה.'],
-  ['<path d="M21 12a8 8 0 0 1-11.7 7L4 20l1.1-4.2A8 8 0 1 1 21 12z"/><path d="M9 11h6M9 14h4"/>', 'שירות אישי', 'מתלבטים? כתבו לנו בוואטסאפ, ונעזור לבחור מתנה שמתאימה בדיוק לתקציב ולרגע.'],
-  ['<path d="M3 6h11v10H3zM14 9h4l3 3v4h-7"/><circle cx="7.5" cy="17.5" r="1.8"/><circle cx="17.5" cy="17.5" r="1.8"/>', 'משלוח מהיר', 'הזמנות יוצאות תוך כמה שעות לקיסריה ולכל הסביבה, ובקיסריה המשלוח חינם מ־₪200.'],
+  ['leaf', 'פרחים טריים מדי יום', 'סחורה חדשה מגיעה אלינו כל יום, ואנחנו בוחרים כל גבעול בעצמנו כדי שהזר יחזיק מעמד.'],
+  ['scissors', 'עיצוב אישי ביד', 'אין שני זרים זהים. כל הזמנה נשזרת ביד, לפי האירוע, הצבעים והאדם שמקבל אותה.'],
+  ['chat-heart', 'שירות אישי', 'מתלבטים? כתבו לנו בוואטסאפ, ונעזור לבחור מתנה שמתאימה בדיוק לתקציב ולרגע.'],
+  ['truck', 'משלוח מהיר', 'הזמנות יוצאות תוך כמה שעות לקיסריה ולכל הסביבה, ובקיסריה המשלוח חינם מ־₪200.'],
 ];
 const values = `<section class="vab-vals" aria-label="מה חשוב לנו">
 <span class="vab-tag">מה חשוב לנו</span>
 <h2 class="vab-h2" style="margin-top:18px">הדברים הקטנים שעושים את ההבדל</h2>
-<div class="vab-vgrid">${vals.map(([d, t, p]) => `<div class="vab-val"><span class="vab-val-i">${svg(d)}</span><h3>${t}</h3><p>${p}</p></div>`).join('')}</div>
+<div class="vab-vgrid">${vals.map(([d, t, p]) => `<div class="vab-val"><span class="vab-val-i">${icon(d)}</span><h3>${t}</h3><p>${p}</p></div>`).join('')}</div>
 </section>`;
 
 const galIds = [1796, 2020, 1801, 1949, 1990, 1788, 2329, 1803];
@@ -193,10 +194,10 @@ const gallery = `<section class="vab-gal" aria-label="מהעבודות שלנו"
 <div class="vab-ggrid">${galIds.map((id) => `<figure>[vns_img id="${id}" size="medium_large" sizes="(max-width:767px) 46vw, 310px" alt="זר פרחים של ונוס קיסריה"]</figure>`).join('')}</div>
 </section>`;
 
-const pin = svg('<path d="M12 21s-7-6.2-7-11.5A7 7 0 0 1 19 9.5C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/>');
-const clock = svg('<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>');
-const phone = svg('<path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/>');
-const mail = svg('<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>');
+const pin = icon('location-pin');
+const clock = icon('clock');
+const phone = icon('phone');
+const mail = icon('envelope');
 const visit = `<section class="vab-visit" aria-label="בואו לבקר">
 <div class="vab-vcard">
 <span class="vab-tag">בואו לבקר</span>
