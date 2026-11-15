@@ -57,7 +57,7 @@ selector .vpa-h2{margin:0;text-align:center;font-family:${H};font-weight:700;fon
 selector .vpa-sub{margin:8px 0 0;text-align:center;font-size:18px;color:rgba(20,20,20,.7)}
 selector .vpa-ti{margin-top:28px;min-height:240px}
 selector .vpa-ti .ti-widget,selector .vpa-ti .ti-widget *{font-family:${B}!important}
-selector .vpa-ti .ti-inner{background-color:#fff!important}
+selector .vpa-ti .ti-widget .ti-inner.ti-inner.ti-inner{background-color:#fff!important}
 @media(max-width:1024px){selector .vgc-gal{position:static}}
 @media(max-width:767px){
 selector .vgc-amt{font-size:20px;padding:6px 12px;border-radius:8px}

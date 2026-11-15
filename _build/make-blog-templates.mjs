@@ -108,7 +108,9 @@ selector .vbl-mid{margin:40px 0;padding:28px 32px;border-radius:16px;background:
 selector .vbl-mid-t{font-family:${H};font-weight:700;font-size:26px;line-height:1.2}
 selector .vbl-mid p{margin:10px 0 0;font-size:17px;line-height:1.55;color:rgba(255,251,233,.85)}
 selector .vbl-mid-b{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}
-selector .vbl-mid .vbl-btn{text-decoration:none}
+selector .vbl-content .vbl-mid a.vbl-btn{text-decoration:none}
+selector .vbl-content .vbl-mid a.vbl-btn-cream{color:${G}}
+selector .vbl-content .vbl-mid a.vbl-btn-line{color:${C}}
 selector .vbl-inprod{margin:32px 0;padding:22px;border:1px solid ${LINE};border-radius:16px;background:#fff}
 selector .vbl-inprod-h{display:flex;justify-content:space-between;align-items:baseline;gap:12px;margin-bottom:16px;font-size:18px;font-weight:500;color:#141414;line-height:1.3}
 selector .vbl-inprod-h a{font-size:15px;font-weight:400;color:${G};text-decoration:underline}
@@ -152,7 +154,7 @@ selector .vpa-revs .vpa-h2{margin:0;text-align:center;font-family:${H};font-weig
 selector .vpa-sub{margin:8px 0 0;text-align:center;font-size:18px;color:rgba(20,20,20,.7)}
 selector .vpa-ti{margin-top:28px;min-height:240px}
 selector .vpa-ti .ti-widget,selector .vpa-ti .ti-widget *{font-family:${B}!important}
-selector .vpa-ti .ti-inner{background-color:#fff!important}
+selector .vpa-ti .ti-widget .ti-inner.ti-inner.ti-inner{background-color:#fff!important}
 selector .vbl-more{margin-top:96px}
 selector .vbl-more-h{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;margin-bottom:28px}
 selector .vbl-more-h a{font-size:17px;font-weight:500;color:${G};text-decoration:underline}
