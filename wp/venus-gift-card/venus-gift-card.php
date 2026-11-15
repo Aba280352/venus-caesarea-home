@@ -152,7 +152,7 @@ function vgc_issue( $order_id ) {
 		$c->set_discount_type( 'fixed_cart' );
 		$c->set_amount( (float) $d['amount'] );
 		$c->set_individual_use( false );
-		$c->set_exclude_product_ids( array( vgc_pid() ) );
+		$c->set_excluded_product_ids( array( vgc_pid() ) );
 		$c->set_description( 'גיפט קארד – הזמנה #' . $order->get_order_number() . ' – ל' . $d['to_name'] );
 		$cid = $c->save();
 		$meta = array( '_vgc' => 1, '_vgc_initial' => (float) $d['amount'], '_vgc_order' => $order->get_id(), '_vgc_to_name' => $d['to_name'], '_vgc_to_email' => $d['to_email'],
