@@ -103,7 +103,7 @@ const LINKS = {
 for (const [city, p] of Object.entries(data.deliveryPosts)) LINKS[city] = url(p);
 // פרדס חנה וכרכור הם אותו מקום (פוסט משלוחים אחד): מוצגים כפריט אחד בתפריט, בפוטר ובאזורי המשלוח
 const SPECIAL = 'משלוחים מיוחדים';
-LINKS[SPECIAL] = 'https://wa.me/972532791444?text=%D7%94%D7%99%D7%99%20%D7%95%D7%A0%D7%95%D7%A1%20%F0%9F%8C%B8%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%9E%D7%A9%D7%9C%D7%95%D7%97%20%D7%9E%D7%99%D7%95%D7%97%D7%93.%0A%D7%9C%D7%90%D7%9F%3A%20%0A%D7%AA%D7%90%D7%A8%D7%99%D7%9A%20%D7%95%D7%A9%D7%A2%D7%94%3A%20%0A%D7%9E%D7%94%20%D7%9C%D7%A9%D7%9C%D7%95%D7%97%3A%20'; // no page - opens WhatsApp with a ready message (user decision 2026-11-16)
+LINKS[SPECIAL] = 'https://wa.me/972532791444?text=%D7%94%D7%99%D7%99%20%D7%95%D7%A0%D7%95%D7%A1%20%F0%9F%8C%B8%20%D7%90%D7%A0%D7%99%20%D7%A8%D7%95%D7%A6%D7%94%20%D7%9C%D7%AA%D7%90%D7%9D%20%D7%9E%D7%A9%D7%9C%D7%95%D7%97%20%D7%9E%D7%99%D7%95%D7%97%D7%93.%20%D7%9C%D7%90%D7%9F%3A%20%E2%80%A6%20%7C%20%D7%AA%D7%90%D7%A8%D7%99%D7%9A%20%D7%95%D7%A9%D7%A2%D7%94%3A%20%E2%80%A6%20%7C%20%D7%9E%D7%94%20%D7%9C%D7%A9%D7%9C%D7%95%D7%97%3A%20%E2%80%A6'; // no page - opens WhatsApp with a ready message (user decision 2026-11-16)
 const MERGED_CITY = 'פרדס חנה־כרכור';
 LINKS[MERGED_CITY] = LINKS['פרדס חנה'];
 const mergeCities = (names) => names.filter((n) => n !== 'כרכור').map((n) => (n === 'פרדס חנה' ? MERGED_CITY : n));
