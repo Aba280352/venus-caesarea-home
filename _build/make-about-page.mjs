@@ -205,7 +205,7 @@ const visit = `<section class="vab-visit" aria-label="בואו לבקר">
 <div class="vab-vrow">${clock}<div style="flex:1"><b>שעות פתיחה</b><table class="vab-hours"><tbody>
 <tr><td>ראשון</td><td>10:00–17:00</td></tr><tr><td>שני–חמישי</td><td>09:00–18:30</td></tr><tr><td>שישי</td><td>08:30–14:30</td></tr><tr class="is-closed"><td>שבת</td><td>סגור</td></tr>
 </tbody></table></div></div>
-<div class="vab-vrow">${phone}<div><b>טלפון ווואטסאפ</b><a href="tel:+972532791444">053-279-1444</a></div></div>
+<div class="vab-vrow">${phone}<div><b>טלפון / וואטסאפ</b><a href="tel:+972532791444">053-279-1444</a></div></div>
 <div class="vab-vrow">${mail}<div><b>מייל</b><a href="mailto:venuscaesarea@gmail.com">venuscaesarea@gmail.com</a></div></div>
 <div class="vab-vbtns"><a class="vab-btn vab-btn-green" href="https://waze.com/ul?q=${MAPQ}&navigate=yes" target="_blank" rel="noopener">ניווט בוויז</a><a class="vab-btn vab-btn-line" href="${WA}" target="_blank" rel="noopener">כתבו לנו בוואטסאפ</a></div>
 </div>
