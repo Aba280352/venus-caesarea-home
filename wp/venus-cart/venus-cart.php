@@ -164,7 +164,7 @@ add_filter( 'render_block_woocommerce/cart', function ( $html ) {
 	if ( ! vct_here() ) { return $html; }
 	$rev = shortcode_exists( 'vns_pa_reviews' ) ? do_shortcode( '[vns_pa_reviews]' ) : '';
 	return '<div class="vct-wrap">' . vct_steps() . $html
-		. '<div class="vct-park" hidden>' . vct_ship_box() . vct_trust_box() . '</div>'
+		. '<div class="vct-park" hidden>' . vct_trust_box() . '</div>' /* shipping box removed 2026-11-16 (user: confusing); vct_ship_box() kept */
 		. vct_addons() . vct_empty()
 		. ( $rev ? '<div class="vct-revs">' . $rev . '</div>' : '' )
 		. '</div>';
