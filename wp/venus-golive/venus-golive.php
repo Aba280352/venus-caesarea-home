@@ -31,6 +31,40 @@ add_filter( 'elementor/frontend/the_content', function ( $html ) {
 	return vgl_h1( $html );
 }, 99 );
 
+/* ---------------- speed: first screen of the homepage (hero slider) ----------------
+   Before: the first slide stayed blurred with hidden text until the slider script started (seconds on a slow phone),
+   its 324KB JPEG was discovered late (CSS background) and all 7 slide images loaded at once.
+   Now: fonts + first slide image are preloaded, slides use lighter WebP copies (assets/hero), the first slide is
+   sharp with visible text from the first paint, and slides 2-7 load only after the slider starts. */
+function vgl_hero_url( $i, $mobile = false ) {
+	$f = 'assets/hero/hero-' . $i . ( $mobile ? '-m' : '' ) . '.webp';
+	return plugins_url( $f, __FILE__ ) . '?v=' . @filemtime( __DIR__ . '/' . $f );
+}
+add_action( 'wp_head', function () {
+	if ( ! get_option( 'venus_header_live' ) ) { return; }
+	$fonts = content_url( 'uploads/venus-fonts/' );
+	foreach ( array( 'Leon-Bold', 'DiscoveryFs-Medium', 'DiscoveryFs-Light' ) as $f ) {
+		echo '<link rel="preload" as="font" type="font/woff2" href="' . esc_url( $fonts . $f . '.woff2' ) . '" crossorigin>' . "\n";
+	}
+	if ( ! is_front_page() || ! file_exists( __DIR__ . '/assets/hero/hero-0.webp' ) ) { return; }
+	echo '<link rel="preload" as="image" type="image/webp" href="' . esc_url( vgl_hero_url( 0 ) ) . '" media="(min-width:768px)" fetchpriority="high">' . "\n";
+	echo '<link rel="preload" as="image" type="image/webp" href="' . esc_url( vgl_hero_url( 0, true ) ) . '" media="(max-width:767px)" fetchpriority="high">' . "\n";
+	$s  = '.elementor-element-vnsslides';
+	$p  = $s . ' .swiper:not(.swiper-initialized) .swiper-slide';
+	$d  = '';
+	$m  = '';
+	for ( $i = 0; $i < 7; $i++ ) {
+		$d .= $s . ' .elementor-repeater-item-vns' . $i . 'hero .swiper-slide-bg{background-image:url(' . esc_url( vgl_hero_url( $i ) ) . ')!important}';
+		$m .= $s . ' .elementor-repeater-item-vns' . $i . 'hero .swiper-slide-bg{background-image:url(' . esc_url( vgl_hero_url( $i, true ) ) . ')!important}';
+	}
+	echo '<style id="vgl-hero">' . $d . '@media(max-width:767px){' . $m . '}'
+		. $p . ':first-child .swiper-slide-bg{filter:none!important;transition:none!important}'
+		. $p . ':first-child .swiper-slide-contents{opacity:1!important;filter:none!important;translate:0 0!important;transition:none!important}'
+		. $p . ':not(:first-child) .swiper-slide-bg{background-image:none!important}'
+		. '@media(min-width:1025px){' . $p . ':first-child .swiper-slide-bg{transform:scale(1.01)!important;background-size:120% auto!important;background-position:100% 50%!important}}'
+		. '</style>' . "\n";
+}, 1 );
+
 /* ---------------- ids ---------------- */
 const VGL_HOME = 231;          /* front page (keeps URL + Yoast) */
 const VGL_HOME_NEW = 2252;     /* new homepage built here (preview, noindex) */
