@@ -134,11 +134,12 @@ function vct_addons() {
 function vct_empty() {
 	/* Category cards: image = best seller of the category. */
 	$cats = array( 34 => 'פרחים', 35 => 'צמחים וסחלבים', 49 => 'חתונות', 38 => 'בלונים וכרטיסי ברכה', 40 => 'אלכוהול ושוקולד', 37 => 'ואזות וכלים' );
+	$pick = array( 49 => 1343 ); /* weddings: bridal bouquet, not the car (its best seller) */
 	$ch = '';
 	foreach ( $cats as $tid => $name ) {
 		$t = get_term( $tid, 'product_cat' );
 		if ( ! $t || is_wp_error( $t ) ) { continue; }
-		$top = wc_get_products( array( 'status' => 'publish', 'limit' => 1, 'stock_status' => 'instock', 'category' => array( $t->slug ), 'orderby' => 'meta_value_num', 'meta_key' => 'total_sales', 'order' => 'DESC' ) );
+		$top = isset( $pick[ $tid ] ) ? array_filter( array( wc_get_product( $pick[ $tid ] ) ) ) : wc_get_products( array( 'status' => 'publish', 'limit' => 1, 'stock_status' => 'instock', 'category' => array( $t->slug ), 'orderby' => 'meta_value_num', 'meta_key' => 'total_sales', 'order' => 'DESC' ) );
 		$img = ( $top && $top[0]->get_image_id() ) ? wp_get_attachment_image( $top[0]->get_image_id(), 'woocommerce_thumbnail', false, array( 'loading' => 'lazy', 'alt' => '' ) ) : '';
 		$ch .= '<a class="vct-cat" href="' . esc_url( get_term_link( $t ) ) . '"><span class="vct-cat-img">' . $img . '</span><span class="vct-cat-name">' . esc_html( $name ) . '</span></a>';
 	}
