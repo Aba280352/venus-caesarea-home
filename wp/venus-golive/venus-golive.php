@@ -76,7 +76,7 @@ add_action( 'wp_head', function () {
 		. $X . ' .elementor-slide-heading{font-size:40px!important;white-space:pre!important}' . $X . ' .elementor-slide-description{font-size:18px!important;white-space:pre-line!important}}'
 		. '@media(max-width:900px),(max-width:1024px) and (orientation:portrait){' . $X . '{background:transparent!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;--vtx:285px}'
 		. $X . ' .swiper-slide{background-color:transparent!important}'
-		. $X . ' .swiper-slide-bg{bottom:var(--vtx)!important;transform:none!important;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%)}'
+		. $X . ' .swiper-slide-bg{top:0!important;bottom:var(--vtx)!important;height:auto!important;transform:none!important;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%)}'
 		. $X . ' .swiper-slide-bg:after{background:none!important}'
 		. $X . ' .swiper-slide[class] .swiper-slide-bg{background-size:cover!important}'
 		. $X . ' .swiper-slide.elementor-repeater-item-vns0hero .swiper-slide-bg{background-position:20% 50%!important}'
