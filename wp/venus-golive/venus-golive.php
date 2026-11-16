@@ -15,6 +15,16 @@ add_filter( 'elementor/widget/render_content', function ( $html, $widget ) {
 function vgl_h1( $html ) {
 	return preg_replace( '~<h2 class="elementor-slide-heading">(.*?)</h2>~s', '<h1 class="elementor-slide-heading">$1</h1>', $html, 1 );
 }
+/* the hero carousel (Swiper loop) clones slides: keep one H1, clones go back to h2 */
+add_action( 'wp_footer', function () {
+	if ( ! is_front_page() ) { return; }
+	echo "<script>(function(){function f(){var h=[].slice.call(document.querySelectorAll('.elementor-element-vnsslides h1.elementor-slide-heading'));if(h.length<2)return;var keep=h.filter(function(e){return !e.closest('.swiper-slide-duplicate')})[0]||h[0];h.forEach(function(e){if(e===keep)return;var n=document.createElement('h2');n.className=e.className;n.innerHTML=e.innerHTML;e.parentNode.replaceChild(n,e);});}window.addEventListener('load',function(){f();setTimeout(f,1500);setTimeout(f,4000);});})();</script>";
+}, 99 );
+/* cart / checkout: the theme's hidden page title is a second H1 next to the new heading */
+add_filter( 'hello_elementor_page_title', function ( $show ) {
+	if ( get_option( 'venus_ct_live' ) && function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) { return false; }
+	return $show;
+} );
 /* fallback: final Elementor output of the front page */
 add_filter( 'elementor/frontend/the_content', function ( $html ) {
 	if ( ! is_front_page() || false !== strpos( $html, '<h1 class="elementor-slide-heading">' ) ) { return $html; }
