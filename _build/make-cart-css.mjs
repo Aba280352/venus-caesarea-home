@@ -99,13 +99,13 @@ body.vct .wc-block-cart-items__header{display:none!important}
 .vct-wrap .wc-block-components-sale-badge{border-radius:6px;font-size:13px}
 
 /* small layouts (block adds is-medium / is-small / is-mobile by container width) */
-.vct-wrap .wc-block-cart:not(.is-large) .wc-block-cart-items__row{display:grid!important;grid-template-columns:88px minmax(0,1fr) auto;grid-template-areas:"img prod total";gap:0 14px;padding:16px!important;border-top:1px solid ${LINE}}
-.vct-wrap .wc-block-cart:not(.is-large) tbody .wc-block-cart-items__row:first-child{border-top:0}
-.vct-wrap .wc-block-cart:not(.is-large) .wc-block-cart-items__row td{display:block;width:auto!important;padding:0!important;border:0!important}
-.vct-wrap .wc-block-cart:not(.is-large) .wc-block-cart-item__image{grid-area:img}
-.vct-wrap .wc-block-cart:not(.is-large) .wc-block-cart-item__product{grid-area:prod;min-width:0}
-.vct-wrap .wc-block-cart:not(.is-large) .wc-block-cart-item__total{grid-area:total}
-.vct-wrap .wc-block-cart:not(.is-large) .wc-block-cart__sidebar{margin-top:20px}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) .wc-block-cart-items__row{display:grid!important;grid-template-columns:88px minmax(0,1fr);grid-template-areas:"img prod";gap:0 14px;padding:16px!important;border-top:1px solid ${LINE}}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) tbody .wc-block-cart-items__row:first-child{border-top:0}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) .wc-block-cart-items__row td{display:block;width:auto!important;padding:0!important;border:0!important}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) .wc-block-cart-item__image{grid-area:img}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) .wc-block-cart-item__product{grid-area:prod;min-width:0}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) .wc-block-cart-item__total{display:none!important}
+.vct-wrap .wc-block-components-sidebar-layout:not(.is-large) .wc-block-cart__sidebar{margin-top:20px}
 
 /* delivery box (moved into main column by cart.js) */
 .vct-ship{margin-top:24px;padding:24px 26px;border:1px solid ${LINE};border-radius:16px;background:#fff}
