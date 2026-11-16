@@ -50,6 +50,7 @@ add_action( 'wp_head', function () {
 	echo '<link rel="preload" as="image" type="image/webp" href="' . esc_url( vgl_hero_url( 0 ) ) . '" media="(min-width:768px)" fetchpriority="high">' . "\n";
 	echo '<link rel="preload" as="image" type="image/webp" href="' . esc_url( vgl_hero_url( 0, true ) ) . '" media="(max-width:767px)" fetchpriority="high">' . "\n";
 	$s  = '.elementor-element-vnsslides';
+	$X  = 'body .elementor-231 .elementor-element.elementor-element-vnshero';
 	$p  = $s . ' .swiper:not(.swiper-initialized) .swiper-slide';
 	$d  = '';
 	$m  = '';
@@ -62,13 +63,29 @@ add_action( 'wp_head', function () {
 		. $p . ':first-child .swiper-slide-contents{opacity:1!important;filter:none!important;translate:0 0!important;transition:none!important}'
 		. $p . ':not(:first-child) .swiper-slide-bg{background-image:none!important}'
 		. '@media(min-width:1025px){' . $p . ':first-child .swiper-slide-bg{transform:scale(1.01)!important;background-size:120% auto!important;background-position:100% 50%!important}}'
-		/* mobile + tablet: no dark frame (the container was #141414 and showed at the edges) and the photo fades into the page
-		   at the bottom with a mask, so there is no visible bottom edge */
-		. '@media(max-width:1024px){.elementor-element-vnshero{background:transparent!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important}'
-		. '.elementor-element-vnshero .swiper-slide{background-color:transparent!important}'
-		. '@media(min-width:768px){.elementor-element-vnshero .swiper-slide-inner{padding-right:140px!important}}'
-		. '.elementor-element-vnshero .swiper-slide-bg{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 46%,rgba(0,0,0,.55) 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 46%,rgba(0,0,0,.55) 72%,transparent 100%)}'
-		. '.elementor-element-vnshero .swiper-slide-bg:after{background:linear-gradient(0deg,#FFFBE9 0%,rgba(255,251,233,.82) 30%,rgba(255,251,233,0) 62%)!important}}'
+		/* ---- hero layout per device (2026-11-16, client copy round) ----
+		   desktop: headings exactly 2 lines, description scales with the screen so it never reaches the product
+		   tablet landscape: desktop style (photo left, text right)
+		   mobile + tablet portrait: split - photo on top fades out, text sits below it on clean cream (never over a product);
+		   no dark frame (container was #141414) and no visible bottom edge */
+		. '@media(min-width:1025px){' . $X . ' .swiper-slide-contents{max-width:none!important}' . $X . ' .elementor-slide-heading{white-space:pre!important}' . $X . ' .elementor-slide-description{font-size:clamp(19px,1.67vw,24px)!important}}'
+		. '@media(min-width:901px) and (max-width:1024px) and (orientation:landscape){' . $X . '{background:transparent!important}'
+		. $X . ' .swiper-slide[class] .swiper-slide-bg{background-size:auto 100%!important;background-position:0% 50%!important}'
+		. $X . ' .swiper-slide-bg:after{background:linear-gradient(270deg,rgba(255,251,233,.92) 0%,rgba(255,251,233,.7) 36%,rgba(255,251,233,0) 58%)!important}'
+		. $X . ' .swiper-slide-inner{padding:0 140px 64px 40px!important}' . $X . ' .swiper-slide-contents{max-width:none!important}'
+		. $X . ' .elementor-slide-heading{font-size:40px!important;white-space:pre!important}' . $X . ' .elementor-slide-description{font-size:18px!important;white-space:pre-line!important}}'
+		. '@media(max-width:900px),(max-width:1024px) and (orientation:portrait){' . $X . '{background:transparent!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important;--vtx:285px}'
+		. $X . ' .swiper-slide{background-color:transparent!important}'
+		. $X . ' .swiper-slide-bg{bottom:var(--vtx)!important;-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 66%,transparent 100%)}'
+		. $X . ' .swiper-slide-bg:after{background:none!important}'
+		. $X . ' .swiper-slide[class] .swiper-slide-bg{background-size:cover!important}'
+		. $X . ' .swiper-slide.elementor-repeater-item-vns0hero .swiper-slide-bg{background-position:20% 50%!important}'
+		. $X . ' .swiper-slide.elementor-repeater-item-vns1hero .swiper-slide-bg{background-position:22% 50%!important}'
+		. $X . ' .swiper-slide.elementor-repeater-item-vns2hero .swiper-slide-bg{background-position:25% 50%!important}'
+		. $X . ' .swiper-slide.elementor-repeater-item-vns4hero .swiper-slide-bg{background-position:22% 50%!important}'
+		. $X . ' .swiper-slide.elementor-repeater-item-vns5hero .swiper-slide-bg{background-position:30% 50%!important}'
+		. $X . ' .swiper-slide.elementor-repeater-item-vns6hero .swiper-slide-bg{background-position:18% 50%!important}'
+		. '@media(min-width:768px){' . $X . '{--vtx:335px}' . $X . ' .swiper-slide-inner{padding-right:140px!important}}}'
 		. '</style>' . "\n";
 }, 1 );
 
