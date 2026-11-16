@@ -66,6 +66,7 @@ add_action( 'wp_head', function () {
 		   at the bottom with a mask, so there is no visible bottom edge */
 		. '@media(max-width:1024px){.elementor-element-vnshero{background:transparent!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important}'
 		. '.elementor-element-vnshero .swiper-slide{background-color:transparent!important}'
+		. '@media(min-width:768px){.elementor-element-vnshero .swiper-slide-inner{padding-right:140px!important}}'
 		. '.elementor-element-vnshero .swiper-slide-bg{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 46%,rgba(0,0,0,.55) 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 46%,rgba(0,0,0,.55) 72%,transparent 100%)}'
 		. '.elementor-element-vnshero .swiper-slide-bg:after{background:linear-gradient(0deg,#FFFBE9 0%,rgba(255,251,233,.82) 30%,rgba(255,251,233,0) 62%)!important}}'
 		. '</style>' . "\n";
