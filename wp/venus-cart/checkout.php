@@ -65,6 +65,8 @@ function vck_when_label( $date, $slot ) {
 add_action( 'wp', function () {
 	if ( ! vck_here() ) { return; }
 	remove_action( 'woocommerce_checkout_order_review', 'woocommerce_checkout_payment', 20 );
+	/* no 'returning customer? click to log in' notice (user 2026-11-16: not needed) */
+	remove_action( 'woocommerce_before_checkout_form', 'woocommerce_checkout_login_form', 10 );
 	add_action( 'woocommerce_checkout_after_customer_details', 'vck_payment_section', 10 );
 } );
 function vck_payment_section() {
