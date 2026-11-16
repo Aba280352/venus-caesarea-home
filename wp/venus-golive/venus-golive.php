@@ -9,9 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /* ---------------- SEO: homepage H1 = first hero slide heading (same look, h2 -> h1) ---------------- */
 add_filter( 'elementor/widget/render_content', function ( $html, $widget ) {
-	if ( 'slides' !== $widget->get_name() || 'vnsslides' !== $widget->get_id() || ! is_front_page() ) { return $html; }
-	return preg_replace( '~<h2 class="elementor-slide-heading">(.*?)</h2>~s', '<h1 class="elementor-slide-heading">$1</h1>', $html, 1 );
+	if ( 'vnsslides' !== $widget->get_id() ) { return $html; } /* id exists only on the homepage (and its noindex preview) */
+	return vgl_h1( $html );
 }, 10, 2 );
+function vgl_h1( $html ) {
+	return preg_replace( '~<h2 class="elementor-slide-heading">(.*?)</h2>~s', '<h1 class="elementor-slide-heading">$1</h1>', $html, 1 );
+}
+/* fallback: final Elementor output of the front page */
+add_filter( 'elementor/frontend/the_content', function ( $html ) {
+	if ( ! is_front_page() || false !== strpos( $html, '<h1 class="elementor-slide-heading">' ) ) { return $html; }
+	return vgl_h1( $html );
+}, 99 );
 
 /* ---------------- ids ---------------- */
 const VGL_HOME = 231;          /* front page (keeps URL + Yoast) */
