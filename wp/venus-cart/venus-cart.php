@@ -104,7 +104,7 @@ function vct_steps() {
 		. '<ol class="vct-steps" aria-label="שלבי ההזמנה"><li class="is-on"><b>1</b>עגלה</li><li><b>2</b>פרטים ותשלום</li><li><b>3</b>אישור הזמנה</li></ol></div>';
 }
 function vct_ship_box() {
-	$cities = 'אור עקיבא · אור ים · חדרה · פרדס חנה־כרכור · בנימינה · גבעת עדה · זכרון יעקב · עמיקם · בית חנניה · עין שמר';
+	$cities = 'אור עקיבא · אור ים · חדרה · פרדס חנה כרכור · בנימינה · גבעת עדה · זכרון יעקב · עמיקם · בית חנניה · עין שמר';
 	return '<section id="vct-ship" class="vct-ship" aria-label="משלוח ואיסוף">'
 		. '<h2 class="vct-h3">' . vct_icon( 'truck' ) . 'משלוח או איסוף</h2>'
 		. '<ul class="vct-ship-list">'

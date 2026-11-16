@@ -70,7 +70,7 @@ add_filter( 'woocommerce_add_to_cart_validation', function ( $ok, $pid ) {
 	if ( ! vgc_live() && ! vgc_preview() ) { wc_add_notice( 'הגיפט קארד עדיין לא זמין לרכישה.', 'error' ); return false; }
 	$d = vgc_posted();
 	$err = array();
-	if ( $d['amount'] < VGC_MIN || $d['amount'] > VGC_MAX || floor( $d['amount'] ) != $d['amount'] ) { $err[] = 'בחרו סכום בין ₪' . VGC_MIN . ' ל־₪' . number_format( VGC_MAX ) . ' (מספר שלם).'; }
+	if ( $d['amount'] < VGC_MIN || $d['amount'] > VGC_MAX || floor( $d['amount'] ) != $d['amount'] ) { $err[] = 'בחרו סכום שלם מ₪' . VGC_MIN . ' עד ₪' . number_format( VGC_MAX ) . '.'; }
 	if ( '' === $d['to_name'] ) { $err[] = 'מלאו את שם המקבל.'; }
 	if ( ! is_email( $d['to_email'] ) ) { $err[] = 'מלאו כתובת מייל תקינה של המקבל.'; }
 	if ( '' === $d['from'] ) { $err[] = 'מלאו ממי המתנה.'; }
@@ -104,7 +104,7 @@ add_filter( 'woocommerce_store_api_product_quantity_maximum', function ( $max, $
 	return ( $product && vgc_is_gc( $product->get_id() ) ) ? 1 : $max;
 }, 10, 2 );
 add_filter( 'woocommerce_cart_item_name', function ( $name, $item ) {
-	return isset( $item['vgc'] ) ? $name . ' – ' . esc_html( vgc_money( $item['vgc']['amount'] ) ) : $name;
+	return isset( $item['vgc'] ) ? $name . ', ' . esc_html( vgc_money( $item['vgc']['amount'] ) ) : $name;
 }, 10, 2 );
 function vgc_rows( $d ) {
 	$r = array(
@@ -153,7 +153,7 @@ function vgc_issue( $order_id ) {
 		$c->set_amount( (float) $d['amount'] );
 		$c->set_individual_use( false );
 		$c->set_excluded_product_ids( array( vgc_pid() ) );
-		$c->set_description( 'גיפט קארד – הזמנה #' . $order->get_order_number() . ' – ל' . $d['to_name'] );
+		$c->set_description( 'גיפט קארד, הזמנה #' . $order->get_order_number() . ', עבור ' . $d['to_name'] );
 		$cid = $c->save();
 		$meta = array( '_vgc' => 1, '_vgc_initial' => (float) $d['amount'], '_vgc_order' => $order->get_id(), '_vgc_to_name' => $d['to_name'], '_vgc_to_email' => $d['to_email'],
 			'_vgc_from' => $d['from'], '_vgc_msg' => $d['msg'], '_vgc_date' => $d['date'], '_vgc_buyer' => $order->get_billing_email(), '_vgc_sent' => '' );
@@ -162,7 +162,7 @@ function vgc_issue( $order_id ) {
 		$item->update_meta_data( '_vgc_coupon_id', $cid );
 		$item->update_meta_data( 'קוד גיפט קארד', strtoupper( $c->get_code() ) );
 		$item->save();
-		$order->add_order_note( 'גיפט קארד ' . strtoupper( $c->get_code() ) . ' (' . vgc_money( $d['amount'] ) . ') נוצר עבור ' . $d['to_email'] . ( $d['date'] && $d['date'] > vgc_today() ? ' – יישלח ב־' . $d['date'] : ' – נשלח עכשיו' ) . '.' );
+		$order->add_order_note( 'גיפט קארד ' . strtoupper( $c->get_code() ) . ' (' . vgc_money( $d['amount'] ) . ') נוצר עבור ' . $d['to_email'] . ( $d['date'] && $d['date'] > vgc_today() ? ', יישלח בתאריך ' . $d['date'] : ', נשלח עכשיו' ) . '.' );
 		if ( $d['date'] && $d['date'] > vgc_today() ) {
 			$ts = ( new DateTime( $d['date'] . ' 08:00', wp_timezone() ) )->getTimestamp();
 			wp_schedule_single_event( $ts, 'vgc_send_event', array( $cid ) );
@@ -246,7 +246,7 @@ function vgc_email_html( $cid, $buyer_note = '' ) {
 	$g = '#3A4831'; $ink = '#141414'; $cream = '#FFFBE9';
 	$font = "font-family:Arial,'Helvetica Neue',Helvetica,sans-serif;";
 	ob_start(); ?>
-<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>גיפט קארד – ונוס קיסריה</title></head>
+<!doctype html><html lang="he" dir="rtl"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>גיפט קארד | ונוס קיסריה</title></head>
 <body style="margin:0;padding:0;background:<?php echo $cream; ?>;">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:<?php echo $cream; ?>;"><tr><td align="center" style="padding:28px 12px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:#ffffff;border-radius:16px;overflow:hidden;direction:rtl;text-align:right;<?php echo $font; ?>color:<?php echo $ink; ?>;">
@@ -254,7 +254,7 @@ function vgc_email_html( $cid, $buyer_note = '' ) {
 <tr><td align="center" style="padding:28px 28px 8px;"><?php if ( $logo ) : ?><img src="<?php echo esc_url( $logo ); ?>" width="180" alt="ונוס קיסריה" style="display:block;width:180px;height:auto;border:0;"><?php endif; ?></td></tr>
 <tr><td style="padding:16px 28px 0;"><?php if ( $img ) : ?><img src="<?php echo esc_url( $img ); ?>" width="544" alt="גיפט קארד ונוס קיסריה" style="display:block;width:100%;height:auto;border:0;border-radius:14px;"><?php endif; ?></td></tr>
 <tr><td style="padding:28px 28px 0;font-size:28px;line-height:1.25;font-weight:bold;">היי <?php echo esc_html( $m( '_vgc_to_name' ) ); ?>, קיבלת גיפט קארד מ<?php echo esc_html( $m( '_vgc_from' ) ); ?> 🌸</td></tr>
-<?php if ( '' !== $m( '_vgc_msg' ) ) : ?><tr><td style="padding:18px 28px 0;"><div style="background:<?php echo $cream; ?>;border-radius:12px;padding:18px 20px;font-size:17px;line-height:1.6;white-space:pre-line;"><?php echo esc_html( $m( '_vgc_msg' ) ); ?><div style="margin-top:8px;font-size:15px;color:#555;">– <?php echo esc_html( $m( '_vgc_from' ) ); ?></div></div></td></tr><?php endif; ?>
+<?php if ( '' !== $m( '_vgc_msg' ) ) : ?><tr><td style="padding:18px 28px 0;"><div style="background:<?php echo $cream; ?>;border-radius:12px;padding:18px 20px;font-size:17px;line-height:1.6;white-space:pre-line;"><?php echo esc_html( $m( '_vgc_msg' ) ); ?><div style="margin-top:8px;font-size:15px;color:#555;">מאת <?php echo esc_html( $m( '_vgc_from' ) ); ?></div></div></td></tr><?php endif; ?>
 <tr><td align="center" style="padding:28px 28px 0;">
 <div style="font-size:15px;color:#555;">סכום הגיפט קארד</div>
 <div style="font-size:44px;font-weight:bold;color:<?php echo $g; ?>;line-height:1.2;"><?php echo esc_html( vgc_money( $m( '_vgc_initial' ) ) ); ?></div>
@@ -268,7 +268,7 @@ function vgc_email_html( $cid, $buyer_note = '' ) {
 <div style="margin-top:8px;color:#555;font-size:14px;">הגיפט קארד ללא תוקף, ואפשר לממש אותו בכמה הזמנות עד שהיתרה נגמרת. דמי משלוח, אם יש, משולמים בנפרד.</div>
 </td></tr>
 <tr><td align="center" style="padding:28px;"><a href="<?php echo esc_url( $shop ); ?>" style="display:inline-block;background:<?php echo $g; ?>;color:#ffffff;text-decoration:none;font-size:17px;font-weight:bold;padding:14px 34px;border-radius:12px;">לבחירת מתנה באתר</a></td></tr>
-<tr><td align="center" style="padding:18px 28px 26px;border-top:1px solid #eee;font-size:13px;line-height:1.6;color:#777;">ונוס קיסריה – חנות פרחים ומתנות · הרקיע 1, קיסריה · <a href="https://wa.me/972532791444" style="color:<?php echo $g; ?>;">053-279-1444</a><br><a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="color:<?php echo $g; ?>;">venus-caesarea.net</a></td></tr>
+<tr><td align="center" style="padding:18px 28px 26px;border-top:1px solid #eee;font-size:13px;line-height:1.6;color:#777;">ונוס קיסריה, חנות פרחים ומתנות · הרקיע 1, קיסריה · <a href="https://wa.me/972532791444" style="color:<?php echo $g; ?>;">053-279-1444</a><br><a href="<?php echo esc_url( home_url( '/' ) ); ?>" style="color:<?php echo $g; ?>;">venus-caesarea.net</a></td></tr>
 </table></td></tr></table></body></html>
 	<?php
 	return ob_get_clean();
@@ -282,7 +282,7 @@ function vgc_send( $cid ) {
 	if ( get_post_meta( $cid, '_vgc_void', true ) ) { return false; }
 	$to = get_post_meta( $cid, '_vgc_to_email', true );
 	$from = get_post_meta( $cid, '_vgc_from', true );
-	$ok = wp_mail( $to, 'קיבלת גיפט קארד מ' . $from . ' – ונוס קיסריה 🌸', vgc_email_html( $cid ), vgc_headers() );
+	$ok = wp_mail( $to, 'קיבלת גיפט קארד מ' . $from . ' | ונוס קיסריה', vgc_email_html( $cid ), vgc_headers() );
 	update_post_meta( $cid, '_vgc_sent', $ok ? wp_date( 'd/m/Y H:i' ) : '' );
 	vgc_log( $cid, $ok ? 'נשלח למקבל (' . $to . ')' : 'שליחה למקבל נכשלה (' . $to . ')' );
 	return $ok;
@@ -292,9 +292,9 @@ function vgc_send_buyer_copy( $cid ) {
 	if ( ! is_email( $buyer ) ) { return; }
 	$d = get_post_meta( $cid, '_vgc_date', true );
 	$to = get_post_meta( $cid, '_vgc_to_email', true );
-	$when = ( $d && $d > vgc_today() ) ? 'יישלח אל ' . $to . ' ב־' . wp_date( 'd/m/Y', strtotime( $d . ' 12:00' ) ) . ' בבוקר.' : 'נשלח עכשיו אל ' . $to . '.';
+	$when = ( $d && $d > vgc_today() ) ? 'יישלח אל ' . $to . ' בתאריך ' . wp_date( 'd/m/Y', strtotime( $d . ' 12:00' ) ) . ' בבוקר.' : 'נשלח עכשיו אל ' . $to . '.';
 	$note = 'עותק בשבילך: הגיפט קארד ' . $when . ' שמרו את המייל הזה למקרה הצורך.';
-	$ok = wp_mail( $buyer, 'עותק: הגיפט קארד ל' . get_post_meta( $cid, '_vgc_to_name', true ) . ' – ונוס קיסריה', vgc_email_html( $cid, $note ), vgc_headers() );
+	$ok = wp_mail( $buyer, 'עותק: הגיפט קארד ל' . get_post_meta( $cid, '_vgc_to_name', true ) . ' | ונוס קיסריה', vgc_email_html( $cid, $note ), vgc_headers() );
 	vgc_log( $cid, $ok ? 'עותק נשלח לקונה (' . $buyer . ')' : 'עותק לקונה נכשל (' . $buyer . ')' );
 }
 
@@ -338,14 +338,14 @@ function vgc_admin_page() {
 	foreach ( $q->posts as $p ) {
 		$cid = $p->ID; $m = function ( $k ) use ( $cid ) { return get_post_meta( $cid, $k, true ); };
 		$void = $m( '_vgc_void' );
-		$sent = $m( '_vgc_sent' ) ? esc_html( $m( '_vgc_sent' ) ) : ( $m( '_vgc_date' ) ? 'מתוזמן ל־' . esc_html( $m( '_vgc_date' ) ) : '—' );
+		$sent = $m( '_vgc_sent' ) ? esc_html( $m( '_vgc_sent' ) ) : ( $m( '_vgc_date' ) ? 'מתוזמן לתאריך ' . esc_html( $m( '_vgc_date' ) ) : '—' );
 		$order = $m( '_vgc_order' );
 		$form = function ( $do, $inner ) use ( $cid, $s ) {
 			return '<form method="post" action="' . esc_url( admin_url( 'admin-post.php' ) ) . '" style="display:inline-flex;gap:4px;align-items:center">' . wp_nonce_field( 'vgc_action', '_wpnonce', true, false )
 				. '<input type="hidden" name="action" value="vgc_action"><input type="hidden" name="cid" value="' . $cid . '"><input type="hidden" name="do" value="' . $do . '"><input type="hidden" name="s" value="' . esc_attr( $s ) . '">' . $inner . '</form>';
 		};
 		$log = '';
-		foreach ( (array) $m( '_vgc_log' ) as $l ) { if ( is_array( $l ) ) { $log .= esc_html( $l[0] . ' – ' . $l[1] ) . '<br>'; } }
+		foreach ( (array) $m( '_vgc_log' ) as $l ) { if ( is_array( $l ) ) { $log .= esc_html( $l[0] . ': ' . $l[1] ) . '<br>'; } }
 		echo '<tr><td><code style="direction:ltr">' . esc_html( strtoupper( get_the_title( $cid ) ) ) . '</code>' . ( $void ? '<br><b style="color:#b32d2e">בוטל</b>' : '' ) . '</td>'
 			. '<td>' . esc_html( vgc_money( $m( '_vgc_initial' ) ) ) . '</td><td><b>' . esc_html( vgc_money( vgc_balance( $cid ) ) ) . '</b></td>'
 			. '<td>' . esc_html( $m( '_vgc_to_name' ) ) . '<br><small>' . esc_html( $m( '_vgc_to_email' ) ) . '</small></td><td>' . esc_html( $m( '_vgc_from' ) ) . '</td>'
@@ -379,7 +379,7 @@ add_shortcode( 'vns_gc_head', function () {
 	if ( ! $p ) { return ''; }
 	return '<h1 class="pd-title">' . esc_html( $p->get_name() ) . '</h1>'
 		. ( $p->get_short_description() ? '<p class="pd-short">' . esc_html( wp_strip_all_tags( $p->get_short_description() ) ) . '</p>' : '' )
-		. '<div class="pd-price-row"><span class="pd-price vgc-price">' . esc_html( vgc_money( VGC_MIN ) . '–' . vgc_money( 500 ) ) . '</span></div>'
+		. '<div class="pd-price-row"><span class="pd-price vgc-price">' . esc_html( vgc_money( VGC_MIN ) . ' עד ' . vgc_money( 500 ) ) . '</span></div>'
 		. '<p class="pd-note">* ללא תוקף · אפשר לממש בכמה הזמנות עד שהיתרה נגמרת · באתר ובחנות</p>';
 } );
 add_shortcode( 'vns_gc_form', function () {
@@ -396,14 +396,14 @@ add_shortcode( 'vns_gc_form', function () {
 	$max = wp_date( 'Y-m-d', time() + YEAR_IN_SECONDS );
 	return '<form class="vgc-form cart" method="post" action="' . esc_url( add_query_arg( vgc_preview() ? array( 'vns_gc' => '1' ) : array(), get_permalink( $pid ) ) ) . '" novalidate>'
 		. '<fieldset class="vgc-amounts"><legend class="vgc-lbl">בחרו סכום</legend><div class="vgc-pills">' . $pills . '</div>'
-		. '<div class="vgc-custom"><label for="vgc-custom">או הזינו סכום אחר</label><div class="vgc-cwrap"><span aria-hidden="true">₪</span><input type="number" id="vgc-custom" name="vgc_custom" min="' . VGC_MIN . '" max="' . VGC_MAX . '" step="1" inputmode="numeric" placeholder="' . VGC_MIN . '–' . number_format( VGC_MAX ) . '" value="' . $v( 'vgc_custom' ) . '"></div>'
-		. '<span class="vgc-err" data-err="amt" hidden>סכום בין ₪' . VGC_MIN . ' ל־₪' . number_format( VGC_MAX ) . '</span></div>'
+		. '<div class="vgc-custom"><label for="vgc-custom">או הזינו סכום אחר</label><div class="vgc-cwrap"><span aria-hidden="true">₪</span><input type="number" id="vgc-custom" name="vgc_custom" min="' . VGC_MIN . '" max="' . VGC_MAX . '" step="1" inputmode="numeric" placeholder="' . VGC_MIN . ' עד ' . number_format( VGC_MAX ) . '" value="' . $v( 'vgc_custom' ) . '"></div>'
+		. '<span class="vgc-err" data-err="amt" hidden>סכום מ₪' . VGC_MIN . ' עד ₪' . number_format( VGC_MAX ) . '</span></div>'
 		. '<input type="hidden" name="vgc_amount" value="' . esc_attr( $cur ) . '"></fieldset>'
 		. '<div class="vgc-fields">'
 		. '<div class="vgc-f"><label for="vgc-to-name">שם המקבל <i>*</i></label><input type="text" id="vgc-to-name" name="vgc_to_name" required autocomplete="off" value="' . $v( 'vgc_to_name' ) . '"></div>'
 		. '<div class="vgc-f"><label for="vgc-to-email">המייל של המקבל <i>*</i></label><input type="email" id="vgc-to-email" name="vgc_to_email" required dir="ltr" autocomplete="off" value="' . $v( 'vgc_to_email' ) . '"></div>'
 		. '<div class="vgc-f"><label for="vgc-from">ממי המתנה <i>*</i></label><input type="text" id="vgc-from" name="vgc_from" required value="' . $v( 'vgc_from' ) . '"></div>'
-		. '<div class="vgc-f"><label for="vgc-date">תאריך שליחה</label><input type="date" id="vgc-date" name="vgc_date" min="' . $today . '" max="' . $max . '" value="' . $v( 'vgc_date' ) . '"><span class="vgc-hint">ריק = נשלח מיד אחרי התשלום. בתאריך עתידי – בבוקר של אותו יום.</span></div>'
+		. '<div class="vgc-f"><label for="vgc-date">תאריך שליחה</label><input type="date" id="vgc-date" name="vgc_date" min="' . $today . '" max="' . $max . '" value="' . $v( 'vgc_date' ) . '"><span class="vgc-hint">ריק = נשלח מיד אחרי התשלום. בתאריך עתידי: בבוקר של אותו יום.</span></div>'
 		. '<div class="vgc-f vgc-full"><label for="vgc-msg">ברכה אישית</label><textarea id="vgc-msg" name="vgc_msg" rows="4" maxlength="300" placeholder="מזל טוב! שתבחרי משהו שעושה לך שמח 🌷">' . ( isset( $_POST['vgc_msg'] ) ? esc_textarea( wp_unslash( $_POST['vgc_msg'] ) ) : '' ) . '</textarea><span class="vgc-count"><b data-gc-count>0</b>/300</span></div>'
 		. '</div>'
 		. '<input type="hidden" name="quantity" value="1">' . ( vgc_preview() ? '<input type="hidden" name="vns_gc" value="1">' : '' )

@@ -17,7 +17,7 @@
     var paint = function () {
       var v = value();
       var ok = v >= MIN && v <= MAX && Math.floor(v) === v;
-      totals.forEach(function (t) { t.textContent = ok ? fmt(v) : '₪—'; });
+      totals.forEach(function (t) { t.textContent = ok ? fmt(v) : '₪0'; });
       return ok;
     };
     pills.forEach(function (p) {

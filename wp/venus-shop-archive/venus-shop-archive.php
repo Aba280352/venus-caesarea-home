@@ -41,7 +41,7 @@ add_filter( 'wp_robots', function ( $r ) {
 function vpa_price_ranges() {
 	return array(
 		'u150'   => array( 'label' => 'עד ₪150', 'meta' => array( array( 'key' => '_price', 'value' => 150, 'compare' => '<=', 'type' => 'DECIMAL(10,2)' ) ) ),
-		'150-300' => array( 'label' => '₪150–₪300', 'meta' => array( 'relation' => 'AND',
+		'150-300' => array( 'label' => '₪150 עד ₪300', 'meta' => array( 'relation' => 'AND',
 			array( 'key' => '_price', 'value' => 150, 'compare' => '>', 'type' => 'DECIMAL(10,2)' ),
 			array( 'key' => '_price', 'value' => 300, 'compare' => '<=', 'type' => 'DECIMAL(10,2)' ) ) ),
 		'300p'   => array( 'label' => 'מעל ₪300', 'meta' => array( array( 'key' => '_price', 'value' => 300, 'compare' => '>', 'type' => 'DECIMAL(10,2)' ) ) ),
@@ -187,7 +187,7 @@ add_shortcode( 'vns_pa_head', function () {
 		list( $intro ) = vpa_desc_parts( $t );
 	} else {
 		$title = 'כל המוצרים';
-		$intro = 'זרי פרחים, צמחים, מארזים, בלונים ומתנות – הכול במקום אחד, עם משלוחים מהירים לקיסריה והסביבה.';
+		$intro = 'זרי פרחים, צמחים, מארזים, בלונים ומתנות. הכול במקום אחד, עם משלוחים מהירים לקיסריה והסביבה.';
 	}
 	return '<header class="vpa-head"><h1 class="vpa-title">' . esc_html( $title ) . '</h1>' . ( $intro ? '<p class="vpa-intro">' . esc_html( $intro ) . '</p>' : '' ) . '</header>';
 } );

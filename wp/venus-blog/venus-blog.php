@@ -327,7 +327,7 @@ add_shortcode( 'vns_bl_arch_head', function () {
 	$t = vbl_term();
 	$sep = '<i aria-hidden="true">›</i>';
 	$crumbs = '<nav class="vbl-crumbs" aria-label="פירורי לחם"><a href="' . esc_url( home_url( '/' ) ) . '">דף הבית</a>' . $sep . ( $t ? '<a href="' . esc_url( vbl_mag_url() ) . '">מגזין</a>' . $sep . '<span>' . esc_html( $t->name ) . '</span>' : '<span>מגזין</span>' ) . '</nav>';
-	$intro = $t && trim( $t->description ) ? wp_trim_words( wp_strip_all_tags( $t->description ), 40 ) : 'טיפים, רעיונות למתנות ומדריכים מעולם הפרחים – מצוות ונוס קיסריה.';
+	$intro = $t && trim( $t->description ) ? wp_trim_words( wp_strip_all_tags( $t->description ), 40 ) : 'טיפים, רעיונות למתנות ומדריכים מעולם הפרחים, מצוות ונוס קיסריה.';
 	$chips = '<a class="vbl-chip' . ( $t ? '' : ' is-on' ) . '" href="' . esc_url( vbl_mag_url() ) . '">הכל</a>';
 	foreach ( vbl_cats() as $c ) {
 		$on = $t && (int) $t->term_id === (int) $c->term_id;

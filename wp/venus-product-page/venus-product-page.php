@@ -162,7 +162,7 @@ add_shortcode( 'vns_pd_buy', function () {
 add_shortcode( 'vns_pd_share', function () {
 	$p = vpp_product();
 	if ( ! $p ) { return ''; }
-	$url = 'https://api.whatsapp.com/send?text=' . rawurlencode( $p->get_name() . " – ונוס קיסריה\n" . $p->get_permalink() );
+	$url = 'https://api.whatsapp.com/send?text=' . rawurlencode( $p->get_name() . " | ונוס קיסריה\n" . $p->get_permalink() );
 	return '<a class="pd-share" href="' . esc_url( $url ) . '" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.8 14.2c-.2.7-1.4 1.3-2 1.4-.5.1-1.2.1-3.7-.9-3.1-1.3-5-4.4-5.2-4.6-.1-.2-1.2-1.6-1.2-3s.7-2.1 1-2.4c.2-.3.5-.3.7-.3h.5c.2 0 .4 0 .6.5l.9 2.2c.1.2.1.4 0 .5l-.4.6c-.2.2-.3.3-.1.6.2.3.8 1.3 1.8 2.1 1.2 1.1 2.3 1.4 2.6 1.6.3.1.5.1.7-.1l.9-1c.2-.3.4-.2.7-.1l2 1c.3.1.5.2.5.3.1.2.1.8-.1 1.5z"/></svg><span>שיתוף בוואטסאפ</span></a>';
 } );
 

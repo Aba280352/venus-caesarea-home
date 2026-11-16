@@ -20,8 +20,8 @@ function vck_here() {
 /* ---------- delivery calendar ---------- */
 function vck_slots( $dow ) {
 	if ( 6 === $dow ) { return array(); }
-	if ( 5 === $dow ) { return array( '09-12' => '09:00–12:00', '12-14' => '12:00–14:00' ); }
-	return array( '09-12' => '09:00–12:00', '12-16' => '12:00–16:00', '16-20' => '16:00–20:00' );
+	if ( 5 === $dow ) { return array( '09-12' => '09:00 עד 12:00', '12-14' => '12:00 עד 14:00' ); }
+	return array( '09-12' => '09:00 עד 12:00', '12-16' => '12:00 עד 16:00', '16-20' => '16:00 עד 20:00' );
 }
 /* Made-to-order items (lead time from each product page). Override per product with meta _vns_lead_days. */
 function vck_lead_map() {
@@ -115,7 +115,7 @@ add_action( 'woocommerce_before_order_notes', function () {
 	foreach ( vck_slots( 0 ) as $k => $l ) {
 		$slots .= '<button type="button" class="vck-slot" role="radio" aria-checked="false" data-s="' . esc_attr( $k ) . '" data-fri="' . ( isset( vck_slots( 5 )[ $k ] ) ? 1 : 0 ) . '">' . esc_html( $l ) . '</button>';
 	}
-	$slots .= '<button type="button" class="vck-slot is-fri" role="radio" aria-checked="false" data-s="12-14" data-fri="1" hidden>12:00–14:00</button>';
+	$slots .= '<button type="button" class="vck-slot is-fri" role="radio" aria-checked="false" data-s="12-14" data-fri="1" hidden>12:00 עד 14:00</button>';
 	echo '<section class="vck-sec vck-when" id="vck-when" aria-label="מועד">'
 		. '<h3 class="vck-h"><b>2</b>מתי זה מגיע?</h3>'
 		. '<div class="vck-lbl">משלוח או איסוף</div>'
