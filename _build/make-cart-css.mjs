@@ -172,6 +172,9 @@ body.vct .wc-block-cart-items__header{display:none!important}
 .vct-add{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 14px;border:1px solid #141414;border-radius:12px;background:transparent;color:#141414;font-family:${B};font-size:15px;font-weight:500;line-height:1;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s,border-color .15s}
 .vct-add svg{width:16px;height:16px}
 .vct-add:hover,.vct-add.is-done{background:${G};border-color:${G};color:#fff}
+/* Hello theme paints button:focus pink - keep ours */
+body.vct .vct-add:focus:not(:hover):not(.is-done){background:transparent;color:#141414;border-color:#141414}
+body.vct .vct-add.is-in:focus:not(:hover):not(.is-done){border-color:${G};color:${G}}
 .vct-add.is-busy{opacity:.6;cursor:progress}
 .vct-add.is-in:not(.is-done):not(.is-busy){border-color:${G};color:${G}}
 .vct-add:focus-visible{outline:2px solid ${G};outline-offset:2px}

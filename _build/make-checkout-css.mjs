@@ -54,7 +54,7 @@ ${W} form.checkout_coupon .form-row{flex:1;margin:0;padding:0;width:auto;float:n
 ${W} form.checkout_coupon .form-row-last{flex:none}
 ${W} form.checkout_coupon .clear{display:none}
 ${W} form.checkout_coupon .button,${W} form.woocommerce-form-login .button{height:50px;padding:0 22px;border:0;border-radius:12px;background:#141414;color:#fff;font-family:${B};font-size:16px;font-weight:500;cursor:pointer}
-${W} form.checkout_coupon .button:hover,${W} form.woocommerce-form-login .button:hover{background:${G}}
+${W} form.checkout_coupon .button:hover,${W} form.woocommerce-form-login .button:hover,${W} form.checkout_coupon .button:focus,${W} form.woocommerce-form-login .button:focus{background:${G};color:#fff}
 ${W} form.woocommerce-form-login .form-row{margin:0 0 12px!important}
 
 /* notices */
@@ -123,7 +123,11 @@ ${W} .venus-same-row label{font-weight:500!important}
 .vck-opt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 16px;text-align:right}
 .vck-opt b{font-size:16px;font-weight:500}
 .vck-opt span{font-size:14px;color:rgba(20,20,20,.65)}
-.vck-opt:hover,.vck-day:hover,.vck-slot:hover{border-color:${G}}
+/* Hello theme paints every button:hover/:focus pink (#c36) - override */
+body.vck .vck-opt:hover,body.vck .vck-day:hover,body.vck .vck-slot:hover,body.vck .vck-opt:focus,body.vck .vck-day:focus,body.vck .vck-slot:focus{background:#fff;color:#141414;border-color:${G};text-decoration:none}
+body.vck .vck-opt:hover span,body.vck .vck-opt:focus span{color:rgba(20,20,20,.65)}
+body.vck .vck-opt.is-on,body.vck .vck-day.is-on,body.vck .vck-slot.is-on,body.vck .vck-opt.is-on:hover,body.vck .vck-day.is-on:hover,body.vck .vck-slot.is-on:hover,body.vck .vck-opt.is-on:focus,body.vck .vck-day.is-on:focus,body.vck .vck-slot.is-on:focus{background:${G};color:#fff;border-color:${G}}
+body.vck .vck-opt.is-on:hover span,body.vck .vck-opt.is-on:focus span{color:rgba(255,255,255,.8)}
 .vck-opt.is-on,.vck-day.is-on,.vck-slot.is-on{border-color:${G};background:${G};color:#fff}
 .vck-opt.is-on span{color:rgba(255,255,255,.8)}
 .vck-opt:focus-visible,.vck-day:focus-visible,.vck-slot:focus-visible{outline:2px solid ${G};outline-offset:2px}

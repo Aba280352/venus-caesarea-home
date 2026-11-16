@@ -39,7 +39,7 @@ body.vck .page-content>.woocommerce form.checkout_coupon .form-row{flex:1;margin
 body.vck .page-content>.woocommerce form.checkout_coupon .form-row-last{flex:none}
 body.vck .page-content>.woocommerce form.checkout_coupon .clear{display:none}
 body.vck .page-content>.woocommerce form.checkout_coupon .button,body.vck .page-content>.woocommerce form.woocommerce-form-login .button{height:50px;padding:0 22px;border:0;border-radius:12px;background:#141414;color:#fff;font-family:var(--e-global-typography-vnsbody-font-family),"Discovery Fs",system-ui,sans-serif;font-size:16px;font-weight:500;cursor:pointer}
-body.vck .page-content>.woocommerce form.checkout_coupon .button:hover,body.vck .page-content>.woocommerce form.woocommerce-form-login .button:hover{background:var(--e-global-color-vnsgreen,#3A4831)}
+body.vck .page-content>.woocommerce form.checkout_coupon .button:hover,body.vck .page-content>.woocommerce form.woocommerce-form-login .button:hover,body.vck .page-content>.woocommerce form.checkout_coupon .button:focus,body.vck .page-content>.woocommerce form.woocommerce-form-login .button:focus{background:var(--e-global-color-vnsgreen,#3A4831);color:#fff}
 body.vck .page-content>.woocommerce form.woocommerce-form-login .form-row{margin:0 0 12px!important}
 
 /* notices */
@@ -108,7 +108,11 @@ body.vck .page-content>.woocommerce .venus-same-row label{font-weight:500!import
 .vck-opt{display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 16px;text-align:right}
 .vck-opt b{font-size:16px;font-weight:500}
 .vck-opt span{font-size:14px;color:rgba(20,20,20,.65)}
-.vck-opt:hover,.vck-day:hover,.vck-slot:hover{border-color:var(--e-global-color-vnsgreen,#3A4831)}
+/* Hello theme paints every button:hover/:focus pink (#c36) - override */
+body.vck .vck-opt:hover,body.vck .vck-day:hover,body.vck .vck-slot:hover,body.vck .vck-opt:focus,body.vck .vck-day:focus,body.vck .vck-slot:focus{background:#fff;color:#141414;border-color:var(--e-global-color-vnsgreen,#3A4831);text-decoration:none}
+body.vck .vck-opt:hover span,body.vck .vck-opt:focus span{color:rgba(20,20,20,.65)}
+body.vck .vck-opt.is-on,body.vck .vck-day.is-on,body.vck .vck-slot.is-on,body.vck .vck-opt.is-on:hover,body.vck .vck-day.is-on:hover,body.vck .vck-slot.is-on:hover,body.vck .vck-opt.is-on:focus,body.vck .vck-day.is-on:focus,body.vck .vck-slot.is-on:focus{background:var(--e-global-color-vnsgreen,#3A4831);color:#fff;border-color:var(--e-global-color-vnsgreen,#3A4831)}
+body.vck .vck-opt.is-on:hover span,body.vck .vck-opt.is-on:focus span{color:rgba(255,255,255,.8)}
 .vck-opt.is-on,.vck-day.is-on,.vck-slot.is-on{border-color:var(--e-global-color-vnsgreen,#3A4831);background:var(--e-global-color-vnsgreen,#3A4831);color:#fff}
 .vck-opt.is-on span{color:rgba(255,255,255,.8)}
 .vck-opt:focus-visible,.vck-day:focus-visible,.vck-slot:focus-visible{outline:2px solid var(--e-global-color-vnsgreen,#3A4831);outline-offset:2px}
