@@ -67,11 +67,12 @@ $shop = wc_get_page_permalink( 'shop' );
 
 		<table class="vty-totals">
 			<?php foreach ( $order->get_order_item_totals() as $key => $total ) :
-				if ( 'payment_method' === $key ) { continue; } ?>
+				if ( 'payment_method' === $key ) { continue; }
+				if ( 'shipping' === $key ) { $total['value'] = $pickup ? 'איסוף עצמי · חינם' : wc_price( $order->get_shipping_total(), array( 'currency' => $order->get_currency() ) ) . ' · משלוח עד הדלת'; } ?>
 				<tr class="<?php echo esc_attr( $key ); ?>"><th><?php echo esc_html( rtrim( wp_strip_all_tags( $total['label'] ), ':' ) ); ?></th><td><?php echo wp_kses_post( $total['value'] ); ?></td></tr>
 			<?php endforeach; ?>
 		</table>
-		<p class="vty-paid"><?php echo vct_icon( 'shield-check' ); ?>שולם ב<?php echo esc_html( $order->get_payment_method_title() ?: 'כרטיס אשראי' ); ?></p>
+		<p class="vty-paid"><?php echo vct_icon( 'shield-check' ); ?>התשלום התקבל · <?php echo esc_html( $order->get_payment_method_title() ?: 'כרטיס אשראי' ); ?></p>
 	</section>
 
 	<div class="vty-btns">
