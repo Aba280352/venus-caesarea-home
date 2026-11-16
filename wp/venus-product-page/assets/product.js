@@ -30,13 +30,12 @@
       });
     }
 
-    /* quantity + running total */
+    /* quantity + running total (main product only - add-ons go to the cart on tap) */
     var priceEl = $('.pd-price', pd), base = Number(priceEl && priceEl.getAttribute('data-base')) || 0;
     var qtyIn = $('.pd-q-in', pd), totals = $$('[data-total]', pd);
     var qty = function () { return Math.min(20, Math.max(1, parseInt(qtyIn && qtyIn.value, 10) || 1)); };
     var update = function () {
-      var adds = $$('.pd-add-in:checked', pd).reduce(function (s, i) { return s + (Number(i.getAttribute('data-price')) || 0); }, 0);
-      totals.forEach(function (t) { t.textContent = fmt(base * qty() + adds); });
+      totals.forEach(function (t) { t.textContent = fmt(base * qty()); });
     };
     var step = function (d) { if (qtyIn) { qtyIn.value = Math.min(20, Math.max(1, qty() + d)); update(); } };
     var qm = $('.pd-q-m', pd), qp = $('.pd-q-p', pd);
@@ -46,10 +45,84 @@
       qtyIn.addEventListener('input', update);
       qtyIn.addEventListener('blur', function () { qtyIn.value = qty(); update(); });
     }
-    $$('.pd-add-in', pd).forEach(function (i) { i.addEventListener('change', update); });
     update();
 
-    /* add to cart: product + checked add-ons via WooCommerce AJAX, fallback = normal form post */
+    /* header cart badge + mini cart: refresh from WooCommerce fragments */
+    var syncHeader = function () {
+      if (window.jQuery) { window.jQuery(document.body).trigger('wc_fragment_refresh'); }
+    };
+    /* small confirmation toast (aria-live) */
+    var toastEl = null, toastT = 0;
+    var toast = function (txt, bad) {
+      if (!toastEl) {
+        var st = document.createElement('style');
+        st.textContent = '.vpp-toast{position:fixed;left:50%;bottom:96px;z-index:99999;transform:translate(-50%,12px);max-width:calc(100% - 32px);padding:12px 20px;border-radius:12px;background:#3A4831;color:#fff;font:500 16px/1.35 inherit;font-family:inherit;box-shadow:0 8px 24px rgba(20,20,20,.18);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;text-align:center}.vpp-toast.is-on{opacity:1;transform:translate(-50%,0)}.vpp-toast.is-bad{background:#8A2B1D}@media(min-width:1025px){.vpp-toast{bottom:32px}}.vpd .pd-add.is-busy{opacity:.6;pointer-events:none}.vpd a.added_to_cart{display:none!important}';
+        document.head.appendChild(st);
+        toastEl = document.createElement('div');
+        toastEl.className = 'vpp-toast';
+        toastEl.setAttribute('role', 'status');
+        toastEl.setAttribute('aria-live', 'polite');
+        document.body.appendChild(toastEl);
+      }
+      toastEl.textContent = txt;
+      toastEl.classList.toggle('is-bad', !!bad);
+      toastEl.classList.add('is-on');
+      clearTimeout(toastT);
+      toastT = setTimeout(function () { toastEl.classList.remove('is-on'); }, 2200);
+    };
+
+    /* add-ons: tap = add to cart now, tap again = remove (WooCommerce Store API) */
+    var STORE = '/wp-json/wc/store/v1/cart';
+    var nonce = '';
+    var store = function (path, method, body) {
+      var h = { 'Content-Type': 'application/json' };
+      if (nonce) { h.Nonce = nonce; }
+      return fetch(STORE + path, { method: method || 'GET', credentials: 'same-origin', headers: h, body: body ? JSON.stringify(body) : undefined })
+        .then(function (r) {
+          var n = r.headers.get('Nonce');
+          if (n) { nonce = n; }
+          return r.json().then(function (j) { if (!r.ok) { throw j; } return j; });
+        });
+    };
+    var cardOf = function (inp) { return inp.closest('.pd-add') || inp.closest('label') || inp.parentElement; };
+    var nameOf = function (inp) { var n = cardOf(inp).querySelector('.pd-add-name,.pd-add-t,b,h3'); return n ? n.textContent.trim() : ''; };
+    var inCart = {}; /* product id -> cart item {key, quantity} */
+    var readCart = function (cart) {
+      inCart = {};
+      (cart.items || []).forEach(function (it) { inCart[String(it.id)] = { key: it.key, quantity: it.quantity }; });
+      $$('.pd-add-in', pd).forEach(function (i) { i.checked = !!inCart[i.getAttribute('data-id')]; });
+    };
+    var addIns = $$('.pd-add-in', pd);
+    if (addIns.length && window.fetch) {
+      store('').then(readCart).catch(function () {});
+      addIns.forEach(function (inp) {
+        inp.addEventListener('change', function () {
+          var id = inp.getAttribute('data-id'), card = cardOf(inp), want = inp.checked;
+          card.classList.add('is-busy');
+          var p;
+          if (want) {
+            p = store('/add-item', 'POST', { id: Number(id), quantity: 1 });
+          } else {
+            var it = inCart[id];
+            if (!it) { card.classList.remove('is-busy'); return; }
+            p = it.quantity > 1
+              ? store('/update-item', 'POST', { key: it.key, quantity: it.quantity - 1 })
+              : store('/remove-item', 'POST', { key: it.key });
+          }
+          p.then(function (cart) {
+            readCart(cart);
+            if (!want && inCart[id]) { inp.checked = false; }
+            syncHeader();
+            toast(want ? 'נוסף לעגלה: ' + nameOf(inp) : 'הוסר מהעגלה: ' + nameOf(inp));
+          }).catch(function (err) {
+            inp.checked = !want;
+            toast((err && err.message) ? String(err.message).replace(/<[^>]+>/g, '') : 'לא הצלחנו לעדכן את העגלה. נסו שוב.', true);
+          }).then(function () { card.classList.remove('is-busy'); });
+        });
+      });
+    }
+
+    /* add to cart: main product via WooCommerce AJAX, fallback = normal form post */
     var form = $('#pd-form', pd);
     var ctas = $$('.pd-cta', pd);
     var flash = function (txt) {
@@ -75,25 +148,18 @@
         if (form.getAttribute('data-busy')) { return; }
         form.setAttribute('data-busy', '1');
         var mainId = $('.single_add_to_cart_button', form).value;
-        var adds = $$('.pd-add-in:checked', pd);
-        var last = null, failed = false;
+        ctas.forEach(function (b) { b.classList.add('is-busy'); });
         post(mainId, qty()).then(function (r) {
           if (!r || r.error) { throw new Error('main'); }
-          last = r;
-          return adds.reduce(function (p, i) {
-            return p.then(function () {
-              return post(i.getAttribute('data-id'), 1).then(function (rr) { if (rr && !rr.error) { last = rr; } else { failed = true; } });
-            });
-          }, Promise.resolve());
-        }).then(function () {
           form.removeAttribute('data-busy');
-          adds.forEach(function (i) { i.checked = false; });
-          update();
-          if (window.jQuery && last) {
-            window.jQuery(document.body).trigger('added_to_cart', [last.fragments, last.cart_hash, window.jQuery(ctas[0])]);
-            window.jQuery(document.body).trigger('wc_fragment_refresh');
+          ctas.forEach(function (b) { b.classList.remove('is-busy'); });
+          if (window.jQuery) {
+            /* no button passed: WooCommerce would add its own pink "view cart" link next to ours */
+            window.jQuery(document.body).trigger('added_to_cart', [r.fragments, r.cart_hash]);
           }
-          flash(failed ? 'חלק מהפריטים לא נוספו' : 'נוסף לעגלה ✓');
+          syncHeader();
+          flash('נוסף לעגלה ✓');
+          toast('נוסף לעגלה ✓');
         }).catch(function () {
           form.removeAttribute('data-busy');
           HTMLFormElement.prototype.submit.call(form);

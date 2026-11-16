@@ -78,7 +78,8 @@
         label.textContent = 'נוסף לעגלה ✓';
         btn.classList.add('is-added');
         if (window.jQuery) {
-          window.jQuery(document.body).trigger('added_to_cart', [r.fragments, r.cart_hash, window.jQuery(btn)]);
+          /* no button passed: WooCommerce would add its own pink "view cart" link inside the card */
+          window.jQuery(document.body).trigger('added_to_cart', [r.fragments, r.cart_hash]);
           window.jQuery(document.body).trigger('wc_fragment_refresh');
         }
         setTimeout(function () { label.textContent = old; btn.classList.remove('is-added'); btn.removeAttribute('data-busy'); }, 1800);
