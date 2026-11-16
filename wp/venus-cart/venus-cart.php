@@ -204,3 +204,4 @@ add_action( 'wp_enqueue_scripts', function () {
 }, 20 );
 
 require_once VCT_DIR . 'checkout.php';
+require_once VCT_DIR . 'thankyou.php';
