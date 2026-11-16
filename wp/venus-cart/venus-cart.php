@@ -39,13 +39,19 @@ add_filter( 'wp_robots', function ( $r ) {
 	return $r;
 }, 99 );
 
-/* New header / footer on the cart while the new design is on (until the new header goes live site-wide). */
+/* New header / footer on the cart while the new design is on (until the new header goes live site-wide).
+   The new templates are drafts, which Elementor drops from conditions, so the live ones are switched off
+   and the drafts are queued into the locations by hand (queued documents are printed regardless of status). */
 add_filter( 'elementor/theme/get_location_templates/template_id', function ( $id, $location = '' ) {
-	if ( ! vct_here() ) { return $id; }
-	if ( 'header' === $location ) { return 2186; }
-	if ( 'footer' === $location ) { return 2360; }
+	if ( ( 'header' === $location || 'footer' === $location ) && vct_here() && ! get_option( 'venus_header_live' ) ) { return 0; }
 	return $id;
 }, 10, 2 );
+add_action( 'wp', function () {
+	if ( ! vct_here() || get_option( 'venus_header_live' ) || ! class_exists( '\ElementorPro\Modules\ThemeBuilder\Module' ) ) { return; }
+	$lm = \ElementorPro\Modules\ThemeBuilder\Module::instance()->get_locations_manager();
+	$lm->add_doc_to_location( 'header', 2186 );
+	$lm->add_doc_to_location( 'footer', 2360 );
+} );
 
 add_filter( 'body_class', function ( $c ) {
 	if ( ! vct_here() ) { return $c; }

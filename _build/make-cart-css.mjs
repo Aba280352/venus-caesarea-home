@@ -55,26 +55,28 @@ body.vct .elementor-238 .elementor-widget-text-editor{width:100%;color:inherit;f
 .vct-wrap .wc-block-components-sidebar-layout{gap:0;align-items:flex-start}
 .vct-wrap .wc-block-cart .wc-block-cart__main{padding:0!important}
 .vct-wrap .wc-block-cart.is-large .wc-block-cart__main{width:calc(100% - 420px);padding-left:40px!important}
-.vct-wrap .wc-block-cart.is-large .wc-block-cart__sidebar{width:420px;padding:0!important;position:sticky;top:110px}
+.vct-wrap .wc-block-cart.is-large .wc-block-cart__sidebar{width:420px;position:sticky;top:110px}
+.vct-wrap .wc-block-cart .wc-block-cart__sidebar{padding:28px 26px 24px!important;border:1px solid ${LINE};border-radius:16px;background:#fff}
 
 /* line items */
 .vct-wrap table.wc-block-cart-items{margin:0;border:1px solid ${LINE};border-radius:16px;background:#fff;border-collapse:separate;border-spacing:0;overflow:hidden;width:100%}
+body.vct .wc-block-cart-items__header{display:none!important}
 .vct-wrap .wc-block-cart-items__header{font-size:14px;font-weight:500;color:rgba(20,20,20,.55);text-transform:none;letter-spacing:0}
 .vct-wrap .wc-block-cart-items__header th{padding:16px 22px!important;border-bottom:1px solid ${LINE}}
 .vct-wrap .wc-block-cart-items__header .wc-block-cart-items__header-total{text-align:left}
 .vct-wrap .wc-block-cart-items__row td{padding:22px!important;border-top:1px solid ${LINE}!important;vertical-align:top;background:transparent}
-.vct-wrap .wc-block-cart-items__row:first-child td{border-top:0!important}
+.vct-wrap .wc-block-cart-items__row:first-child td,.vct-wrap .wc-block-cart-items__header+.wc-block-cart-items__row td,.vct-wrap tbody .wc-block-cart-items__row:first-child td{border-top:0!important}
 .vct-wrap .wc-block-cart-item__image{width:132px;padding-left:0!important}
 .vct-wrap .wc-block-cart-item__image a{display:block;aspect-ratio:1/1;border-radius:12px;overflow:hidden;border:1px solid ${LINE};background:${C}}
 .vct-wrap .wc-block-cart-item__image img{width:100%!important;height:100%!important;object-fit:cover;display:block;border-radius:0}
 .vct-wrap .wc-block-cart-item__wrap{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
-.vct-wrap .wc-block-components-product-name{font-family:${B};font-size:20px;font-weight:500;line-height:1.25;color:#141414!important;text-decoration:none!important;max-width:none}
+.vct-wrap .wc-block-components-product-name{font-family:${B}!important;font-size:20px!important;font-weight:500!important;line-height:1.25;color:#141414!important;text-decoration:none!important;max-width:none}
 .vct-wrap .wc-block-components-product-name:hover{color:${G}!important}
-.vct-wrap .wc-block-cart-item__prices{font-size:16px;color:rgba(20,20,20,.65)}
+.vct-wrap .wc-block-cart-item__prices{font-size:16px!important;color:rgba(20,20,20,.65)}
 .vct-wrap .wc-block-components-product-metadata{font-size:15px;color:rgba(20,20,20,.65);margin:0}
-.vct-wrap .wc-block-components-product-metadata__description p{margin:0}
+.vct-wrap .wc-block-components-product-metadata__description{display:none}
 .vct-wrap .wc-block-components-product-badge{border-radius:6px;font-size:13px;padding:2px 8px}
-.vct-wrap .wc-block-cart-item__quantity{display:flex;align-items:center;gap:14px;margin-top:10px}
+.vct-wrap .wc-block-cart-item__quantity{display:flex!important;flex-direction:row!important;align-items:center;gap:12px;margin-top:12px!important}
 /* quantity */
 .vct-wrap .wc-block-components-quantity-selector{display:flex;align-items:center;width:auto;min-width:0;height:44px;margin:0!important;border:1px solid ${LINE}!important;border-radius:12px!important;background:#fff;overflow:hidden}
 .vct-wrap .wc-block-components-quantity-selector:after{display:none!important}
@@ -92,7 +94,7 @@ body.vct .elementor-238 .elementor-widget-text-editor{width:100%;color:inherit;f
 .vct-wrap button.wc-block-cart-item__remove-link:hover{color:#B3261E!important;border-color:#B3261E!important;background:#fff!important}
 .vct-wrap button.wc-block-cart-item__remove-link:focus-visible{outline:2px solid ${G};outline-offset:2px}
 .vct-wrap .wc-block-cart-item__total{width:130px;text-align:left!important}
-.vct-wrap .wc-block-cart-item__total .wc-block-components-product-price,.vct-wrap .wc-block-cart-item__total-price-and-sale-badge-wrapper{font-family:${B};font-size:20px;font-weight:500;color:#141414;align-items:flex-end}
+.vct-wrap .wc-block-cart-item__total .wc-block-components-product-price,.vct-wrap .wc-block-cart-item__total-price-and-sale-badge-wrapper{font-family:${B}!important;font-size:20px!important;font-weight:500;color:#141414;align-items:flex-end}
 .vct-wrap .wc-block-components-sale-badge{border-radius:6px;font-size:13px}
 
 /* delivery box (moved into main column by cart.js) */
@@ -105,7 +107,6 @@ body.vct .elementor-238 .elementor-widget-text-editor{width:100%;color:inherit;f
 .vct-ship-note a{color:${G};font-weight:500;text-decoration:underline}
 
 /* ---- summary sidebar ---- */
-.vct-wrap .wp-block-woocommerce-cart-totals-block{padding:28px 26px 24px;border:1px solid ${LINE};border-radius:16px;background:#fff}
 .vct-wrap .wc-block-cart__totals-title{display:block!important;margin:0 0 6px!important;padding:0!important;font-family:${H}!important;font-size:28px!important;font-weight:700!important;line-height:1.1;color:#141414!important;text-transform:none!important;text-align:right!important}
 .vct-wrap .wc-block-components-totals-wrapper{padding:16px 0!important;border-top:1px solid ${LINE}!important}
 .vct-wrap .wc-block-components-totals-wrapper:empty{display:none}
@@ -134,7 +135,7 @@ body.vct .elementor-238 .elementor-widget-text-editor{width:100%;color:inherit;f
 .vct-wrap .wc-block-components-express-payment-continue-rule{font-size:14px;color:rgba(20,20,20,.55)}
 .vct-wrap .wp-block-woocommerce-cart-accepted-payment-methods-block{margin-top:12px;text-align:center}
 /* trust box (moved into sidebar by cart.js) */
-.vct-trust{margin-top:16px;padding:20px 22px;border-radius:16px;background:rgba(58,72,49,.07)}
+.vct-trust{margin-top:20px;padding:20px 20px;border-radius:12px;background:${C}}
 .vct-trust ul{display:flex;flex-direction:column;gap:14px;margin:0;padding:0;list-style:none}
 .vct-trust li{display:flex;align-items:flex-start;gap:12px;margin:0;font-size:15px;line-height:1.4;color:rgba(20,20,20,.7)}
 .vct-trust li svg{width:24px;height:24px;color:${G};margin-top:1px}
