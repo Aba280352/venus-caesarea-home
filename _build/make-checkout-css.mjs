@@ -221,6 +221,8 @@ ${W} .woocommerce-shipping-fields__field-wrapper,${W} .woocommerce-billing-field
 .vck-slot{flex:1 1 auto;padding:0 12px;font-size:15px}
 ${W} .woocommerce-form-login-toggle,${W} .woocommerce-form-coupon-toggle{display:block;margin:0 0 6px}
 ${W} form.checkout_coupon{flex-direction:column;align-items:stretch}
+${W} #payment ul.payment_methods li label{flex-wrap:wrap;row-gap:8px}
+${W} #payment ul.payment_methods li label img{order:2}
 }
 `;
 const out = path.join(ROOT, 'wp/venus-cart/assets/checkout.css');
