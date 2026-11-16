@@ -65,6 +65,43 @@ add_action( 'wp_head', function () {
 		. '</style>' . "\n";
 }, 1 );
 
+/* ---------------- store QA: product-card buttons everywhere ----------------
+   Cards (loop item #2265) carry a "הוספה לעגלה" button. In the shop/category grid venus-shop-archive handles it; elsewhere
+   (homepage carousels, blog, cart empty state) it only opened the product. Now: real AJAX add + header badge sync, and
+   out-of-stock cards say "אזל במלאי" and open the product page. */
+add_action( 'wp_footer', function () {
+	if ( ! get_option( 'venus_header_live' ) || is_admin() ) { return; }
+	?>
+<style id="vgl-cards">.e-loop-item .vrc-btn.is-oos .elementor-heading-title{background:#ECE8DA!important;color:#55544e!important}.e-loop-item .vrc-btn.is-added .elementor-heading-title{background:var(--e-global-color-vnsgreen,#3A4831)!important;color:#fff!important}.e-loop-item .vrc-btn.is-busy{opacity:.7}a.added_to_cart.wc-forward{color:var(--e-global-color-vnsgreen,#3A4831)!important}</style>
+<script id="vgl-cards-js">(function(){
+var AJAX='/?wc-ajax=add_to_cart';
+function setLabel(b,t){var rt=b.querySelectorAll('.vns-rt > span');if(rt.length){[].forEach.call(rt,function(s){s.textContent=t;});return;}var h=b.querySelector('.elementor-heading-title');if(h){h.textContent=t;}}
+function getLabel(b){var s=b.querySelector('.vns-rt > span')||b.querySelector('.elementor-heading-title');return s?s.textContent:'';}
+function mark(root){[].forEach.call((root||document).querySelectorAll('.e-loop-item.outofstock .vrc-btn:not(.is-oos)'),function(b){b.classList.add('is-oos');setLabel(b,'אזל במלאי');});}
+function pid(b){var it=b.closest('.e-loop-item');var m=it&&it.className.match(/(?:^|\s)post-(\d+)(?:\s|$)/);return m?m[1]:0;}
+document.addEventListener('click',function(e){
+  var b=e.target.closest&&e.target.closest('.e-loop-item .vrc-btn');
+  if(!b||b.closest('.vpa')||b.classList.contains('is-oos')){return;} /* shop grid: venus-shop-archive; sold out: open product */
+  var id=pid(b);if(!id||!window.fetch){return;}
+  e.preventDefault();e.stopPropagation();
+  if(b.classList.contains('is-busy')){return;}
+  var it=b.closest('.e-loop-item'),link=(it.querySelector('a[href]')||it.closest('a[href]')),old=getLabel(b);
+  b.classList.add('is-busy');
+  var fd=new FormData();fd.append('product_id',id);fd.append('quantity',1);
+  fetch(AJAX,{method:'POST',body:fd,credentials:'same-origin'}).then(function(r){return r.json();}).then(function(r){
+    b.classList.remove('is-busy');
+    if(!r||r.error){if(r&&r.product_url){location.href=r.product_url;return;}throw 0;}
+    b.classList.add('is-added');setLabel(b,'נוסף לעגלה ✓');
+    if(window.jQuery){window.jQuery(document.body).trigger('added_to_cart',[r.fragments,r.cart_hash]);window.jQuery(document.body).trigger('wc_fragment_refresh');}
+    setTimeout(function(){b.classList.remove('is-added');setLabel(b,old);},1800);
+  }).catch(function(){b.classList.remove('is-busy');if(link){location.href=link.href;}});
+},true);
+mark();
+var q=0;if('MutationObserver' in window){new MutationObserver(function(){if(q){return;}q=1;setTimeout(function(){q=0;mark();},300);}).observe(document.body,{childList:true,subtree:true});}
+})();</script>
+	<?php
+}, 99 );
+
 /* ---------------- ids ---------------- */
 const VGL_HOME = 231;          /* front page (keeps URL + Yoast) */
 const VGL_HOME_NEW = 2252;     /* new homepage built here (preview, noindex) */

@@ -63,18 +63,24 @@ add_action( 'woocommerce_product_query', function ( $q ) {
 	if ( ! vpa_on() ) { return; }
 	/* WC sorts price/popularity with posts_clauses filters that Elementor's loop grid (current query) does not keep,
 	   so express those sorts as plain query vars */
-	$o = vpa_cur_order();
-	if ( 'price' === $o || 'price-desc' === $o ) {
-		$q->set( 'meta_key', '_price' );
-		$q->set( 'orderby', array( 'meta_value_num' => 'price' === $o ? 'ASC' : 'DESC', 'ID' => 'ASC' ) );
-	} elseif ( 'popularity' === $o ) {
-		$q->set( 'meta_key', 'total_sales' );
-		$q->set( 'orderby', array( 'meta_value_num' => 'DESC', 'ID' => 'ASC' ) );
-	}
-	$p = vpa_cur_price();
-	if ( ! $p ) { return; }
+	/* every sort keeps in-stock products first and out-of-stock ones at the end (named meta clauses = plain query vars) */
+	$o  = vpa_cur_order();
 	$mq = (array) $q->get( 'meta_query' );
-	$mq[] = vpa_price_ranges()[ $p ]['meta'];
+	$mq['vpa_stock'] = array( 'key' => '_stock_status', 'compare' => 'EXISTS' ); /* instock < onbackorder < outofstock */
+	if ( 'price' === $o || 'price-desc' === $o ) {
+		$mq['vpa_sort'] = array( 'key' => '_price', 'compare' => 'EXISTS', 'type' => 'DECIMAL(10,2)' );
+		$q->set( 'orderby', array( 'vpa_stock' => 'ASC', 'vpa_sort' => 'price' === $o ? 'ASC' : 'DESC', 'ID' => 'ASC' ) );
+	} elseif ( 'popularity' === $o ) {
+		$mq['vpa_sort'] = array( 'key' => 'total_sales', 'compare' => 'EXISTS', 'type' => 'NUMERIC' );
+		$q->set( 'orderby', array( 'vpa_stock' => 'ASC', 'vpa_sort' => 'DESC', 'ID' => 'ASC' ) );
+	} elseif ( 'date' === $o ) {
+		$q->set( 'orderby', array( 'vpa_stock' => 'ASC', 'date' => 'DESC', 'ID' => 'DESC' ) );
+	} else {
+		$q->set( 'orderby', array( 'vpa_stock' => 'ASC', 'menu_order' => 'ASC', 'title' => 'ASC' ) );
+	}
+	$q->set( 'meta_key', '' );
+	$p = vpa_cur_price();
+	if ( $p ) { $mq[] = vpa_price_ranges()[ $p ]['meta']; }
 	$q->set( 'meta_query', $mq );
 } );
 
