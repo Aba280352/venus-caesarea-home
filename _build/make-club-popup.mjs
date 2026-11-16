@@ -17,10 +17,11 @@ selector{--padding-top:0px;--padding-right:0px;--padding-bottom:0px;--padding-le
 selector *{box-sizing:border-box}
 selector .vcl-form{--padding-top:44px;--padding-right:44px;--padding-bottom:36px;--padding-left:44px;--gap:0px;gap:0;justify-content:center;width:54%;flex:none}
 selector .vcl-img{width:46%;flex:none;min-height:100%;background-size:cover!important;background-position:50% 35%!important}
-selector .vcl-h .elementor-heading-title{margin:0;font-family:${H}!important;font-weight:700;font-size:34px;line-height:1.12;color:#141414}
+selector .vcl-h .elementor-heading-title{margin:0;font-family:${H}!important;font-weight:700;font-size:40px;line-height:1.1;color:#141414}
 selector .vcl-h .elementor-heading-title b{font-weight:inherit;color:${G}}
-selector .vcl-sub .elementor-heading-title{margin:10px 0 22px;font-family:${B}!important;font-weight:300;font-size:18px;line-height:1.5;color:#3d3d3a}
+selector .vcl-sub .elementor-heading-title{margin:14px 0 0;font-family:${B}!important;font-weight:300;font-size:18px;line-height:1.5;color:#3d3d3a}
 selector .elementor-widget{margin:0}
+selector .vcl-lead .elementor-heading-title{margin:22px 0 14px;font-family:${B}!important;font-weight:500;font-size:17px;line-height:1.4;color:#141414}
 selector .elementor-form .elementor-field-group{margin-bottom:14px}
 selector .elementor-form .elementor-field-label{display:block;margin:0 0 6px;padding:0;font-family:${B}!important;font-size:15px!important;font-weight:500!important;line-height:1.3;color:#141414!important}
 selector .elementor-form .elementor-mark-required .elementor-field-label:after{color:#8A2B1D}
@@ -40,25 +41,22 @@ selector .vcl-note a{color:${G};text-decoration:underline;text-underline-offset:
 @media(max-width:1024px){
 selector .vcl-form{--padding-top:36px;--padding-right:32px;--padding-bottom:30px;--padding-left:32px;width:60%}
 selector .vcl-img{width:40%}
-selector .vcl-h .elementor-heading-title{font-size:30px}
+selector .vcl-h .elementor-heading-title{font-size:34px}
 }
 @media(max-width:767px){
 selector .vcl-form{--padding-top:44px;--padding-right:20px;--padding-bottom:24px;--padding-left:20px;width:100%}
 selector .vcl-img{display:none}
-selector .vcl-h .elementor-heading-title{font-size:28px}
-selector .vcl-sub .elementor-heading-title{font-size:17px;margin-bottom:18px}
+selector .vcl-h .elementor-heading-title{font-size:30px}
+selector .vcl-sub .elementor-heading-title{font-size:17px}
 }
 `;
 
 const pad0 = { unit: 'px', top: '0', right: '0', bottom: '0', left: '0', isLinked: true };
 const fields = [
-  // same _id / custom_id as #192 so saved submissions keep their columns
-  { _id: 'c265197', custom_id: 'name', field_type: 'text', field_label: 'שם מלא', placeholder: 'איך קוראים לך?', required: 'true', width: '50', width_mobile: '100' },
-  { _id: 'd74e772', custom_id: 'email', field_type: 'email', field_label: 'מייל', placeholder: 'name@example.com', required: 'true', width: '50', width_mobile: '100' },
-  { _id: '397e585', custom_id: 'message', field_type: 'tel', field_label: 'טלפון (לא חובה)', placeholder: '050-0000000', width: '50', width_mobile: '100' },
-  { _id: '15b071f', custom_id: 'field_15b071f', field_type: 'date', field_label: 'יום הולדת', placeholder: 'יום הולדת', required: 'true', width: '50', width_mobile: '50' },
-  { _id: 'f57e17b', custom_id: 'field_f57e17b', field_type: 'date', field_label: 'יום נישואים (לא חובה)', placeholder: 'יום נישואים', width: '50', width_mobile: '50' },
-  { _id: '5f756b5', custom_id: 'field_5f756b5', field_type: 'text', field_label: 'רגישות לפרחים?', placeholder: 'אם אין, כתבו "אין"', required: 'true', width: '50', width_mobile: '100' },
+  // same _id / custom_id as #192 so saved submissions keep their columns; labels hidden (screen-reader only), placeholders show
+  { _id: 'c265197', custom_id: 'name', field_type: 'text', field_label: 'שם מלא', placeholder: 'שם מלא', required: 'true', width: '100' },
+  { _id: 'd74e772', custom_id: 'email', field_type: 'email', field_label: 'אימייל', placeholder: 'אימייל', required: 'true', width: '100' },
+  { _id: '397e585', custom_id: 'message', field_type: 'tel', field_label: 'מספר טלפון', placeholder: 'מספר טלפון', required: 'true', width: '100' },
 ];
 const elements = [{
   id: 'vclroot', elType: 'container', isInner: false,
@@ -68,14 +66,14 @@ const elements = [{
       id: 'vclform', elType: 'container', isInner: true,
       settings: { content_width: 'full', flex_direction: 'column', css_classes: 'vcl-form' },
       elements: [
-        { id: 'vclh', elType: 'widget', widgetType: 'heading', isInner: false, elements: [], settings: { title: 'הצטרפו למועדון <b>החברים</b> שלנו', header_size: 'h2', _css_classes: 'vcl-h' } },
-        { id: 'vclsub', elType: 'widget', widgetType: 'heading', isInner: false, elements: [], settings: { title: 'הישארו מעודכנים וקבלו הטבות שמיועדות רק לחברי המועדון.', header_size: 'p', _css_classes: 'vcl-sub' } },
+        { id: 'vclh', elType: 'widget', widgetType: 'heading', isInner: false, elements: [], settings: { title: 'היופי הוא בפרטים הקטנים, <b>גם בהטבות.</b>', header_size: 'h2', _css_classes: 'vcl-h' } },
+                { id: 'vclsub', elType: 'widget', widgetType: 'heading', isInner: false, elements: [], settings: { title: 'הצטרפו למועדון VENUS ותיהנו ממחוות מיוחדות ובלעדיות, מבצעים והפתעות שנשמרות לחברי המועדון שלנו.', header_size: 'p', _css_classes: 'vcl-sub' } },
+        { id: 'vcllead', elType: 'widget', widgetType: 'heading', isInner: false, elements: [], settings: { title: 'השאירו לנו פרטים וניצור איתכם קשר', header_size: 'p', _css_classes: 'vcl-lead' } },
         { id: 'vclfrm', elType: 'widget', widgetType: 'form', isInner: false, elements: [], settings: {
-          form_name: 'טופס מועדון לקוחות', form_fields: fields, show_labels: 'yes', mark_required: 'yes', label_position: 'above',
+          form_name: 'טופס מועדון לקוחות', form_fields: fields, show_labels: '', mark_required: '', label_position: 'above',
           column_gap: { unit: 'px', size: 14, sizes: [] }, row_gap: { unit: 'px', size: 0, sizes: [] },
-          button_text: 'הצטרפות למועדון', button_size: 'md', button_width: '100', _css_classes: 'vcl-frm',
+          button_text: 'שליחה', button_size: 'md', button_width: '100', _css_classes: 'vcl-frm',
         } },
-        { id: 'vclnote', elType: 'widget', widgetType: 'heading', isInner: false, elements: [], settings: { title: `אפשר לבקש הסרה מהמועדון בכל עת. <a href="${PRIVACY}">מדיניות פרטיות</a>`, header_size: 'p', _css_classes: 'vcl-note' } },
       ],
     },
     { id: 'vclimg', elType: 'container', isInner: true, elements: [],
