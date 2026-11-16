@@ -118,7 +118,7 @@ function vct_trust_box() {
 		. '<ul>'
 		. '<li>' . vct_icon( 'shield-check' ) . '<span><b>תשלום מאובטח</b>סליקה מוצפנת בכרטיס אשראי</span></li>'
 		. '<li>' . vct_icon( 'leaf' ) . '<span><b>פרחים טריים מהחנות</b>כל זר נבנה ביד אצלנו בקיסריה</span></li>'
-		. '<li>' . vct_icon( 'gift' ) . '<span><b>אפשר לצרף ברכה</b>כותבים אותה בשלב הבא</span></li>'
+		. '<li>' . vct_icon( 'gift' ) . '<span><b>רוצים לצרף ברכה?</b>כותבים אותה בשדה &quot;הערות להזמנה&quot; בשלב הבא</span></li>'
 		. '</ul>'
 		. '<a class="vct-wa" href="' . esc_url( vct_wa( 'היי ונוס 🌸 יש לי שאלה לפני שאני מזמין/ה' ) ) . '" target="_blank" rel="noopener">' . vct_icon( 'chat-dots' ) . '<span>שאלה לפני שמזמינים? <b>וואטסאפ</b></span></a>'
 		. '</div>';
