@@ -72,6 +72,7 @@ add_action( 'wp_head', function () {
 add_action( 'wp_footer', function () {
 	if ( ! get_option( 'venus_header_live' ) || is_admin() ) { return; }
 	?>
+<style id="vgl-popup">#elementor-popup-modal-2489 .dialog-widget-content{border-radius:20px!important;overflow:hidden!important}#elementor-popup-modal-2489 .dialog-message{border-radius:20px}@media(max-width:767px){#elementor-popup-modal-2489 .dialog-widget-content,#elementor-popup-modal-2489 .dialog-message{border-radius:16px!important}}</style>
 <style id="vgl-cards">.e-loop-item .vrc-btn.is-oos .elementor-heading-title{background:#ECE8DA!important;color:#55544e!important}.e-loop-item .vrc-btn.is-added .elementor-heading-title{background:var(--e-global-color-vnsgreen,#3A4831)!important;color:#fff!important}.e-loop-item .vrc-btn.is-busy{opacity:.7}a.added_to_cart.wc-forward{color:var(--e-global-color-vnsgreen,#3A4831)!important}</style>
 <script id="vgl-cards-js">(function(){
 var AJAX='/?wc-ajax=add_to_cart';
