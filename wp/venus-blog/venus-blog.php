@@ -305,6 +305,13 @@ function vbl_term() {
 	return ( $o instanceof WP_Term && 'category' === $o->taxonomy ) ? $o : null;
 }
 function vbl_page_num() { return max( 1, isset( $_GET['pg'] ) ? (int) $_GET['pg'] : 1 ); }
+/* SEO: "load more" pages (?pg=N) list different posts, so they get their own canonical instead of pointing to page 1 */
+add_filter( 'wpseo_canonical', function ( $c ) {
+	if ( vbl_on() && vbl_page_num() > 1 && ( is_category() || ( vbl_page_id() && is_page( vbl_page_id() ) ) ) && $c ) {
+		return add_query_arg( 'pg', vbl_page_num(), $c );
+	}
+	return $c;
+} );
 function vbl_cats() {
 	$terms = get_terms( array( 'taxonomy' => 'category', 'hide_empty' => true ) );
 	return is_wp_error( $terms ) ? array() : array_values( array_filter( $terms, function ( $t ) { return 'uncategorized' !== $t->slug; } ) );
