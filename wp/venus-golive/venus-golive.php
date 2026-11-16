@@ -102,6 +102,14 @@ var q=0;if('MutationObserver' in window){new MutationObserver(function(){if(q){r
 	<?php
 }, 99 );
 
+/* TZD test product (₪1, "לא למכירה") must never appear in product lists / carousels; the product itself stays as is */
+add_action( 'pre_get_posts', function ( $q ) {
+	if ( is_admin() || $q->is_main_query() ) { return; }
+	$pt = (array) $q->get( 'post_type' );
+	if ( ! in_array( 'product', $pt, true ) ) { return; }
+	$q->set( 'post__not_in', array_merge( (array) $q->get( 'post__not_in' ), array( 2153 ) ) );
+} );
+
 /* ---------------- ids ---------------- */
 const VGL_HOME = 231;          /* front page (keeps URL + Yoast) */
 const VGL_HOME_NEW = 2252;     /* new homepage built here (preview, noindex) */
