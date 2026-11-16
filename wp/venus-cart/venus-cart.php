@@ -40,17 +40,20 @@ add_filter( 'wp_robots', function ( $r ) {
 }, 99 );
 
 /* New header / footer on the cart while the new design is on (until the new header goes live site-wide).
-   The new templates are drafts, which Elementor drops from conditions, so the live ones are switched off
-   and the drafts are queued into the locations by hand (queued documents are printed regardless of status). */
+   The new templates are drafts, which Elementor never prints in a theme location, so the live ones are
+   switched off, Hello's fallback header is suppressed, and the drafts are printed as [elementor-template]
+   (same as the new homepage preview #2252). */
+function vct_swap_hf() { return vct_here() && ! get_option( 'venus_header_live' ); }
 add_filter( 'elementor/theme/get_location_templates/template_id', function ( $id, $location = '' ) {
-	if ( ( 'header' === $location || 'footer' === $location ) && vct_here() && ! get_option( 'venus_header_live' ) ) { return 0; }
+	if ( ( 'header' === $location || 'footer' === $location ) && vct_swap_hf() ) { return 0; }
 	return $id;
 }, 10, 2 );
-add_action( 'wp', function () {
-	if ( ! vct_here() || get_option( 'venus_header_live' ) || ! class_exists( '\ElementorPro\Modules\ThemeBuilder\Module' ) ) { return; }
-	$lm = \ElementorPro\Modules\ThemeBuilder\Module::instance()->get_locations_manager();
-	$lm->add_doc_to_location( 'header', 2186 );
-	$lm->add_doc_to_location( 'footer', 2360 );
+add_filter( 'hello_elementor_header_footer', function ( $show ) { return vct_swap_hf() ? false : $show; }, 99 );
+add_action( 'wp_body_open', function () {
+	if ( vct_swap_hf() ) { echo do_shortcode( '[elementor-template id="2186"]' ); }
+}, 5 );
+add_action( 'get_footer', function () {
+	if ( vct_swap_hf() ) { echo do_shortcode( '[elementor-template id="2360"]' ); }
 } );
 
 add_filter( 'body_class', function ( $c ) {
