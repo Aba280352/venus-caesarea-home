@@ -62,6 +62,11 @@ add_action( 'wp_head', function () {
 		. $p . ':first-child .swiper-slide-contents{opacity:1!important;filter:none!important;translate:0 0!important;transition:none!important}'
 		. $p . ':not(:first-child) .swiper-slide-bg{background-image:none!important}'
 		. '@media(min-width:1025px){' . $p . ':first-child .swiper-slide-bg{transform:scale(1.01)!important;background-size:120% auto!important;background-position:100% 50%!important}}'
+		/* mobile + tablet: no dark frame (the container was #141414 and showed at the edges) and the photo fades into the page
+		   at the bottom with a mask, so there is no visible bottom edge */
+		. '@media(max-width:1024px){.elementor-element-vnshero{background:transparent!important;border-bottom-left-radius:0!important;border-bottom-right-radius:0!important}'
+		. '.elementor-element-vnshero .swiper-slide-bg{-webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 46%,rgba(0,0,0,.55) 72%,transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 46%,rgba(0,0,0,.55) 72%,transparent 100%)}'
+		. '.elementor-element-vnshero .swiper-slide-bg:after{background:linear-gradient(0deg,#FFFBE9 0%,rgba(255,251,233,.82) 30%,rgba(255,251,233,0) 62%)!important}}'
 		. '</style>' . "\n";
 }, 1 );
 
