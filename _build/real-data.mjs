@@ -86,7 +86,7 @@ const CITY_PHOTOS = [1541, 1215, 1217, 1214, 1314, 1282, 821, 1786, 1269];
 
 const shipText = (caesarea) => {
   const s = caesarea ? data.shipping.caesarea : data.shipping.other;
-  return `משלוח ₪${s.cost}, חינם בהזמנה מעל ₪${s.freeFrom}.`;
+  return `משלוח ₪${s.cost} עד הדלת.`;
 };
 
 // label → url, applied to the dropdowns and to the footer link lists
@@ -152,7 +152,7 @@ export function apply(vals, comp) {
   // --- עגלה, פס יתרונות ---
   vals.cartItems = [775, 909].map((id) => ({ name: byId[id].name, qty: 'כמות: 1', price: money(byId[id].price) }));
   setTotal(money(Number(byId[775].price) + Number(byId[909].price)));
-  vals.trust = [`משלוח חינם בקיסריה מ־₪${data.shipping.caesarea.freeFrom}`].concat(vals.trust.slice(1));
+  vals.trust = [`משלוח עד הדלת בקיסריה והסביבה`].concat(vals.trust.slice(1));
 
   // --- תפריט: קישורים אמיתיים, והתקציב זהה לסליידר ---
   // 'קנייה לפי תקציב' is removed from the header menu only (the homepage section stays)
