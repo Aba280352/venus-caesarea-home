@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Venus Cart
- * Description: New design for the WooCommerce cart (block cart on page 238). Preview only: open /cart/?vns_ct=1 (sets a session cookie; ?vns_ct=0 turns it off). Live for everyone when option venus_ct_live = 1. Adds: steps bar, styled line items with trash icon, collapsed coupon / gift card field, "add to the bouquet" strip (Store API, no reload), delivery info, trust box, empty-cart page, and keeps the header cart badge in sync.
+ * Description: New design for the WooCommerce cart (block cart on page 238) and checkout (classic form, checkout.php). Preview only: open /cart/?vns_ct=1 (sets a session cookie; ?vns_ct=0 turns it off). Live for everyone when option venus_ct_live = 1. Adds: steps bar, styled line items with trash icon, collapsed coupon / gift card field, "add to the bouquet" strip (Store API, no reload), delivery info, trust box, empty-cart page, and keeps the header cart badge in sync.
  * Version: 1.0.0
  * Author: Venus Caesarea
  */
@@ -19,6 +19,8 @@ function vct_preview() {
 }
 function vct_on() { return vct_preview() || get_option( 'venus_ct_live' ); }
 function vct_here() { return function_exists( 'is_cart' ) && is_cart() && vct_on(); }
+/* cart + every checkout screen (form, order-pay, order-received) */
+function vct_page() { return function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) && vct_on(); }
 
 add_action( 'init', function () {
 	if ( ! isset( $_GET['vns_ct'] ) || headers_sent() ) { return; }
@@ -29,7 +31,7 @@ add_action( 'init', function () {
 	}
 } );
 add_action( 'template_redirect', function () {
-	if ( vct_preview() && function_exists( 'is_cart' ) && is_cart() ) {
+	if ( vct_preview() && function_exists( 'is_cart' ) && ( is_cart() || is_checkout() ) ) {
 		if ( ! defined( 'DONOTCACHEPAGE' ) ) { define( 'DONOTCACHEPAGE', true ); }
 		nocache_headers();
 	}
@@ -43,7 +45,7 @@ add_filter( 'wp_robots', function ( $r ) {
    The new templates are drafts, which Elementor never prints in a theme location, so the live ones are
    switched off, Hello's fallback header is suppressed, and the drafts are printed as [elementor-template]
    (same as the new homepage preview #2252). */
-function vct_swap_hf() { return vct_here() && ! get_option( 'venus_header_live' ); }
+function vct_swap_hf() { return vct_page() && ! get_option( 'venus_header_live' ); }
 add_filter( 'elementor/theme/get_location_templates/template_id', function ( $id, $location = '' ) {
 	if ( ( 'header' === $location || 'footer' === $location ) && vct_swap_hf() ) { return 0; }
 	return $id;
@@ -200,3 +202,5 @@ add_action( 'wp_enqueue_scripts', function () {
 	);
 	wp_add_inline_script( 'wp-i18n', '(function(m){if(window.wp&&wp.hooks){wp.hooks.addFilter("i18n.gettext_woocommerce","venus/cart",function(t,s){return Object.prototype.hasOwnProperty.call(m,s)?m[s]:t;});}})(' . wp_json_encode( $map, JSON_UNESCAPED_UNICODE ) . ');', 'after' );
 }, 20 );
+
+require_once VCT_DIR . 'checkout.php';
