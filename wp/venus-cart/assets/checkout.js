@@ -24,8 +24,9 @@ jQuery(function ($) {
 			var $b = $('<button type="button" class="vck-opt" role="radio"></button>')
 				.attr({ 'aria-checked': on ? 'true' : 'false', 'data-for': this.id })
 				.toggleClass('is-on', on);
-			$b.append($('<b>').text(pick ? 'איסוף עצמי מהחנות' : title));
-			$b.append($('<span>').text(pick ? 'הרקיע 1, קיסריה · חינם' : (price || '')));
+			var place = title.replace(/^(תעריף|משלוח)s*(ל|ל-)?s*/, '');
+			$b.append($('<b>').text(pick ? 'איסוף עצמי מהחנות' : 'משלוח עד הדלת'));
+			$b.append($('<span>').text(pick ? 'הרקיע 1, קיסריה · חינם' : [place, price].filter(Boolean).join(' · ')));
 			$box.append($b);
 		});
 		$('#vck-method-hint').prop('hidden', anyDelivery);
