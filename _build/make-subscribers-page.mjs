@@ -33,20 +33,19 @@ selector .${P}-img img{display:block;width:100%;height:100%;object-fit:cover;tra
 selector .${P}-plan:hover .${P}-img img{transform:scale(1.04)}
 selector .${P}-body{display:flex;flex:1;flex-direction:column;align-items:center;gap:6px;padding:26px 24px 28px}
 selector .${P}-en{font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:${G}}
-selector .${P}-he{margin:0;font-family:${H};font-weight:700;font-size:28px;line-height:1.15;color:#141414}
-selector .${P}-price{margin-top:8px;font-weight:500;font-size:44px;line-height:1;color:#141414}
-selector .${P}-price sup{font-size:.5em;vertical-align:top;margin-inline-start:2px}
+selector .${P}-he{margin:0;font-family:${H};font-weight:700;font-size:28px;line-height:1.15;color:#141414;white-space:nowrap}
+selector .${P}-price{margin:8px 0 20px;font-weight:500;font-size:44px;line-height:1;color:#141414;direction:ltr;unicode-bidi:isolate}
+selector .${P}-price sup{position:static;top:auto;font-size:.45em;line-height:0;vertical-align:super;margin-left:2px}
 selector .${P}-cta{box-sizing:border-box;margin-top:auto;width:100%;height:52px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:${G};color:#fff!important;font-size:17px;font-weight:500;text-decoration:none;transition:background .15s}
 selector .${P}-cta:hover{background:#2C3624}
 selector .${P}-cta:focus-visible{outline:3px solid #141414;outline-offset:2px}
-selector .${P}-price+.${P}-cta{margin-top:20px}
 selector .${P}-note{margin:24px 0 0;font-size:16px;color:rgba(20,20,20,.72)}
 selector .${P}-outro{margin:48px 0 0;font-family:${H};font-weight:700;font-size:30px;line-height:1.2;color:${G}}
 @media(max-width:1024px){
 selector .${P}{padding:48px 0 64px}
 selector .${P}-title{font-size:48px}
 selector .${P}-plans{gap:16px}
-selector .${P}-he{font-size:23px}
+selector .${P}-he{font-size:clamp(17px,2.5vw,23px)}
 selector .${P}-price{font-size:38px}
 selector .${P}-body{padding:20px 16px 22px}
 }
@@ -57,6 +56,7 @@ selector .${P}-lead{font-size:18px}
 selector .${P}-sub{margin-top:44px;font-size:28px}
 selector .${P}-plans{grid-template-columns:1fr;max-width:440px;margin-inline:auto}
 selector .${P}-img{aspect-ratio:4/3}
+selector .${P}-he{font-size:24px}
 selector .${P}-outro{margin-top:36px;font-size:24px}
 }
 `;
