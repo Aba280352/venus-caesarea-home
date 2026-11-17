@@ -13,7 +13,7 @@ const wa = (plan) => 'https://wa.me/972532791444?text=' + encodeURIComponent('ה
 
 const plans = [
   [1541, 'Once a Month', 'זר אחד בחודש', 250],
-  [1215, 'Twice a Month', 'שני זרים בחודש', 460],
+  [1215, 'Twice a Month', 'שני זרים בחודש', 460, 1801], // image: attachment 1801 (white bouquet, 1920x2560); the product thumbnail 1204 is only 300x300 and looks blurry
   [1217, 'Every Week', 'זר חדש בכל שבוע', 800],
 ];
 
@@ -29,7 +29,7 @@ selector .${P}-plans{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));
 selector .${P}-plan{display:flex;flex-direction:column;background:#fff;border:1px solid rgba(20,20,20,.18);border-radius:12px;overflow:hidden;transition:transform .25s ease,box-shadow .25s ease}
 selector .${P}-plan:hover{transform:translateY(-4px);box-shadow:0 14px 34px rgba(20,20,20,.1)}
 selector .${P}-img{aspect-ratio:4/5;overflow:hidden;background:#F3E3C8}
-selector .${P}-img img{display:block;width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+selector .${P}-img img{display:block;width:100%;height:100%;object-fit:cover;object-position:50% 40%;transition:transform .6s ease}
 selector .${P}-plan:hover .${P}-img img{transform:scale(1.04)}
 selector .${P}-body{display:flex;flex:1;flex-direction:column;align-items:center;gap:6px;padding:26px 24px 28px}
 selector .${P}-en{font-size:14px;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:${G}}
@@ -68,8 +68,8 @@ const html = `<section class="${P}" aria-label="Venus Flower Club">
 <p class="${P}-lead">הכירו את מנויי הפרחים של ונוס, הדרך שלכם ליהנות מזרים טריים לאורך החודש, במחיר משתלם יותר ובלי לזכור להזמין בכל פעם מחדש.</p>
 <h2 class="${P}-sub">בחרו את המינוי שלכם:</h2>
 <div class="${P}-plans">
-${plans.map(([pid, en, he, price]) => `<article class="${P}-plan">
-<div class="${P}-img">[vns_img id="{{T${pid}}}" size="medium_large" sizes="(max-width:767px) 92vw, (max-width:1024px) 31vw, 380px" alt="${he}, מנוי פרחים ונוס קיסריה"]</div>
+${plans.map(([pid, en, he, price, img]) => `<article class="${P}-plan">
+<div class="${P}-img">[vns_img id="${img || `{{T${pid}}}`}" size="medium_large" sizes="(max-width:767px) 92vw, (max-width:1024px) 31vw, 380px" alt="${he}, מנוי פרחים ונוס קיסריה"]</div>
 <div class="${P}-body">
 <span class="${P}-en" lang="en">${en}</span>
 <h3 class="${P}-he">${he}</h3>
