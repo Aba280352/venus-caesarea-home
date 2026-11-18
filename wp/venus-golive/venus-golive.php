@@ -141,8 +141,17 @@ add_action( 'pre_get_posts', function ( $q ) {
 	$q->set( 'post__not_in', array_merge( (array) $q->get( 'post__not_in' ), array( 2153 ) ) );
 } );
 
+/* Yoast XML sitemap: keep out pages that are noindex or not real landing pages (cart / checkout / my-account are noindex or redirect;
+   751 + 757 are the old 2025 "coming soon" placeholders). Nothing is deleted or changed, only the sitemap list. Revert: remove this filter
+   or empty option venus_sitemap_exclude. */
+add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', function ( $ids ) {
+	$extra = get_option( 'venus_sitemap_exclude', array( 751, 757 ) );
+	$wc = function_exists( 'wc_get_page_id' ) ? array( wc_get_page_id( 'cart' ), wc_get_page_id( 'checkout' ), wc_get_page_id( 'myaccount' ) ) : array();
+	return array_values( array_unique( array_filter( array_map( 'intval', array_merge( (array) $ids, (array) $extra, $wc ) ), function ( $i ) { return $i > 0; } ) ) );
+} );
+
 /* ---------------- ids ---------------- */
-const VGL_HOME = 231;          /* front page (keeps URL + Yoast) */
+const VGL_HOME = 231;         /* front page (keeps URL + Yoast) */
 const VGL_HOME_NEW = 2252;     /* new homepage built here (preview, noindex) */
 const VGL_CONTACT = 357;       /* /צור-קשר/ (keeps URL) */
 const VGL_CONTACT_NEW = 2455;  /* /contact-new/ (hidden) */
