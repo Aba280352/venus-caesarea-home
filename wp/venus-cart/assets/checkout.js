@@ -29,7 +29,14 @@ jQuery(function ($) {
 			$b.append($('<span>').text(pick ? 'הרקיע 1, קיסריה · חינם' : [place, price].filter(Boolean).join(' · ')));
 			$box.append($b);
 		});
-		$('#vck-method-hint').prop('hidden', anyDelivery);
+		/* below the delivery minimum the server offers pickup only and leaves a flag row in the summary */
+		var $hint = $('#vck-method-hint'), $min = $('.vck-min-flag');
+		if (!$hint.data('base')) { $hint.data('base', $hint.text()); }
+		if ($min.length) {
+			$hint.text('משלוח עד הדלת אפשרי מהזמנה של ₪' + $min.data('min') + ', לא כולל דמי משלוח. חסרים עוד ₪' + $min.data('short') + '. איסוף עצמי מהחנות אפשרי בכל סכום.').prop('hidden', false);
+		} else {
+			$hint.text($hint.data('base')).prop('hidden', anyDelivery);
+		}
 		$('#vck-when').toggleClass('is-pickup', pickOn);
 		$('#vck-day-lbl').text(pickOn ? 'באיזה יום תגיעו לאסוף?' : 'באיזה יום לשלוח?');
 		$('#vck-slot-lbl').text(pickOn ? 'באיזו שעה בערך?' : 'באיזו שעה?');

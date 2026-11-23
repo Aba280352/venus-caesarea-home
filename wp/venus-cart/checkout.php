@@ -173,6 +173,36 @@ add_filter( 'gettext', function ( $t, $orig, $domain ) {
 	return $t;
 }, 30, 3 );
 
+/* ---------- delivery minimum (2026-11-23, client): home delivery from ₪150 of products, shipping not included.
+   Store pickup has no minimum. Below the minimum only pickup rates are offered; checkout.js explains why (row .vck-min-flag). ---------- */
+if ( ! defined( 'VCK_DELIVERY_MIN' ) ) { define( 'VCK_DELIVERY_MIN', 150 ); }
+function vck_items_total() {
+	if ( ! function_exists( 'WC' ) || ! WC()->cart ) { return 0; }
+	return (float) WC()->cart->get_cart_contents_total() + (float) WC()->cart->get_cart_contents_tax();
+}
+function vck_is_pickup_rate( $id ) { return 0 === strpos( (string) $id, 'local_pickup' ) || 0 === strpos( (string) $id, 'pickup_location' ); }
+function vck_below_min() { return vck_items_total() < VCK_DELIVERY_MIN; }
+add_filter( 'woocommerce_package_rates', function ( $rates ) {
+	if ( ! vck_below_min() ) { return $rates; }
+	$keep = array();
+	foreach ( $rates as $k => $r ) { if ( vck_is_pickup_rate( $r->get_method_id() ) ) { $keep[ $k ] = $r; } }
+	return $keep ? $keep : $rates;
+}, 100 );
+add_action( 'woocommerce_review_order_after_shipping', function () {
+	if ( ! vck_below_min() || ! WC()->cart->needs_shipping() ) { return; }
+	$short = max( 0, VCK_DELIVERY_MIN - vck_items_total() );
+	echo '<tr class="vck-min-flag" hidden data-min="' . esc_attr( VCK_DELIVERY_MIN ) . '" data-short="' . esc_attr( wc_format_decimal( $short, 0 ) ) . '"><td colspan="2"></td></tr>';
+} );
+add_action( 'woocommerce_after_checkout_validation', function ( $data, $errors ) {
+	if ( ! vck_below_min() || ! WC()->cart->needs_shipping() ) { return; }
+	foreach ( (array) WC()->session->get( 'chosen_shipping_methods' ) as $m ) {
+		if ( $m && ! vck_is_pickup_rate( $m ) ) {
+			$errors->add( 'vns_delivery_min', 'משלוח עד הבית אפשרי מהזמנה של ₪' . VCK_DELIVERY_MIN . ', לא כולל דמי משלוח. אפשר לבחור איסוף עצמי מהחנות בכל סכום.' );
+			return;
+		}
+	}
+}, 15, 2 );
+
 /* ---------- validation + saving (only for forms that carry the new section) ---------- */
 add_action( 'woocommerce_after_checkout_validation', function ( $data, $errors ) {
 	if ( empty( $_POST['vns_ck'] ) ) { return; }
