@@ -150,6 +150,25 @@ add_filter( 'wpseo_exclude_from_sitemap_by_post_ids', function ( $ids ) {
 	return array_values( array_unique( array_filter( array_map( 'intval', array_merge( (array) $ids, (array) $extra, $wc ) ), function ( $i ) { return $i > 0; } ) ) );
 } );
 
+/* 2026-11-23: the categories "נרות" (36) and "אקססוריז לבית" (41) were merged into one category "נרות ואקססוריז לבית" (id 36, new slug).
+   Old category URLs (and their /page/N/ and feed variants) answer with a permanent redirect to the new category. Revert: remove this hook
+   (data backup: option venus_catmerge_backup_20261123). */
+add_action( 'template_redirect', function () {
+	if ( is_admin() ) { return; }
+	$path = isset( $_SERVER['REQUEST_URI'] ) ? (string) wp_parse_url( wp_unslash( $_SERVER['REQUEST_URI'] ), PHP_URL_PATH ) : '';
+	$path = rawurldecode( $path );
+	if ( ! preg_match( '#^/product-category/(נרות|אקססוריז-לבית)(/.*)?$#u', $path, $m ) ) { return; }
+	$new = get_term_link( 36, 'product_cat' );
+	if ( is_wp_error( $new ) ) { return; }
+	$rest = isset( $m[2] ) ? $m[2] : '/';
+	if ( '/' !== $rest && ! preg_match( '#^/page/\d+/?$#', $rest ) ) { $rest = '/'; }
+	$to = untrailingslashit( $new ) . $rest;
+	$qs = isset( $_SERVER['QUERY_STRING'] ) ? (string) $_SERVER['QUERY_STRING'] : '';
+	if ( '' !== $qs ) { $to .= '?' . $qs; }
+	wp_safe_redirect( $to, 301 );
+	exit;
+}, 1 );
+
 /* ---------------- ids ---------------- */
 const VGL_HOME = 231;         /* front page (keeps URL + Yoast) */
 const VGL_HOME_NEW = 2252;     /* new homepage built here (preview, noindex) */

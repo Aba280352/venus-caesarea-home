@@ -106,7 +106,7 @@ function vpa_link( $base, $set = array() ) {
 	return add_query_arg( $args, $base );
 }
 function vpa_cats() {
-	$pref = array( 'פרחים', 'חתונות', 'צמחים וסחלבים', 'מארזים', 'אלכוהול ושוקולד', 'בלונים וכרטיסי ברכה', 'נרות', 'ואזות וכלים' );
+	$pref = array( 'פרחים', 'חתונות', 'צמחים וסחלבים', 'מארזים', 'אלכוהול ושוקולד', 'בלונים וכרטיסי ברכה', 'נרות ואקססוריז לבית', 'ואזות וכלים' );
 	$terms = get_terms( array( 'taxonomy' => 'product_cat', 'hide_empty' => true, 'parent' => 0 ) );
 	if ( is_wp_error( $terms ) ) { return array(); }
 	$terms = array_values( array_filter( $terms, function ( $t ) { return 'uncategorized' !== $t->slug; } ) );
