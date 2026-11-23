@@ -344,7 +344,7 @@ add_shortcode( 'vns_bl_arch_list', function () {
 	if ( 1 === vbl_page_num() ) {
 		$f = array_shift( $posts );
 		$cat = vbl_cat( $f );
-		$out .= '<article class="vbl-feat"><a class="vbl-feat-img" href="' . esc_url( get_permalink( $f ) ) . '" tabindex="-1">' . get_the_post_thumbnail( $f, 'large', array( 'loading' => 'eager', 'alt' => '', 'sizes' => '(max-width:767px) 92vw, 680px' ) ) . '</a>'
+		$out .= '<article class="vbl-feat"><a class="vbl-feat-img" href="' . esc_url( get_permalink( $f ) ) . '" tabindex="-1">' . get_the_post_thumbnail( $f, 'large', array( 'loading' => 'eager', 'alt' => '', 'sizes' => '(max-width:767px) 92vw, 860px' ) ) . '</a>'
 			. '<div class="vbl-feat-t">' . ( $cat ? '<span class="vbl-tag">' . esc_html( $cat->name ) . '</span>' : '' ) . '<span class="vbl-card-date">' . esc_html( vbl_date( $f ) ) . ' · ' . vbl_minutes( $f ) . ' דק׳ קריאה</span>'
 			. '<h2 class="vbl-feat-h"><a href="' . esc_url( get_permalink( $f ) ) . '">' . esc_html( get_the_title( $f ) ) . '</a></h2><p>' . esc_html( vbl_excerpt( $f, 200 ) ) . '</p>'
 			. '<a class="vbl-btn vbl-btn-green" href="' . esc_url( get_permalink( $f ) ) . '">לקריאת הכתבה</a></div></article>';

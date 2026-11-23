@@ -75,7 +75,7 @@ const hero = `<section class="${P}-split ${P}-hero" aria-label="קישוט רכ�
 <div class="${P}-btns"><a class="${P}-btn ${P}-btn-green" href="#packages">לבחירת קישוט</a><a class="${P}-btn ${P}-btn-line" href="${WA}" target="_blank" rel="noopener">${icon('chat-dots')}דברו איתנו בוואטסאפ</a></div>
 <div class="${P}-trust"><span>${icon('clock')}מזמינים עד 24 שעות מראש</span><span>${icon('location-pin')}מתחם C Center, קיסריה</span></div>
 </div>
-<div class="${P}-img">[vns_img id="2469" size="full" eager="1" sizes="(max-width:1024px) 92vw, 600px" alt="רכב שחור עם קישוט חתונה מלא – טול כחול וגיבסנית – ונוס קיסריה"]</div>
+<div class="${P}-img">[vns_img id="2469" size="full" eager="1" sizes="(max-width:1024px) 92vw, 800px" alt="רכב שחור עם קישוט חתונה מלא – טול כחול וגיבסנית – ונוס קיסריה"]</div>
 </section>`;
 
 const inc = (rows) => `<ul class="${P}-inc">${rows.map(([t, ok]) => `<li${ok ? '' : ' class="no"'}><span>${t}</span><b>${ok ? 'כלול' : 'לא כלול'}</b></li>`).join('')}</ul>`;
@@ -122,7 +122,7 @@ const tips = `<section class="${P}-split ${P}-sec" aria-label="איך בוחרי
 <a class="${P}-more" href="${ART_CAR}">המדריך המלא לקישוט רכב לחתונה</a></div>
 </section>`;
 
-const bqs = [[1786, 1784, 'זר כלה ורדים'], [1783, 1780, 'זר כלה קאלות'], [2161, 2160, 'זר כלה טוליפים'], [1343, 1341, 'זר כלה אקליפטוס']];
+const bqs = [[1786, 1784, 'זר כלה ורדים'], [1783, 1780, 'זר כלה קאלות'], [2161, 2160, 'זר כלה טוליפים'], [1343, 1340, 'זר כלה אקליפטוס']];
 const prod = (id) => ({ 1786: '/product/%d7%96%d7%a8-%d7%9b%d7%9c%d7%94-%d7%95%d7%a8%d7%93%d7%99%d7%9d/', 1783: '/product/%d7%96%d7%a8-%d7%9b%d7%9c%d7%94-%d7%a7%d7%90%d7%9c%d7%95%d7%aa/', 2161: '/product/%d7%96%d7%a8-%d7%9b%d7%9c%d7%94-%d7%98%d7%95%d7%9c%d7%99%d7%a4%d7%99%d7%9d/', 1343: '/product/%d7%96%d7%a8-%d7%9b%d7%9c%d7%94-%d7%90%d7%a7%d7%9c%d7%99%d7%a4%d7%98%d7%95%d7%a1/' })[id];
 const bouquets = `<section class="${P}-sec" aria-label="זר כלה תואם">
 <div class="${P}-gal-h"><div><h2 class="${P}-h2">זר כלה בגוונים תואמים</h2><p class="${P}-p">כשהרכב, הזר והחופה באותם גוונים – התמונות נראות מתוכננות. אפשר להזמין הכול יחד.</p></div><a class="${P}-btn ${P}-btn-line" href="${WEDDINGS}">לכל מוצרי החתונה</a></div>

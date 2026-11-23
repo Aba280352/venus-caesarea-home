@@ -31,11 +31,19 @@ add_filter( 'wp_robots', function ( $r ) {
 	if ( vpg_is_hidden_page() ) { $r['noindex'] = true; $r['nofollow'] = true; }
 	return $r;
 }, 99 );
-/* [vns_img id="123" size="large" class="x" sizes="..."] - responsive attachment image for static HTML sections */
+/* [vns_img id="123" size="large" class="x" sizes="..."] - responsive attachment image for static HTML sections.
+   crop="1": the image is cropped with object-fit:cover into a box of another shape, so the browser must follow our sizes hint
+   (WordPress otherwise prefixes lazy images with sizes="auto", which picks a file as wide as the box and looks soft after the crop). */
 add_shortcode( 'vns_img', function ( $a ) {
-	$a = shortcode_atts( array( 'id' => 0, 'size' => 'large', 'class' => '', 'sizes' => '', 'alt' => '', 'eager' => '' ), $a );
+	$a = shortcode_atts( array( 'id' => 0, 'size' => 'large', 'class' => '', 'sizes' => '', 'alt' => '', 'eager' => '', 'crop' => '' ), $a );
 	$attr = array( 'class' => $a['class'], 'loading' => $a['eager'] ? 'eager' : 'lazy' );
 	if ( $a['sizes'] ) { $attr['sizes'] = $a['sizes']; }
 	if ( '' !== $a['alt'] ) { $attr['alt'] = $a['alt']; }
-	return wp_get_attachment_image( (int) $a['id'], $a['size'], false, $attr );
+	$noauto = $a['crop'] && $a['sizes'];
+	/* "auto" is only added to lazy images (also later, by the content filter), so a cropped image loads normally with a low priority */
+	if ( $noauto ) { $attr['loading'] = 'eager'; $attr['fetchpriority'] = 'low'; }
+	if ( $noauto ) { add_filter( 'wp_img_tag_add_auto_sizes', '__return_false' ); }
+	$html = wp_get_attachment_image( (int) $a['id'], $a['size'], false, $attr );
+	if ( $noauto ) { remove_filter( 'wp_img_tag_add_auto_sizes', '__return_false' ); }
+	return $html;
 } );

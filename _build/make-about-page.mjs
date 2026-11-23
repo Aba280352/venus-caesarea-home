@@ -188,10 +188,12 @@ const values = `<section class="vab-vals" aria-label="מה חשוב לנו">
 <div class="vab-vgrid">${vals.map(([d, t, p]) => `<div class="vab-val"><span class="vab-val-i">${icon(d)}</span><h3>${t}</h3><p>${p}</p></div>`).join('')}</div>
 </section>`;
 
-const galIds = [1796, 2020, 1801, 1949, 1990, 1788, 2329, 1803];
+// 2026-11-23: tile 7 was 2329 (only 360x360, blurry in the wide tile) -> 1666 (2560x1949 landscape). Tiles 7 + 8 span 2 columns, so they get a wider sizes hint.
+const galIds = [1796, 2020, 1801, 1949, 1990, 1788, 1666, 1803];
+const galSizes = (i) => (i >= 6 ? '(max-width:767px) 46vw, 640px' : '(max-width:767px) 46vw, 310px');
 const gallery = `<section class="vab-gal" aria-label="מהעבודות שלנו">
 <div class="vab-gal-h"><div><span class="vab-tag">מהסטודיו</span><h2 class="vab-h2" style="margin-top:18px">קצת מהעבודות שלנו</h2><p class="vab-sub">כל הזרים בתמונות עוצבו אצלנו בחנות.</p></div><a class="vab-btn vab-btn-line" href="${FLOWERS}">לכל הזרים בחנות</a></div>
-<div class="vab-ggrid">${galIds.map((id) => `<figure>[vns_img id="${id}" size="medium_large" sizes="(max-width:767px) 46vw, 310px" alt="זר פרחים של ונוס קיסריה"]</figure>`).join('')}</div>
+<div class="vab-ggrid">${galIds.map((id, i) => `<figure>[vns_img id="${id}" size="${i >= 6 ? 'large' : 'medium_large'}" sizes="${galSizes(i)}" alt="זר פרחים של ונוס קיסריה"]</figure>`).join('')}</div>
 </section>`;
 
 const pin = icon('location-pin');
