@@ -65,6 +65,7 @@ selector .vlg-table{width:100%;margin:6px 0 14px;border-collapse:collapse;font-s
 selector .vlg-table,selector .vlg-table tr,selector .vlg-table td,selector .vlg-table th{border:0!important;background:transparent!important}
 selector .vlg-table th,selector .vlg-table td{padding:10px 0!important;border-bottom:1px solid rgba(20,20,20,.1)!important;text-align:right;vertical-align:top}
 selector .vlg-table th{width:40%;font-weight:500}
+selector .vlg-table.vlg-price th{width:84px;font-family:${H};font-size:20px;font-weight:700;color:${G}}
 selector .vlg-note{padding:18px 20px;border-radius:12px;background:#fff;border:1px solid ${LINE};font-size:16px}
 selector .vlg-cta{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:40px;padding:34px 36px;border-radius:16px;background:${G};color:#fff}
 selector .vlg-cta h2{margin:0;font-family:${H};font-weight:700;font-size:32px;line-height:1.15;color:#fff}
@@ -91,6 +92,7 @@ selector .vlg-cta{flex-direction:column;align-items:stretch;padding:26px 22px}
 selector .vlg-cta h2{font-size:26px}
 selector .vlg-btn{width:100%}
 selector .vlg-table th{width:45%}
+selector .vlg-table.vlg-price th{width:64px}
 }
 `;
 
@@ -98,16 +100,25 @@ const page = (o) => {
   const toc = `<nav class="vlg-toc" aria-label="תוכן העמוד"><b>בעמוד הזה</b><ol>${o.sections.map((s) => `<li><a href="#${s.id}">${s.t}</a></li>`).join('')}</ol></nav>`;
   const body = `<div class="vlg-body">${o.sections.map((s) => `<section id="${s.id}"><h2>${s.t}</h2>${s.h}</section>`).join('\n')}</div>`;
   return `<nav class="vlg-crumbs" aria-label="פירורי לחם"><a href="${SITE}/">דף הבית</a><i>›</i><span>${o.crumb}</span></nav>
-<header class="vlg-head"><h1 class="vlg-title">${o.title}</h1><p class="vlg-lead">${o.lead}</p><p class="vlg-upd">עודכן לאחרונה: ${UPDATED}</p></header>
+<header class="vlg-head"><h1 class="vlg-title">${o.title}</h1><p class="vlg-lead">${o.lead}</p><p class="vlg-upd">עודכן לאחרונה: ${o.upd || UPDATED}</p></header>
 <div class="vlg-grid">${toc}${body}</div>
 <aside class="vlg-cta"><div><h2>${o.ctaT}</h2><p>${o.ctaP}</p></div><div class="vlg-btns"><a class="vlg-btn vlg-btn-cream" href="${WA(o.wa)}" target="_blank" rel="noopener">${icon('chat-dots')}וואטסאפ</a><a class="vlg-btn vlg-btn-line" href="${CONTACT}">לעמוד צור קשר</a></div></aside>`;
 };
 
-const TOWNS = ['קיסריה', 'פרדס חנה־כרכור', 'אור עקיבא', 'אור ים', 'זכרון יעקב', 'עין שמר', 'שדות ים', 'בית חנינה', 'מעגן מיכאל', 'חריש', 'בנימינה־גבעת עדה', 'משמרות', 'גן שלמה', 'עין עירון', 'גן שומרון', 'תלמי אלעזר', 'גן שמואל'];
+/* delivery price per town (client list 24.11.2026) - must match venus_ck_prices() in wp/mu-plugins/venus-checkout.php */
+const SHIP = [
+  [20, ['קיסריה']],
+  [25, ['אור ים', 'שדות ים', 'מעגן מיכאל']],
+  [30, ['אור עקיבא']],
+  [40, ['חדרה', 'גן שמואל', 'גן שלמה', 'עין עירון', 'גן שומרון']],
+  [45, ['פרדס חנה כרכור', 'בנימינה', 'גבעת עדה', 'זכרון יעקב', 'עמיקם', 'בית חנניה', 'עין שמר', 'משמרות', 'תלמי אלעזר']],
+];
+const TOWNS = SHIP.flatMap(([, t]) => t);
 
 /* ---------------- shipping & returns ---------------- */
 const shipping = page({
   crumb: 'משלוחים והחזרות',
+  upd: '24.11.2026',
   title: 'משלוחים <b>והחזרות</b>',
   lead: 'כל מה שצריך לדעת לפני שמזמינים: לאן אנחנו שולחים, כמה זה עולה, מתי הזר מגיע ומה קורה אם משהו משתנה.',
   ctaT: 'יש שאלה על משלוח?',
@@ -116,17 +127,21 @@ const shipping = page({
   sections: [
     { id: 'prices', t: 'מחירי משלוח', h: `<div class="vlg-cards">
 <div class="vlg-card">${icon('truck')}<small>משלוח בקיסריה</small><b>₪20</b><span>עד הדלת</span></div>
-<div class="vlg-card">${icon('location-pin')}<small>משלוח לשאר היישובים</small><b>₪40</b><span>לכל יישובי אזור החלוקה</span></div>
+<div class="vlg-card">${icon('location-pin')}<small>משלוח לשאר היישובים</small><b>₪25 עד ₪45</b><span>לפי היישוב, בטבלה כאן למטה</span></div>
 <div class="vlg-card">${icon('store')}<small>איסוף עצמי</small><b>חינם</b><span>מהחנות, הרקיע 1, קיסריה</span></div>
 </div>
+<h3>מחיר המשלוח לפי יישוב</h3>
+<table class="vlg-table vlg-price"><tbody>
+${SHIP.map(([p, t]) => `<tr><th>₪${p}</th><td>${t.join(', ')}</td></tr>`).join('\n')}
+</tbody></table>
 <p>מחיר המשלוח מחושב אוטומטית בקופה לפי היישוב שבוחרים. משלוח עד הבית אפשרי מהזמנה של ₪150, לא כולל דמי משלוח. באיסוף עצמי מהחנות אין סכום מינימום.</p>` },
     { id: 'areas', t: 'לאן אנחנו שולחים', h: `<p>אנחנו שולחים ליישובים האלה:</p>
 <ul class="vlg-towns">${TOWNS.map((t) => `<li>${t}</li>`).join('')}</ul>
 <p>צריכים משלוח למקום אחר? <a href="${WA('היי ונוס, אני רוצה לתאם משלוח מיוחד')}" target="_blank" rel="noopener">כתבו לנו בוואטסאפ</a> ונבדוק אם אפשר לתאם משלוח מיוחד.</p>` },
     { id: 'when', t: 'מתי ההזמנה מגיעה', h: `<p>בקופה בוחרים יום משלוח וחלון שעות. אפשר לבחור תאריך החל ממחר.</p>
 <table class="vlg-table"><tbody>
-<tr><th>ימים ראשון עד חמישי</th><td>09:00–12:00 · 12:00–16:00 · 16:00–20:00</td></tr>
-<tr><th>יום שישי</th><td>09:00–12:00 · 12:00–14:00</td></tr>
+<tr><th>ימים ראשון עד חמישי</th><td>09:00 עד 12:00 · 12:00 עד 16:00 · 16:00 עד 20:00</td></tr>
+<tr><th>יום שישי</th><td>09:00 עד 12:00 · 12:00 עד 14:00</td></tr>
 <tr><th>שבת</th><td>אין משלוחים</td></tr>
 </tbody></table>
 <h3>משלוח לאותו יום</h3>
@@ -141,7 +156,7 @@ const shipping = page({
     { id: 'cancel', t: 'ביטול הזמנה', h: `<ul>
 <li>אפשר לבטל הזמנה תוך שעה מאישורה, כל עוד היא עוד לא יצאה למשלוח.</li>
 <li>הזמנה שמתוכננת ליום אחר אפשר לבטל עד 5 שעות לפני מועד המשלוח.</li>
-<li>ביטול שלא נובע מפגם או מאי־התאמה כרוך בדמי ביטול של 5% מערך ההזמנה או ₪100, הנמוך מביניהם, לפי חוק הגנת הצרכן.</li>
+<li>ביטול שלא נובע מפגם או מאי התאמה כרוך בדמי ביטול של 5% מערך ההזמנה או ₪100, הנמוך מביניהם, לפי חוק הגנת הצרכן.</li>
 <li>אחרי שהפרחים יצאו למשלוח אי אפשר לבטל את ההזמנה, כי מדובר במוצר מתכלה.</li>
 <li>הודעת ביטול שולחים במייל, בוואטסאפ או בטלפון.</li>
 </ul>` },
